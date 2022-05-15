@@ -1,10 +1,11 @@
-import random
+import random, math
 
+# 5 letter word list
 with open('5LetterWords.txt') as wordList:
     allWords = wordList.readlines()
     allWords = [line[:-1] for line in allWords]
 
-
+# forces words into crossword
 def constrainedWords(a, b, c):
     l = []
 
@@ -17,9 +18,12 @@ def constrainedWords(a, b, c):
 def isDuplicateWord(l, word):
     return word in l
 
+# attempts to find a valid set of 6 words
+# returns -1 if there is no valid word, otherwise returns a set of 6 words.
 def generatePuzzle():
     words = []
 
+    # picks three distinct random 5 letter words
     firstWord = random.choice(allWords)
     words.append(firstWord)
 
@@ -36,6 +40,7 @@ def generatePuzzle():
     
     words.append(thirdWord)
 
+    # picks 3 more vertical words that fit with the horizontals
     fourthList = constrainedWords(firstWord[0], secondWord[0], thirdWord[0])
     if (len(fourthList) == 0):
         return -1
@@ -65,18 +70,19 @@ def generatePuzzle():
 
     return(words)
 
+# visualizer
 def viz(p):
     for row in p:
         print(f"{row}\n")
 
 
+# creates the puzzle by running generate puzzle until success
 def getPuzzle():
     p = generatePuzzle()
     while (p == -1):
         p = generatePuzzle()
 
-    print(p)
-
+    # builds 2d array
     letterArr = [[" "] * 5 for i in range(5)]
 
     letterArr[0] = [l for l in p[0]]
@@ -92,6 +98,83 @@ def getPuzzle():
     for i in range(0, 5):
         letterArr[i][4] = p[5][i]
     
-    viz(letterArr)
+    # prints out visualization
+    return letterArr
 
-getPuzzle()
+# creates unsolved board using solved board
+def scramble(solved):
+    p = [row[:] for row in solved]
+    moves = []
+    # makes 10 random distinct moves
+    for i in range(0, 10): 
+        # finds positions to swap
+        checker = True
+        while checker:
+            coord1 = random.choice([i for i in range(0,25) if i not in [6,8,16,18]])
+            coord2 = random.choice([i for i in range(0,25) if i not in [6,8,16,18]])
+            while coord1 == coord2:
+                coord2 = random.choice([i for i in range(0,25) if i not in [6,8,16,18]])
+            if coord1 < coord2: 
+                temp = coord1
+                coord1 = coord2
+                coord2 = temp
+            newTuple = ((coord1, p[math.floor(coord1 / 5)][coord1 % 5]), 
+            (coord2, p[math.floor(coord2 / 5)][coord2 % 5]))
+            if newTuple not in moves:
+                checker = False
+
+        moves.append(newTuple)
+
+        # swaps the characters
+        tempChar = p[math.floor(coord1 / 5)][coord1 % 5]
+        p[math.floor(coord1 / 5)][coord1 % 5] = p[math.floor(coord2 / 5)][coord2 % 5]
+        p[math.floor(coord2 / 5)][coord2 % 5] = tempChar
+        
+    return p
+
+# gets all values in a column
+def getCol(col, arr):
+    return [x[col] for x in arr]
+
+# compares given board to correct board
+# 0 = green, 1 = yellow, 2 = grey, 3 = not used
+def getStates(correct, curr):
+    states = [[2] * 5 for i in range(5)]
+    for i in range(0, 5):
+        for j in range(0, 5):
+            if curr[i][j] == " ": 
+                states[i][j] = 3
+            elif curr[i][j] == correct[i][j]:
+                states[i][j] = 0
+            elif i % 2 == 0 and curr[i][j] in correct[i]:
+                states[i][j] = 1
+            elif j % 2 == 0 and curr[i][j] in getCol(j, correct):
+                states[i][j] = 1
+
+    return states
+
+# solves for unknown solution
+def solvePuzzle(p):
+    return
+
+# print("-----")
+# solvedPuzzle = getPuzzle()
+# viz(solvedPuzzle)
+# scrambledPuzzle = scramble(solvedPuzzle)
+# print("-----")
+# viz(scrambledPuzzle)
+# states = getStates(solvedPuzzle, scrambledPuzzle)
+# print("-----")
+# viz(states)
+# print("-----")
+
+solvedTest = [[" "] * 5 for i in range(5)]
+scrambledTest = [[" "] * 5 for i in range(5)]
+statesTest = getStates(solvedTest, scrambledTest)
+print("-----")
+viz(solvedTest)
+print("-----")
+viz(scrambledTest)
+print("-----")
+viz(statesTest)
+print("-----")
