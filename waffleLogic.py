@@ -139,42 +139,66 @@ def getCol(col, arr):
 # compares given board to correct board
 # 0 = green, 1 = yellow, 2 = grey, 3 = not used
 def getStates(correct, curr):
+    p = [row[:] for row in correct]
+    q = [row[:] for row in correct]
     states = [[2] * 5 for i in range(5)]
     for i in range(0, 5):
         for j in range(0, 5):
             if curr[i][j] == " ": 
                 states[i][j] = 3
+                p[i][j] = " "
+                q[i][j] = " "
             elif curr[i][j] == correct[i][j]:
                 states[i][j] = 0
-            elif i % 2 == 0 and curr[i][j] in correct[i]:
+                p[i][j] = " "
+                q[i][j] = " "
+    
+    for i in range(0, 5):
+        for j in range(0, 5):
+            if i % 2 == 0 and curr[i][j] in p[i] and states[i][j] == 2:
+                removeCounter = 0
+                for k in range(0, 5):
+                    if p[i][k] == curr[i][j] and removeCounter == 0:
+                        p[i][k] = " "
+                        removeCounter = 1
                 states[i][j] = 1
-            elif j % 2 == 0 and curr[i][j] in getCol(j, correct):
+            
+    for j in range(0, 5):
+        for i in range(0, 5):
+            if j % 2 == 0 and curr[i][j] in getCol(j, q) and states[i][j] == 2:
+                removeCounter = 0
+                for k in range(0, 5):
+                    if q[k][j] == curr[i][j] and removeCounter == 0:
+                        q[k][j] = " "
+                        removeCounter = 1
                 states[i][j] = 1
-
     return states
 
 # solves for unknown solution
 def solvePuzzle(p):
     return
 
-# print("-----")
-# solvedPuzzle = getPuzzle()
-# viz(solvedPuzzle)
-# scrambledPuzzle = scramble(solvedPuzzle)
-# print("-----")
-# viz(scrambledPuzzle)
-# states = getStates(solvedPuzzle, scrambledPuzzle)
-# print("-----")
-# viz(states)
-# print("-----")
+print("-----")
+solvedPuzzle = getPuzzle()
+viz(solvedPuzzle)
+scrambledPuzzle = scramble(solvedPuzzle)
+print("-----")
+viz(scrambledPuzzle)
+states = getStates(solvedPuzzle, scrambledPuzzle)
+print("-----")
+viz(states)
+print("-----")
 
-solvedTest = [[" "] * 5 for i in range(5)]
-scrambledTest = [[" "] * 5 for i in range(5)]
-statesTest = getStates(solvedTest, scrambledTest)
-print("-----")
-viz(solvedTest)
-print("-----")
-viz(scrambledTest)
-print("-----")
-viz(statesTest)
-print("-----")
+# solvedTest = [[" "] * 5 for i in range(5)]
+# solvedTest = [['a', 'b', 'y', 'c', 'a'], ['d', ' ', 'l', ' ', 'b'], ['e', 'e', 'k', 'x', 'h'], 
+# ['f', ' ', 'm', ' ', 'i'], ['g', 'o', 'n', 'o', 'j']]
+# scrambledTest = [['a', 'a', 'f', 'a', 'b'], ['g', ' ', 'l', ' ', 'f'], ['d', 'f', 'h', 'e', 'f'], 
+# ['d', ' ', 'e', ' ', 'f'], ['b', 'o', 'n', 'g', 'f']]
+# statesTest = getStates(solvedTest, scrambledTest)
+# print("-----")
+# viz(solvedTest)
+# print("-----")
+# viz(scrambledTest)
+# print("-----")
+# viz(statesTest)
+# print("-----")
