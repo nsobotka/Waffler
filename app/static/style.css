@@ -22,14 +22,14 @@ body {
     display: block;
     position: absolute;
 
-    width: 60vh;
-    height: 60vh;
+    width: 61vh;
+    height: 61vh;
 
     top:50%;
     left:50%;
 
-    margin-left:-30vh;/* half width*/
-	margin-top:-35vh;/* half height*/
+    margin-left:-30.5vh;/* half width*/
+	margin-top:-35.5vh;/* half height*/
 }
 
 #button_container {
@@ -52,6 +52,44 @@ body {
     justify-content: center;
 }
 
+#cell_flex {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    height: 100%;
+    width: 100%;
+}
+
+.cell {
+    margin: 1%;
+    /* flex: 1 0 18%; */
+    background-color: #6fb05c;
+    height: 18%;
+    width: 18%;
+    border-radius: 10%;
+    box-shadow: 0px 3px 2px grey;
+}
+
+.cell.hidden_cell {
+    visibility: hidden;
+}
+
+.cell_text {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    color: white;
+    line-height: 10.8vh;
+    font-size: xxx-large;
+    /* display: flex;
+    width: 50%;
+    height: 200px;
+    margin: auto;
+    border-radius: 10px;
+    border: 3px dashed #1c87c9;
+    align-items:center;
+    justify-content:center; */
+}
+
 .toolBtn {
     background-color: white; /* Green */
     border: none;
@@ -65,7 +103,7 @@ body {
     -webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
     width: 10vw;
-    /* border-radius: 15px; */
+    border: 1px solid black;
 }
 
 .toolBtn:hover {
