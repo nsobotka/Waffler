@@ -105,15 +105,22 @@ def getPuzzle():
 def scramble(solved):
     p = [row[:] for row in solved]
     moves = []
+    allSquares = []
+    numRepeats = 0
     # makes 10 random distinct moves
     for i in range(0, 10): 
         # finds positions to swap
         checker = True
         while checker:
+            # picks two coordinates
             coord1 = random.choice([i for i in range(0,25) if i not in [6,8,16,18]])
+            while numRepeats >= 7 and coord1 in allSquares: 
+                coord1 = random.choice([i for i in range(0,25) if i not in [6,8,16,18]])
+
             coord2 = random.choice([i for i in range(0,25) if i not in [6,8,16,18]])
-            while coord1 == coord2:
+            while (coord1 == coord2) or (p[math.floor(coord1 / 5)][coord1 % 5] == p[math.floor(coord2 / 5)][coord2 % 5]) or (numRepeats >= 3 and coord2 in allSquares):
                 coord2 = random.choice([i for i in range(0,25) if i not in [6,8,16,18]])
+            
             if coord1 < coord2: 
                 temp = coord1
                 coord1 = coord2
@@ -123,6 +130,12 @@ def scramble(solved):
             if newTuple not in moves:
                 checker = False
 
+        if coord1 in allSquares:
+            numRepeats = numRepeats + 1
+        if coord2 in allSquares:
+            numRepeats = numRepeats + 1
+        allSquares.append(coord1)
+        allSquares.append(coord2)
         moves.append(newTuple)
 
         # swaps the characters
