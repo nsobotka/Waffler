@@ -68,7 +68,7 @@ def generatePuzzle():
         sixthWord = random.choice(sixthList)
     words.append(sixthWord)
 
-    return(words)
+    return([word.upper() for word in words])
 
 # visualizer
 def viz(p):
@@ -102,6 +102,8 @@ def getPuzzle():
     return letterArr
 
 # creates unsolved board using solved board
+
+# NEEDS WORK - limit greens and yellows, perhaps make it more like the real waffle?
 def scramble(solved):
     p = [row[:] for row in solved]
     moves = []
@@ -185,22 +187,32 @@ def getStates(correct, curr):
                         q[k][j] = " "
                         removeCounter = 1
                 states[i][j] = 1
+    
+    for i in range(0, 5):
+        for j in range(0, 5):
+            if states[i][j] == 0:
+                states[i][j] = ('#6fb05c', '#FFFFFF')
+            elif states[i][j] == 1: 
+                states[i][j] = ('#e9ba3a', '#FFFFFF')
+            else:
+                states[i][j] = ('#edeff1', '#000000')
+
     return states
 
 # solves for unknown solution
 def solvePuzzle(p):
     return
 
-print("-----")
-solvedPuzzle = getPuzzle()
-viz(solvedPuzzle)
-scrambledPuzzle = scramble(solvedPuzzle)
-print("-----")
-viz(scrambledPuzzle)
-states = getStates(solvedPuzzle, scrambledPuzzle)
-print("-----")
-viz(states)
-print("-----")
+# print("-----")
+# solvedPuzzle = getPuzzle()
+# viz(solvedPuzzle)
+# scrambledPuzzle = scramble(solvedPuzzle)
+# print("-----")
+# viz(scrambledPuzzle)
+# states = getStates(solvedPuzzle, scrambledPuzzle)
+# print("-----")
+# viz(states)
+# print("-----")
 
 # solvedTest = [[" "] * 5 for i in range(5)]
 # solvedTest = [['a', 'b', 'y', 'c', 'a'], ['d', ' ', 'l', ' ', 'b'], ['e', 'e', 'k', 'x', 'h'], 

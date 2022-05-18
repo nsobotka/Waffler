@@ -52,22 +52,12 @@ body {
     justify-content: center;
 }
 
-#cell_flex {
+#parent {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     height: 100%;
     width: 100%;
-}
-
-.cell {
-    margin: 1%;
-    /* flex: 1 0 18%; */
-    background-color: #6fb05c;
-    height: 18%;
-    width: 18%;
-    border-radius: 10%;
-    box-shadow: 0px 3px 2px grey;
 }
 
 .cell.hidden_cell {
@@ -79,15 +69,13 @@ body {
     text-align: center;
     color: white;
     line-height: 10.8vh;
-    font-size: xxx-large;
-    /* display: flex;
-    width: 50%;
-    height: 200px;
-    margin: auto;
-    border-radius: 10px;
-    border: 3px dashed #1c87c9;
-    align-items:center;
-    justify-content:center; */
+    font-size: 3.5vw;
+    background-color: purple;
+    border-radius: 10%;
+    box-shadow: 0px 3px 2px grey;
+    margin: 1%; 
+    height: 18%;
+    width: 18%;
 }
 
 .toolBtn {
