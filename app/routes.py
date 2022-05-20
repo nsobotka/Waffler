@@ -2,6 +2,19 @@ from flask import render_template, request, redirect, url_for
 from app import app
 from waffleLogic import *
 
+# Things to do: 
+# fix bug on generating puzzle
+# shuffle puzzle correct number of colors
+# make it so it doesn't reload every time you make a move? if possible?
+# moves counter
+# end of game - win or lose
+# todays waffle
+# load custom
+# solve board
+# optimal solution to solve board
+# display optimal solution somehow
+# aesthetics - font sizes, placement, weird behavior on half screen, etc
+
 solvedPuzzle = getPuzzle()
 scrambledPuzzle = scramble(solvedPuzzle)
 states = getStates(solvedPuzzle, scrambledPuzzle)
