@@ -7,6 +7,7 @@
 </head>
 
 <body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
         let dragindex = 0;
         let dropindex = 0;
@@ -30,8 +31,14 @@
 
                 document.getElementById("parent").replaceChild(document.getElementById(data), e.target);
                 document.getElementById("parent").insertBefore(clone, document.getElementById("parent").childNodes[dragindex]);
+                console.log(data);
+                console.log(e.target.id);
+                $.ajax({
+                    type: 'POST', 
+                    url: '/swap', 
+                    data: {"box1": data, "box2" : e.target.id},
+                });
             }
-
         }
 
         function allowDrop(e) {
