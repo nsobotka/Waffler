@@ -3,12 +3,10 @@ from app import app
 from waffleLogic import *
 
 # Things to do: 
-# fix bug on generating puzzle
 # shuffle puzzle correct number of colors
 # make it so it doesn't reload every time you make a move? if possible?
-# moves counter
-# end of game - win or lose
-# todays waffle
+# end of game - win or lose -> base on moves counter
+# todays waffle - scrape, let person solve on their own, solve for them (or show them how)
 # load custom
 # solve board
 # optimal solution to solve board
@@ -17,22 +15,26 @@ from waffleLogic import *
 
 solvedPuzzle = getPuzzle()
 scrambledPuzzle = scramble(solvedPuzzle)
+scrambledPuzzleUnmodified = [row[:] for row in scrambledPuzzle]
 states = getStates(solvedPuzzle, scrambledPuzzle)
+swaps = 15
 
 @app.route('/')
 @app.route('/index', methods = ['GET'])
 
 def index():
-    return render_template('index.html', puzzle = scrambledPuzzle, colors = states)
+    return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps)
 
 @app.route('/newBoard', methods = ['POST'])
 def newBoard():
     global states
     global scrambledPuzzle
     global solvedPuzzle
+    global swaps
     solvedPuzzle = getPuzzle()
     scrambledPuzzle = scramble(solvedPuzzle)
     states = getStates(solvedPuzzle, scrambledPuzzle)
+    swaps = 15
     return redirect(url_for('index'))
 
 @app.route('/swap', methods = ['GET', 'POST'])
@@ -40,6 +42,7 @@ def swap():
     global states
     global scrambledPuzzle
     global solvedPuzzle
+    global swaps
     box1 = request.form['box1']
     box2 = request.form['box2']
     if len(box1) == 4:
@@ -54,6 +57,15 @@ def swap():
     scrambledPuzzle[math.floor(coord1 / 5)][coord1 % 5] = scrambledPuzzle[math.floor(coord2 / 5)][coord2 % 5]
     scrambledPuzzle[math.floor(coord2 / 5)][coord2 % 5] = tempChar
     states = getStates(solvedPuzzle, scrambledPuzzle)
-    item = render_template('index.html', puzzle = scrambledPuzzle, colors = states)
-    # print(item)
+    swaps = swaps - 1
     return render_template('index.html', puzzle = scrambledPuzzle, colors = states)
+
+@app.route('/reload', methods = ['GET', 'POST'])
+def reload():
+    global scrambledPuzzle
+    global swaps
+    global states
+    swaps = 15
+    scrambledPuzzle = [row[:] for row in scrambledPuzzleUnmodified]
+    states = getStates(solvedPuzzle, scrambledPuzzle)
+    return redirect(url_for('index'))
