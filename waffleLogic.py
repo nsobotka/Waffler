@@ -46,12 +46,28 @@ def generatePuzzle():
         return -1
 
     fourthWord = random.choice(fourthList)
+    tracker = True
+    if len(fourthList) <= 3:
+        for i in fourthList:
+            if i not in words:
+                tracker = False
+    if tracker and len(fourthList) <= 3:
+        return -1
+
     while(isDuplicateWord(words, fourthWord)):
         fourthWord = random.choice(fourthList)
     words.append(fourthWord)
-
+    
     fifthList = constrainedWords(firstWord[2], secondWord[2], thirdWord[2])
     if (len(fifthList) == 0):
+        return -1
+
+    tracker = True
+    if len(fifthList) <= 4:
+        for i in fifthList:
+            if i not in words:
+                tracker = False
+    if tracker and len(fifthList) <= 4:
         return -1
 
     fifthWord = random.choice(fifthList)
@@ -61,6 +77,14 @@ def generatePuzzle():
 
     sixthList = constrainedWords(firstWord[4], secondWord[4], thirdWord[4])
     if (len(sixthList) == 0):
+        return -1
+
+    tracker = True
+    if len(sixthList) <= 5:
+        for i in sixthList:
+            if i not in words:
+                tracker = False
+    if tracker and len(sixthList) <= 5:
         return -1
 
     sixthWord = random.choice(sixthList)
