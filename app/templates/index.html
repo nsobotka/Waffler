@@ -46,7 +46,7 @@
             e.preventDefault();
         }
     </script>
-    <div id="title_text">Waffler</div>
+    <div id="title_text">WAFFLER</div>
     <div class="card" id="board_container">
         <div id="cell_flex">
             <div id="parent">
@@ -105,6 +105,7 @@
     </div>
 
     <div id="button_container">
+        <div id="title_text">{{swaps}} SWAPS REMAINING</div>
         <div id="button_flex">
             <form action="/getActualWaffle" method="post">
                 <button type="submit" class="toolBtn" id="getActualWaffle" onClick={}>Today's Waffle</button>
@@ -117,6 +118,9 @@
             </form>
             <form action="/solve" method="post">
                 <button type="submit" class="toolBtn" id="solve" onClick={}>Solve Board</button>
+            </form>
+            <form action="/reload" method="post">
+                <button type="submit" class="toolBtn" id="reload" onClick={} action="/reload">Restart Current Board</button>
             </form>
         </div>
     </div>
