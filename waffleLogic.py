@@ -212,16 +212,20 @@ def getStates(correct, curr):
                         removeCounter = 1
                 states[i][j] = 1
     
+    draggable = [row[:] for row in correct]
     for i in range(0, 5):
         for j in range(0, 5):
             if states[i][j] == 0:
+                draggable[i][j] = "false"
                 states[i][j] = ('#6fb05c', '#FFFFFF')
             elif states[i][j] == 1: 
+                draggable[i][j] = "true"
                 states[i][j] = ('#e9ba3a', '#FFFFFF')
             else:
+                draggable[i][j] = "true"
                 states[i][j] = ('#edeff1', '#000000')
 
-    return states
+    return states, draggable
 
 # solves for unknown solution
 def solvePuzzle(p):
