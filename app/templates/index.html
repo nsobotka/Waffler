@@ -18,6 +18,7 @@
         }
 
         function drop(e) {
+            
             e.preventDefault();
             clone = e.target.cloneNode(true);
             let data = e.dataTransfer.getData("text");
@@ -50,56 +51,56 @@
     <div class="card" id="board_container">
         <div id="cell_flex">
             <div id="parent">
-                <div id="box1" class="cell_text" style="background-color: {{ colors[0][0][0] }}; color: {{ colors[0][0][1] }};" draggable="true" ondragstart="drag(event)" ondrop="drop(event)"
-                    ondragover="allowDrop(event)">{{puzzle[0][0]}}</div>
-                <div id="box2" class="cell_text" style="background-color: {{ colors[0][1][0] }}; color: {{ colors[0][1][1] }};" draggable="true" ondragstart="drag(event)" ondrop="drop(event)"
-                    ondragover="allowDrop(event)">{{puzzle[0][1]}}</div>
-                <div id="box3" class="cell_text" style="background-color: {{ colors[0][2][0] }}; color: {{ colors[0][2][1] }};" draggable="true" ondragstart="drag(event)" ondrop="drop(event)"
-                    ondragover="allowDrop(event)">{{puzzle[0][2]}}</div>
-                <div id="box4" class="cell_text" style="background-color: {{ colors[0][3][0] }}; color: {{ colors[0][3][1] }};" draggable="true" ondragstart="drag(event)" ondrop="drop(event)"
-                    ondragover="allowDrop(event)">{{puzzle[0][3]}}</div>
-                <div id="box5" class="cell_text" style="background-color: {{ colors[0][4][0] }}; color: {{ colors[0][4][1] }};" draggable="true" ondragstart="drag(event)" ondrop="drop(event)"
-                    ondragover="allowDrop(event)">{{puzzle[0][4]}}</div>
-                <div id="box6" class="cell_text" style="background-color: {{ colors[1][0][0] }}; color: {{ colors[1][0][1] }};" draggable="true" ondragstart="drag(event)" ondrop="drop(event)"
-                    ondragover="allowDrop(event)">{{puzzle[1][0]}}</div>
-                <div id="box7" class="cell_text" style="background-color: {{ colors[1][1][0] }}; color: {{ colors[1][1][1] }};" draggable="true" ondragstart="drag(event)" ondrop="drop(event)"
-                    ondragover="allowDrop(event)">{{puzzle[1][1]}}</div>
-                <div id="box8" class="cell_text" style="background-color: {{ colors[1][2][0] }}; color: {{ colors[1][2][1] }};" draggable="true" ondragstart="drag(event)" ondrop="drop(event)"
-                    ondragover="allowDrop(event)">{{puzzle[1][2]}}</div>
-                <div id="box9" class="cell_text" style="background-color: {{ colors[1][3][0] }}; color: {{ colors[1][3][1] }};" draggable="true" ondragstart="drag(event)" ondrop="drop(event)"
-                    ondragover="allowDrop(event)">{{puzzle[1][3]}}</div>
-                <div id="box10" class="cell_text" style="background-color: {{ colors[1][4][0] }}; color: {{ colors[1][4][1] }};" draggable="true" ondragstart="drag(event)" ondrop="drop(event)"
-                    ondragover="allowDrop(event)">{{puzzle[1][4]}}</div>
-                <div id="box11" class="cell_text" style="background-color: {{ colors[2][0][0] }}; color: {{ colors[2][0][1] }};" draggable="true" ondragstart="drag(event)" ondrop="drop(event)"
-                    ondragover="allowDrop(event)">{{puzzle[2][0]}}</div>
-                <div id="box12" class="cell_text" style="background-color: {{ colors[2][1][0] }}; color: {{ colors[2][1][1] }};" draggable="true" ondragstart="drag(event)" ondrop="drop(event)"
-                    ondragover="allowDrop(event)">{{puzzle[2][1]}}</div>
-                <div id="box13" class="cell_text" style="background-color: {{ colors[2][2][0] }}; color: {{ colors[2][2][1] }};" draggable="true" ondragstart="drag(event)" ondrop="drop(event)"
-                    ondragover="allowDrop(event)">{{puzzle[2][2]}}</div>
-                <div id="box14" class="cell_text" style="background-color: {{ colors[2][3][0] }}; color: {{ colors[2][3][1] }};" draggable="true" ondragstart="drag(event)" ondrop="drop(event)"
-                    ondragover="allowDrop(event)">{{puzzle[2][3]}}</div>
-                <div id="box15" class="cell_text" style="background-color: {{ colors[2][4][0] }}; color: {{ colors[2][4][1] }};" draggable="true" ondragstart="drag(event)" ondrop="drop(event)"
-                    ondragover="allowDrop(event)">{{puzzle[2][4]}}</div>
-                <div id="box16" class="cell_text" style="background-color: {{ colors[3][0][0] }}; color: {{ colors[3][0][1] }};" draggable="true" ondragstart="drag(event)" ondrop="drop(event)"
-                    ondragover="allowDrop(event)">{{puzzle[3][0]}}</div>
-                <div id="box17" class="cell_text" style="background-color: {{ colors[3][1][0] }}; color: {{ colors[3][1][1] }};" draggable="true" ondragstart="drag(event)" ondrop="drop(event)"
-                    ondragover="allowDrop(event)">{{puzzle[3][1]}}</div>
-                <div id="box18" class="cell_text" style="background-color: {{ colors[3][2][0] }}; color: {{ colors[3][2][1] }};" draggable="true" ondragstart="drag(event)" ondrop="drop(event)"
-                    ondragover="allowDrop(event)">{{puzzle[3][2]}}</div>
-                <div id="box19" class="cell_text" style="background-color: {{ colors[3][3][0] }}; color: {{ colors[3][3][1] }};" draggable="true" ondragstart="drag(event)" ondrop="drop(event)"
-                    ondragover="allowDrop(event)">{{puzzle[3][3]}}</div>
-                <div id="box20" class="cell_text" style="background-color: {{ colors[3][4][0] }}; color: {{ colors[3][4][1] }};" draggable="true" ondragstart="drag(event)" ondrop="drop(event)"
-                    ondragover="allowDrop(event)">{{puzzle[3][4]}}</div>
-                <div id="box21" class="cell_text" style="background-color: {{ colors[4][0][0] }}; color: {{ colors[4][0][1] }};" draggable="true" ondragstart="drag(event)" ondrop="drop(event)"
-                    ondragover="allowDrop(event)">{{puzzle[4][0]}}</div>
-                <div id="box22" class="cell_text" style="background-color: {{ colors[4][1][0] }}; color: {{ colors[4][1][1] }};" draggable="true" ondragstart="drag(event)" ondrop="drop(event)"
-                    ondragover="allowDrop(event)">{{puzzle[4][1]}}</div>
-                <div id="box23" class="cell_text" style="background-color: {{ colors[4][2][0] }}; color: {{ colors[4][2][1] }};" draggable="true" ondragstart="drag(event)" ondrop="drop(event)"
-                    ondragover="allowDrop(event)">{{puzzle[4][2]}}</div>
-                <div id="box24" class="cell_text" style="background-color: {{ colors[4][3][0] }}; color: {{ colors[4][3][1] }};" draggable="true" ondragstart="drag(event)" ondrop="drop(event)"
-                    ondragover="allowDrop(event)">{{puzzle[4][3]}}</div>
-                <div id="box25" class="cell_text" style="background-color: {{ colors[4][4][0] }}; color: {{ colors[4][4][1] }};" draggable="true" ondragstart="drag(event)" ondrop="drop(event)"
-                    ondragover="allowDrop(event)">{{puzzle[4][4]}}</div>
+                <div id="box1" class="cell_text" style="background-color: {{ colors[0][0][0] }}; color: {{ colors[0][0][1] }};" draggable={{draggable[0][0]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[0][0]}}">{{puzzle[0][0]}}</div>
+                <div id="box2" class="cell_text" style="background-color: {{ colors[0][1][0] }}; color: {{ colors[0][1][1] }};" draggable={{draggable[0][1]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[0][1]}}">{{puzzle[0][1]}}</div>
+                <div id="box3" class="cell_text" style="background-color: {{ colors[0][2][0] }}; color: {{ colors[0][2][1] }};" draggable={{draggable[0][2]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[0][2]}}">{{puzzle[0][2]}}</div>
+                <div id="box4" class="cell_text" style="background-color: {{ colors[0][3][0] }}; color: {{ colors[0][3][1] }};" draggable={{draggable[0][3]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[0][3]}}">{{puzzle[0][3]}}</div>
+                <div id="box5" class="cell_text" style="background-color: {{ colors[0][4][0] }}; color: {{ colors[0][4][1] }};" draggable={{draggable[0][4]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[0][4]}}">{{puzzle[0][4]}}</div>
+                <div id="box6" class="cell_text" style="background-color: {{ colors[1][0][0] }}; color: {{ colors[1][0][1] }};" draggable={{draggable[1][0]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[1][0]}}">{{puzzle[1][0]}}</div>
+                <div id="box7" class="cell_text" style="background-color: {{ colors[1][1][0] }}; color: {{ colors[1][1][1] }};" draggable={{draggable[1][1]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[1][1]}}">{{puzzle[1][1]}}</div>
+                <div id="box8" class="cell_text" style="background-color: {{ colors[1][2][0] }}; color: {{ colors[1][2][1] }};" draggable={{draggable[1][2]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[1][2]}}">{{puzzle[1][2]}}</div>
+                <div id="box9" class="cell_text" style="background-color: {{ colors[1][3][0] }}; color: {{ colors[1][3][1] }};" draggable={{draggable[1][3]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[1][3]}}">{{puzzle[1][3]}}</div>
+                <div id="box10" class="cell_text" style="background-color: {{ colors[1][4][0] }}; color: {{ colors[1][4][1] }};" draggable={{draggable[1][4]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[1][4]}}">{{puzzle[1][4]}}</div>
+                <div id="box11" class="cell_text" style="background-color: {{ colors[2][0][0] }}; color: {{ colors[2][0][1] }};" draggable={{draggable[2][0]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[2][0]}}">{{puzzle[2][0]}}</div>
+                <div id="box12" class="cell_text" style="background-color: {{ colors[2][1][0] }}; color: {{ colors[2][1][1] }};" draggable={{draggable[2][1]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[2][1]}}">{{puzzle[2][1]}}</div>
+                <div id="box13" class="cell_text" style="background-color: {{ colors[2][2][0] }}; color: {{ colors[2][2][1] }};" draggable={{draggable[2][2]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[2][2]}}">{{puzzle[2][2]}}</div>
+                <div id="box14" class="cell_text" style="background-color: {{ colors[2][3][0] }}; color: {{ colors[2][3][1] }};" draggable={{draggable[2][3]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[2][3]}}">{{puzzle[2][3]}}</div>
+                <div id="box15" class="cell_text" style="background-color: {{ colors[2][4][0] }}; color: {{ colors[2][4][1] }};" draggable={{draggable[2][4]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[2][4]}}">{{puzzle[2][4]}}</div>
+                <div id="box16" class="cell_text" style="background-color: {{ colors[3][0][0] }}; color: {{ colors[3][0][1] }};" draggable={{draggable[3][0]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[3][0]}}">{{puzzle[3][0]}}</div>
+                <div id="box17" class="cell_text" style="background-color: {{ colors[3][1][0] }}; color: {{ colors[3][1][1] }};" draggable={{draggable[3][1]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[3][1]}}">{{puzzle[3][1]}}</div>
+                <div id="box18" class="cell_text" style="background-color: {{ colors[3][2][0] }}; color: {{ colors[3][2][1] }};" draggable={{draggable[3][2]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[3][2]}}">{{puzzle[3][2]}}</div>
+                <div id="box19" class="cell_text" style="background-color: {{ colors[3][3][0] }}; color: {{ colors[3][3][1] }};" draggable={{draggable[3][3]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[3][3]}}">{{puzzle[3][3]}}</div>
+                <div id="box20" class="cell_text" style="background-color: {{ colors[3][4][0] }}; color: {{ colors[3][4][1] }};" draggable={{draggable[3][4]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[3][4]}}">{{puzzle[3][4]}}</div>
+                <div id="box21" class="cell_text" style="background-color: {{ colors[4][0][0] }}; color: {{ colors[4][0][1] }};" draggable={{draggable[4][0]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[4][0]}}">{{puzzle[4][0]}}</div>
+                <div id="box22" class="cell_text" style="background-color: {{ colors[4][1][0] }}; color: {{ colors[4][1][1] }};" draggable={{draggable[4][1]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[4][1]}}">{{puzzle[4][1]}}</div>
+                <div id="box23" class="cell_text" style="background-color: {{ colors[4][2][0] }}; color: {{ colors[4][2][1] }};" draggable={{draggable[4][2]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[4][2]}}">{{puzzle[4][2]}}</div>
+                <div id="box24" class="cell_text" style="background-color: {{ colors[4][3][0] }}; color: {{ colors[4][3][1] }};" draggable={{draggable[4][3]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[4][3]}}">{{puzzle[4][3]}}</div>
+                <div id="box25" class="cell_text" style="background-color: {{ colors[4][4][0] }}; color: {{ colors[4][4][1] }};" draggable={{draggable[4][4]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[4][4]}}">{{puzzle[4][4]}}</div>
             </div>
         </div>
     </div>
