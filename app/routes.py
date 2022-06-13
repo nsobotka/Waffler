@@ -5,7 +5,6 @@ from waffleLogic import *
 # Things to do: 
 # scramble puzzle correct number of colors
 # make it so it doesn't reload every time you make a move? if possible?
-# end of game - win or lose -> base on moves counter
 # todays waffle - scrape, let person solve on their own, solve for them (or show them how)
 # load custom
 # solve board
@@ -23,7 +22,7 @@ swaps = 15
 @app.route('/index', methods = ['GET'])
 
 def index():
-    return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable)
+    return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen)
 
 @app.route('/newBoard', methods = ['POST'])
 def newBoard():
@@ -63,18 +62,18 @@ def swap():
     scrambledPuzzle[math.floor(coord1 / 5)][coord1 % 5] = scrambledPuzzle[math.floor(coord2 / 5)][coord2 % 5]
     scrambledPuzzle[math.floor(coord2 / 5)][coord2 % 5] = tempChar
     states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
-    print(numGreen)
     swaps = swaps - 1
     # lose condition
     if swaps == 0 and numGreen != 21:
         draggable = [["false"] * 5 for i in range(5)]
-        return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable)
-        youLose()
+        for i in range(0, 5):
+            for j in range(0, 5):
+                states[i][j] = ('#454747', '#FFFFFF')
+        return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen)
     # win condition
     elif numGreen == 21:
-        return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable)
-        youWin()
-    return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable)
+        return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen)
+    return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen)
 
 @app.route('/reload', methods = ['GET', 'POST'])
 def reload():
@@ -87,3 +86,14 @@ def reload():
     scrambledPuzzle = [row[:] for row in scrambledPuzzleUnmodified]
     states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
     return redirect(url_for('index'))
+
+@app.route('/showSolution', methods = ['GET', 'POST'])
+def showSolution():
+    global scrambledPuzzle
+    global swaps
+    global states
+    global draggable
+    global numGreen
+    scrambledPuzzle = [row[:] for row in solvedPuzzle]
+    states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
+    return render_template('index.html', puzzle = solvedPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen)
