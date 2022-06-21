@@ -8,7 +8,7 @@ from scrape import *
 # scramble puzzle correct number of colors
 # make it so it doesn't reload every time you make a move? if possible?
 # load custom
-# solve board
+# solve board and link this to the getRealWaffle so that the real waffle can be played
 # optimal solution to solve board
 # display optimal solution somehow
 # aesthetics - font sizes, placement, weird behavior on half screen, etc
