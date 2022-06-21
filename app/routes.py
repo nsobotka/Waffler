@@ -1,13 +1,14 @@
 from flask import render_template, request, redirect, url_for
 from app import app
 from waffleLogic import *
+from scrape import *
 
 # Things to do: 
+# change names of buttons
 # scramble puzzle correct number of colors
 # make it so it doesn't reload every time you make a move? if possible?
-# todays waffle - scrape, let person solve on their own, solve for them (or show them how)
 # load custom
-# solve board
+# solve board and link this to the getRealWaffle so that the real waffle can be played
 # optimal solution to solve board
 # display optimal solution somehow
 # aesthetics - font sizes, placement, weird behavior on half screen, etc
@@ -97,3 +98,15 @@ def showSolution():
     scrambledPuzzle = [row[:] for row in solvedPuzzle]
     states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
     return render_template('index.html', puzzle = solvedPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen)
+
+@app.route('/getActualWaffle', methods = ['GET', 'POST'])
+def getActualWaffle():
+    global scrambledPuzzle
+    global swaps
+    global states
+    global draggable
+    global numGreen
+    scrambledPuzzle, states = scrapeWeb()
+    # solved puzzle = ????
+    # states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
+    return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen)
