@@ -229,8 +229,57 @@ def getStates(correct, curr):
 
     return states, draggable, numGreen
 
+# fit greens to word
+def fitGreens(greens):
+    l = []
+    for w in allWords:
+        if ((w[0] == greens[0] or greens[0] is None) and
+            (w[1] == greens[1] or greens[1] is None) and
+            (w[2] == greens[2] or greens[2] is None) and
+            (w[3] == greens[3] or greens[3] is None) and
+            (w[4] == greens[4] or greens[4] is None)):
+            l.append(w)
+
+    return l
+
+# positions 2 and 4
+def fitYellows(yellows, l):
+    newList = []
+
+    for w in l:
+        flag = True
+        for y in yellows:
+            if y not in w:
+                flag = False
+        if flag: newList.append(w)
+
+    return newList
+
 # solves for unknown solution
-def solvePuzzle(p):
+def solvePuzzle(p, color):
+    row_possible_words = []
+
+    # row words | green
+    for r in range(0, 5, 2):
+        greens = []
+        for c in range(0, 5):
+            if color[r][c][0] == '#6fb05c':
+                greens.append(p[r][c])
+            else:
+                greens.append(None)
+        row_possible_words.append(fitGreens(greens))
+
+    # row words | yellow
+    for r in range(0, 5, 2):
+        yellow = []
+        for c in range(1, 4, 2):
+            if color[r][c][0] == '#e9ba3a':
+                yellow.append(p[r][c])
+        row_possible_words[int(r / 2)] = fitYellows(yellow, row_possible_words[int(r / 2)])
+
+
+    print(row_possible_words)
+
     return
 
 # print("-----")
@@ -243,6 +292,27 @@ def solvePuzzle(p):
 # print("-----")
 # viz(states)
 # print("-----")
+
+
+scrambled = [['v', 'l', 'e', 's', 'e'], 
+             ['t', ' ', 'r', ' ', 'a'],
+             ['r', 's', 'l', 'e', 'u'],
+             ['i', ' ', 'g', ' ', 'e'],
+             ['a', 'a', 's', 'r', 'y']]
+
+color = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#6fb05c', '#FFFFFF')], 
+         [('#e9ba3a', '#FFFFFF'), ' ', ('#e9ba3a', '#FFFFFF'), ' ', ('#e9ba3a', '#FFFFFF')],
+         [('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000')],
+         [('#e9ba3a', '#FFFFFF'), ' ', ('#edeff1', '#000000'), ' ', ('#edeff1', '#000000')],
+         [('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
+
+solvePuzzle(scrambled, color)
+
+solved =[['v', 'e', 'r', 'g', 'e'], 
+         ['i', ' ', 'u', ' ', 's'],
+         ['s', 'e', 'l', 'l', 's'],
+         ['t', ' ', 'e', ' ', 'a'],
+         ['a', 'r', 'r', 'a', 'y']]
 
 # solvedTest = [[" "] * 5 for i in range(5)]
 # solvedTest = [['a', 'b', 'y', 'c', 'a'], ['d', ' ', 'l', ' ', 'b'], ['e', 'e', 'k', 'x', 'h'], 
