@@ -7,11 +7,11 @@ from scrape import *
 # change names of buttons
 # scramble puzzle correct number of colors
 # make it so it doesn't reload every time you make a move? if possible?
-# load custom
 # solve board and link this to the getRealWaffle so that the real waffle can be played
 # optimal solution to solve board
 # display optimal solution somehow
-# aesthetics - font sizes, placement, weird behavior on half screen, etc
+# aesthetics - font sizes, placement, weird behavior on half screen, end messages, etc
+# remove test board button
 
 solvedPuzzle = getPuzzle()
 scrambledPuzzle = scramble(solvedPuzzle)
@@ -106,7 +106,9 @@ def getActualWaffle():
     global states
     global draggable
     global numGreen
+    global scrambledPuzzleUnmodified
     scrambledPuzzle, states = scrapeWeb()
+    scrambledPuzzleUnmodified = [row[:] for row in scrambledPuzzle]
     # solved puzzle = ????
     # states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
     return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen)
@@ -118,6 +120,8 @@ def getTestWaffle():
     global states
     global draggable
     global numGreen
+    global solvedPuzzle
+    global scrambledPuzzleUnmodified
     
     scrambledPuzzle = [['v', 'l', 'e', 's', 'e'], 
                        ['t', ' ', 'r', ' ', 'a'],
@@ -125,17 +129,23 @@ def getTestWaffle():
                        ['i', ' ', 'g', ' ', 'e'],
                        ['a', 'a', 's', 'r', 'y']]
 
+    scrambledPuzzleUnmodified =   [['v', 'l', 'e', 's', 'e'], 
+                                   ['t', ' ', 'r', ' ', 'a'],
+                                   ['r', 's', 'l', 'e', 'u'],
+                                   ['i', ' ', 'g', ' ', 'e'],
+                                   ['a', 'a', 's', 'r', 'y']]                 
+
     states = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#6fb05c', '#FFFFFF')], 
              [('#e9ba3a', '#FFFFFF'), ' ', ('#e9ba3a', '#FFFFFF'), ' ', ('#e9ba3a', '#FFFFFF')],
              [('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000')],
              [('#e9ba3a', '#FFFFFF'), ' ', ('#edeff1', '#000000'), ' ', ('#edeff1', '#000000')],
              [('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
 
-    solved =[['v', 'e', 'r', 'g', 'e'], 
+    solvedPuzzle =[['v', 'e', 'r', 'g', 'e'], 
             ['i', ' ', 'u', ' ', 's'],
             ['s', 'e', 'l', 'l', 's'],
             ['t', ' ', 'e', ' ', 'a'],
             ['a', 'r', 'r', 'a', 'y']]
 
-    # states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
+    states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
     return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen)
