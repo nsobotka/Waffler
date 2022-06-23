@@ -1,4 +1,5 @@
 import random, math
+from turtle import pos
 
 # 5 letter word list
 with open('5LetterWords.txt') as wordList:
@@ -265,7 +266,6 @@ def viz_solutions(l):
 # solves for unknown solution
 def solvePuzzle(p, color):
     possible_words = []
-    possible_letters = []
 
     # fit possible words to greens and yellows for rows and cols
     def greens_yellows():
@@ -317,21 +317,66 @@ def solvePuzzle(p, color):
 
         # print(board_letters)
 
-        for w in range(6):
-            possible_letters.append(board_letters)
+        # for w in range(6):
+        possible_letters = [[], [], [], [], [], []]
+        possible_letters[0] = board_letters.copy()
+        possible_letters[1] = board_letters.copy()
+        possible_letters[2] = board_letters.copy()
+        possible_letters[3] = board_letters.copy()
+        possible_letters[4] = board_letters.copy()
+        possible_letters[5] = board_letters.copy()
 
         for r in range(5):
             for c in range(5):
-                if color[r][c][0] == '#e9ba3a':
-                    for idx in range(6):
-                        if idx != r or idx != c:
-                            print(idx, r, c)
-                            possible_letters[idx].remove(p[r][c])
+    # This works under the assumption there is always green in the corners and centers.
+                if (r, c) != (0, 0) and (r, c) != (4, 0) and (r, c) != (0, 4) and (r, c) != (4, 4) and (r, c) != (2, 2):
+                    # deals with yellow letters
+                    if color[r][c][0] == '#e9ba3a':
+                        if (r, c) == (0, 1) or (r, c) == (0, 3):
+                            possible_letters[1].remove(p[r][c])
+                            possible_letters[2].remove(p[r][c])
+                            possible_letters[3].remove(p[r][c])
+                            possible_letters[5].remove(p[r][c])
+                        elif (r, c) == (1, 0) or (r, c) == (3, 0):
+                            possible_letters[0].remove(p[r][c])
+                            possible_letters[2].remove(p[r][c])
+                            possible_letters[4].remove(p[r][c])
+                            possible_letters[5].remove(p[r][c])
+                        elif (r, c) == (4, 1) or (r, c) == (4, 3):
+                            possible_letters[0].remove(p[r][c])
+                            possible_letters[1].remove(p[r][c])
+                            possible_letters[3].remove(p[r][c])
+                            possible_letters[5].remove(p[r][c])
+                        elif (r, c) == (1, 4) or (r, c) == (3, 4):
+                            possible_letters[0].remove(p[r][c])
+                            possible_letters[2].remove(p[r][c])
+                            possible_letters[3].remove(p[r][c])
+                            possible_letters[4].remove(p[r][c])
+                        elif (r, c) == (0, 2) or (r, c) == (1, 2) or (r, c) == (3, 2) or (r, c) == (4, 2):
+                            possible_letters[1].remove(p[r][c])
+                            possible_letters[3].remove(p[r][c])
+                            possible_letters[5].remove(p[r][c])
+                        elif (r, c) == (2, 0) or (r, c) == (2, 1) or (r, c) == (2, 3) or (r, c) == (2, 4):
+                            possible_letters[0].remove(p[r][c])
+                            possible_letters[2].remove(p[r][c])
+                            possible_letters[4].remove(p[r][c])
+
+        for r in range(5):
+            for c in range(5):            
+                # removes grey letters from the possibilites in that row / column
+                if color[r][c][0] == '#edeff1':
+                    if r == 0 or r == 2 or r == 4:
+                        possible_letters[int (r / 2)] = list(filter(lambda a: a != p[r][c], possible_letters[int (r / 2)]))
+                    if c == 0 or c == 2 or c == 4:
+                        possible_letters[int (c / 2 + 3)] = list(filter(lambda a: a != p[r][c], possible_letters[int (c / 2 + 3)]))
+    
+        return possible_letters
 
     greens_yellows()
-    require_board_letters()
+    # require_board_letters()
+    viz_solutions(require_board_letters())
 
-    viz_solutions(possible_letters)
+    # viz_solutions(possible_letters)
     
     return
 
