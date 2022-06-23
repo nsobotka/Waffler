@@ -255,31 +255,84 @@ def fitYellows(yellows, l):
 
     return newList
 
+def viz_solutions(l):
+    for i in range(len(l)):
+        if i < 3:
+            print(f'row {i + 1} {l[i]} \n \n')
+        else:
+            print(f'col {i - 2} {l[i]} \n \n')
+
 # solves for unknown solution
 def solvePuzzle(p, color):
-    row_possible_words = []
+    possible_words = []
+    possible_letters = []
 
-    # row words | green
-    for r in range(0, 5, 2):
-        greens = []
-        for c in range(0, 5):
-            if color[r][c][0] == '#6fb05c':
-                greens.append(p[r][c])
-            else:
-                greens.append(None)
-        row_possible_words.append(fitGreens(greens))
+    # fit possible words to greens and yellows for rows and cols
+    def greens_yellows():
+        # row words | green
+        for r in range(0, 5, 2):
+            greens = []
+            for c in range(0, 5):
+                if color[r][c][0] == '#6fb05c':
+                    greens.append(p[r][c])
+                else:
+                    greens.append(None)
+            possible_words.append(fitGreens(greens))
 
-    # row words | yellow
-    for r in range(0, 5, 2):
-        yellow = []
-        for c in range(1, 4, 2):
-            if color[r][c][0] == '#e9ba3a':
-                yellow.append(p[r][c])
-        row_possible_words[int(r / 2)] = fitYellows(yellow, row_possible_words[int(r / 2)])
+        # row words | yellow
+        for r in range(0, 5, 2):
+            yellow = []
+            for c in range(1, 4, 2):
+                if color[r][c][0] == '#e9ba3a':
+                    yellow.append(p[r][c])
+            possible_words[int(r / 2)] = fitYellows(yellow, possible_words[int(r / 2)])
 
+        # column words | green
+        for c in range(0, 5, 2):
+            greens = []
+            for r in range(0, 5):
+                if color[r][c][0] == '#6fb05c':
+                    greens.append(p[r][c])
+                else:
+                    greens.append(None)
+            possible_words.append(fitGreens(greens))
 
-    print(row_possible_words)
+        # column words | yellow
+        for c in range(0, 5, 2):
+            yellow = []
+            for r in range(1, 4, 2):
+                if color[r][c][0] == '#e9ba3a':
+                    yellow.append(p[r][c])
+            possible_words[int(c / 2) + 3] = fitYellows(yellow, possible_words[int(c / 2) + 3])
 
+    def require_board_letters():
+        # get non-empty letters
+        board_letters = [letter for row in p for letter in row if letter != ' ']
+        
+        # remove greens
+        for r in range(5):
+            for c in range(5):
+                if color[r][c][0] == '#6fb05c':
+                    board_letters.remove(p[r][c])
+
+        # print(board_letters)
+
+        for w in range(6):
+            possible_letters.append(board_letters)
+
+        for r in range(5):
+            for c in range(5):
+                if color[r][c][0] == '#e9ba3a':
+                    for idx in range(6):
+                        if idx != r or idx != c:
+                            print(idx, r, c)
+                            possible_letters[idx].remove(p[r][c])
+
+    greens_yellows()
+    require_board_letters()
+
+    viz_solutions(possible_letters)
+    
     return
 
 # print("-----")

@@ -110,3 +110,32 @@ def getActualWaffle():
     # solved puzzle = ????
     # states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
     return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen)
+
+@app.route('/testWaffle', methods = ['GET', 'POST'])
+def getTestWaffle():
+    global scrambledPuzzle
+    global swaps
+    global states
+    global draggable
+    global numGreen
+    
+    scrambledPuzzle = [['v', 'l', 'e', 's', 'e'], 
+                       ['t', ' ', 'r', ' ', 'a'],
+                       ['r', 's', 'l', 'e', 'u'],
+                       ['i', ' ', 'g', ' ', 'e'],
+                       ['a', 'a', 's', 'r', 'y']]
+
+    states = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#6fb05c', '#FFFFFF')], 
+             [('#e9ba3a', '#FFFFFF'), ' ', ('#e9ba3a', '#FFFFFF'), ' ', ('#e9ba3a', '#FFFFFF')],
+             [('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000')],
+             [('#e9ba3a', '#FFFFFF'), ' ', ('#edeff1', '#000000'), ' ', ('#edeff1', '#000000')],
+             [('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
+
+    solved =[['v', 'e', 'r', 'g', 'e'], 
+            ['i', ' ', 'u', ' ', 's'],
+            ['s', 'e', 'l', 'l', 's'],
+            ['t', ' ', 'e', ' ', 'a'],
+            ['a', 'r', 'r', 'a', 'y']]
+
+    # states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
+    return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen)
