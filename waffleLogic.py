@@ -329,37 +329,36 @@ def solvePuzzle(p, color):
         for r in range(5):
             for c in range(5):
     # This works under the assumption there is always green in the corners and centers.
-                if (r, c) != (0, 0) and (r, c) != (4, 0) and (r, c) != (0, 4) and (r, c) != (4, 4) and (r, c) != (2, 2):
-                    # deals with yellow letters
-                    if color[r][c][0] == '#e9ba3a':
-                        if (r, c) == (0, 1) or (r, c) == (0, 3):
-                            possible_letters[1].remove(p[r][c])
-                            possible_letters[2].remove(p[r][c])
-                            possible_letters[3].remove(p[r][c])
-                            possible_letters[5].remove(p[r][c])
-                        elif (r, c) == (1, 0) or (r, c) == (3, 0):
-                            possible_letters[0].remove(p[r][c])
-                            possible_letters[2].remove(p[r][c])
-                            possible_letters[4].remove(p[r][c])
-                            possible_letters[5].remove(p[r][c])
-                        elif (r, c) == (4, 1) or (r, c) == (4, 3):
-                            possible_letters[0].remove(p[r][c])
-                            possible_letters[1].remove(p[r][c])
-                            possible_letters[3].remove(p[r][c])
-                            possible_letters[5].remove(p[r][c])
-                        elif (r, c) == (1, 4) or (r, c) == (3, 4):
-                            possible_letters[0].remove(p[r][c])
-                            possible_letters[2].remove(p[r][c])
-                            possible_letters[3].remove(p[r][c])
-                            possible_letters[4].remove(p[r][c])
-                        elif (r, c) == (0, 2) or (r, c) == (1, 2) or (r, c) == (3, 2) or (r, c) == (4, 2):
-                            possible_letters[1].remove(p[r][c])
-                            possible_letters[3].remove(p[r][c])
-                            possible_letters[5].remove(p[r][c])
-                        elif (r, c) == (2, 0) or (r, c) == (2, 1) or (r, c) == (2, 3) or (r, c) == (2, 4):
-                            possible_letters[0].remove(p[r][c])
-                            possible_letters[2].remove(p[r][c])
-                            possible_letters[4].remove(p[r][c])
+                # deals with yellow letters
+                if color[r][c][0] == '#e9ba3a':
+                    if (r, c) == (0, 1) or (r, c) == (0, 3):
+                        possible_letters[1].remove(p[r][c])
+                        possible_letters[2].remove(p[r][c])
+                        possible_letters[3].remove(p[r][c])
+                        possible_letters[5].remove(p[r][c])
+                    elif (r, c) == (1, 0) or (r, c) == (3, 0):
+                        possible_letters[0].remove(p[r][c])
+                        possible_letters[2].remove(p[r][c])
+                        possible_letters[4].remove(p[r][c])
+                        possible_letters[5].remove(p[r][c])
+                    elif (r, c) == (4, 1) or (r, c) == (4, 3):
+                        possible_letters[0].remove(p[r][c])
+                        possible_letters[1].remove(p[r][c])
+                        possible_letters[3].remove(p[r][c])
+                        possible_letters[5].remove(p[r][c])
+                    elif (r, c) == (1, 4) or (r, c) == (3, 4):
+                        possible_letters[0].remove(p[r][c])
+                        possible_letters[2].remove(p[r][c])
+                        possible_letters[3].remove(p[r][c])
+                        possible_letters[4].remove(p[r][c])
+                    elif (r, c) == (0, 2) or (r, c) == (1, 2) or (r, c) == (3, 2) or (r, c) == (4, 2):
+                        possible_letters[1].remove(p[r][c])
+                        possible_letters[3].remove(p[r][c])
+                        possible_letters[5].remove(p[r][c])
+                    elif (r, c) == (2, 0) or (r, c) == (2, 1) or (r, c) == (2, 3) or (r, c) == (2, 4):
+                        possible_letters[0].remove(p[r][c])
+                        possible_letters[2].remove(p[r][c])
+                        possible_letters[4].remove(p[r][c])
 
         for r in range(5):
             for c in range(5):            
