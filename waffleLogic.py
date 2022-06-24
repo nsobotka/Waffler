@@ -1,5 +1,4 @@
 import random, math
-from turtle import pos
 
 # 5 letter word list
 with open('5LetterWords.txt') as wordList:
@@ -266,18 +265,24 @@ def viz_solutions(l):
 # solves for unknown solution
 def solvePuzzle(p, color):
     possible_words = []
+    possible_letters = []
+    green_letters = []
 
     # fit possible words to greens and yellows for rows and cols
     def greens_yellows():
         # row words | green
         for r in range(0, 5, 2):
             greens = []
+            greens_no_none = []
             for c in range(0, 5):
                 if color[r][c][0] == '#6fb05c':
                     greens.append(p[r][c])
+                    greens_no_none.append(p[r][c])
                 else:
                     greens.append(None)
+                    greens_no_none.append(' ')
             possible_words.append(fitGreens(greens))
+            green_letters.append(greens_no_none)
 
         # row words | yellow
         for r in range(0, 5, 2):
@@ -290,12 +295,16 @@ def solvePuzzle(p, color):
         # column words | green
         for c in range(0, 5, 2):
             greens = []
+            greens_no_none = []
             for r in range(0, 5):
                 if color[r][c][0] == '#6fb05c':
                     greens.append(p[r][c])
+                    greens_no_none.append(p[r][c])
                 else:
                     greens.append(None)
+                    greens_no_none.append(' ')
             possible_words.append(fitGreens(greens))
+            green_letters.append(greens_no_none)
 
         # column words | yellow
         for c in range(0, 5, 2):
@@ -315,8 +324,6 @@ def solvePuzzle(p, color):
                 if color[r][c][0] == '#6fb05c':
                     board_letters.remove(p[r][c])
 
-        # print(board_letters)
-
         # for w in range(6):
         possible_letters = [[], [], [], [], [], []]
         possible_letters[0] = board_letters.copy()
@@ -329,6 +336,14 @@ def solvePuzzle(p, color):
         for r in range(5):
             for c in range(5):
     # This works under the assumption there is always green in the corners and centers.
+
+    # This basically lets any yellow letter be in any word that is in a connecting row / column, but that isn't perfectly optimal. 
+    # It does well enough for our test example, but I think what we need to do is keep track of each letter and exactly where it could be in each word. 
+        # Something like [[(letter 1, [locations in word]), (letter 2, [locations in word]), ... ], [row 2], ...]
+    # We also need to keep track of all letters initially so that once we factor down, we can compare with what letters are still left over. 
+    # That alone would be enough to solve the example board. 
+
+
                 # deals with yellow letters
                 if color[r][c][0] == '#e9ba3a':
                     if (r, c) == (0, 1) or (r, c) == (0, 3):
@@ -368,14 +383,33 @@ def solvePuzzle(p, color):
                         possible_letters[int (r / 2)] = list(filter(lambda a: a != p[r][c], possible_letters[int (r / 2)]))
                     if c == 0 or c == 2 or c == 4:
                         possible_letters[int (c / 2 + 3)] = list(filter(lambda a: a != p[r][c], possible_letters[int (c / 2 + 3)]))
-    
+
         return possible_letters
+    
 
     greens_yellows()
-    # require_board_letters()
-    viz_solutions(require_board_letters())
-
+    possible_letters = require_board_letters()
     # viz_solutions(possible_letters)
+    # print("\n\n")
+    # viz_solutions(possible_words)
+    # print("\n\n")
+    # viz_solutions(green_letters)
+
+    for i in range(6):
+        newList = []
+        for word in possible_words[i]:
+            remove_word = False
+            for letter in range(5):
+                if word[letter] not in possible_letters[i] and word[letter] != green_letters[i][letter]:
+                    remove_word = True
+                    break
+            if remove_word == False:
+                newList.append(word)
+        possible_words[i] = newList
+                    
+
+    # print("\n\n")
+    viz_solutions(possible_words)
     
     return
 
