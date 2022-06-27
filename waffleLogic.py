@@ -533,18 +533,18 @@ def solvePuzzle(p, color):
 # print("-----")
 
 
-scrambled = [['B', 'I', 'I', 'I', 'L'], 
-                       ['A', ' ', 'R', ' ', 'V'],
-                       ['E', 'E', 'G', 'I', 'E'],
-                       ['Y', ' ', 'L', ' ', 'E'],
-                       ['R', 'L', 'E', 'A', 'C']]
+scrambled = [['A', 'T', 'I', 'T', 'N'], 
+                       ['I', ' ', 'N', ' ', 'D'],
+                       ['L', 'F', 'T', 'I', 'N'],
+                       ['E', ' ', 'R', ' ', 'O'],
+                       ['G', 'E', 'M', 'E', 'H']]
 
 # #6... = GREEN, #E9... = YELLOW, #ED... = GREY
 color = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#6fb05c', '#FFFFFF')], 
-         [('#6fb05c', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF')],
-         [('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#edeff1', '#000000')],
+         [('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF')],
+         [('#e9ba3a', '#000000'), ('#6fb05c', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#000000')],
          [('#edeff1', '#FFFFFF'), ' ', ('#e9ba3a', '#000000'), ' ', ('#edeff1', '#000000')],
-         [('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
+         [('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
 
 solvePuzzle(scrambled, color)
 
