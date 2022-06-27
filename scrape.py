@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 from selenium.webdriver.chrome.options import Options
 
 def convertToSquare(l):
-    puzzle = [[''] * 5 for i in range(5)]
+    puzzle = [[' '] * 5 for i in range(5)]
     counter = 0
     for i in range(0, 25):
         if (i != 6 and i != 8 and i != 16 and i != 18) :
