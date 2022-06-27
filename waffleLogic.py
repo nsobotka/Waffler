@@ -361,14 +361,37 @@ def solvePuzzle(p, color):
                         possible_letters[2].remove(p[r][c])
                         possible_letters[3].remove(p[r][c])
                         possible_letters[4].remove(p[r][c])
-                    elif (r, c) == (0, 2) or (r, c) == (1, 2) or (r, c) == (3, 2) or (r, c) == (4, 2):
-                        possible_letters[1].remove(p[r][c])
-                        possible_letters[3].remove(p[r][c])
-                        possible_letters[5].remove(p[r][c])
-                    elif (r, c) == (2, 0) or (r, c) == (2, 1) or (r, c) == (2, 3) or (r, c) == (2, 4):
-                        possible_letters[0].remove(p[r][c])
-                        possible_letters[2].remove(p[r][c])
-                        possible_letters[4].remove(p[r][c])
+                    elif (r, c) == (0, 2):
+                        if not ((p[r][c] == p[4][1] and color[4][1][0] == '#e9ba3a') or (p[r][c] == p[4][3] and color[4][3][0] == '#e9ba3a')):
+                            possible_letters[1].remove(p[r][c])
+                            possible_letters[3].remove(p[r][c])
+                            possible_letters[5].remove(p[r][c])
+                    elif (r, c) == (4, 2):
+                        if not ((p[r][c] == p[0][1] and color[0][1][0] == '#e9ba3a') or (p[r][c] == p[0][3] and color[0][3][0] == '#e9ba3a')):
+                            possible_letters[1].remove(p[r][c])
+                            possible_letters[3].remove(p[r][c])
+                            possible_letters[5].remove(p[r][c])
+                    elif (r, c) == (1, 2) or (r, c) == (3, 2):
+                        if not ((p[r][c] == p[4][1] and color[4][1][0] == '#e9ba3a') or (p[r][c] == p[4][3] and color[4][3][0] == '#e9ba3a') or (p[r][c] == p[0][1] and color[0][1][0] == '#e9ba3a') or (p[r][c] == p[0][3] and color[0][3][0] == '#e9ba3a')):
+                            possible_letters[1].remove(p[r][c])
+                            possible_letters[3].remove(p[r][c])
+                            possible_letters[5].remove(p[r][c])
+                    # Do the same here
+                    elif (r, c) == (2, 0):
+                        if not ((p[r][c] == p[1][4] and color[1][4][0] == '#e9ba3a') or (p[r][c] == p[3][4] and color[3][4][0] == '#e9ba3a')):
+                            possible_letters[0].remove(p[r][c])
+                            possible_letters[2].remove(p[r][c])
+                            possible_letters[4].remove(p[r][c])
+                    elif (r, c) == (2, 4):
+                        if not ((p[r][c] == p[1][0] and color[1][0][0] == '#e9ba3a') or (p[r][c] == p[3][0] and color[3][0][0] == '#e9ba3a')):
+                            possible_letters[0].remove(p[r][c])
+                            possible_letters[2].remove(p[r][c])
+                            possible_letters[4].remove(p[r][c])
+                    elif (r, c) == (2, 1) or (r, c) == (2, 3):
+                        if not ((p[r][c] == p[1][4] and color[1][4][0] == '#e9ba3a') or (p[r][c] == p[3][4] and color[3][4][0] == '#e9ba3a') or (p[r][c] == p[1][0] and color[1][0][0] == '#e9ba3a') or (p[r][c] == p[3][0] and color[3][0][0] == '#e9ba3a')):
+                            possible_letters[0].remove(p[r][c])
+                            possible_letters[2].remove(p[r][c])
+                            possible_letters[4].remove(p[r][c])
 
         for r in range(5):
             for c in range(5):            
@@ -393,16 +416,16 @@ def solvePuzzle(p, color):
     
 
     greens_yellows()
-    print(possible_words)
+    # print(possible_words)
     possible_letters = require_board_letters()
-    print(possible_letters)
+    # print(possible_letters)
     for i in range(6):
         newList = []
         for word in possible_words[i]:
             remove_word = False
             for letter in range(5):
                 if word[letter] not in possible_letters[i] and word[letter] != green_letters[i][letter]:
-                    print(word)
+                    # print(word)
                     remove_word = True
                     break
             if remove_word == False:
@@ -424,7 +447,7 @@ def solvePuzzle(p, color):
                         newPuzzle[j][(i - 3) * 2] = possible_words[i][0][j]
             else: 
                 for j in range(5):
-                    print(possible_words)
+                    # print(possible_words)
                     letter = possible_words[i][0][j]
                     sameLetter = True
                     for word in possible_words[i]:
@@ -510,18 +533,18 @@ def solvePuzzle(p, color):
 # print("-----")
 
 
-scrambled = [['G', 'N', 'A', 'G', 'M'], 
-                       ['M', ' ', 'O', ' ', 'R'],
-                       ['O', 'R', 'E', 'G', 'N'],
-                       ['E', ' ', 'R', ' ', 'A'],
-                       ['S', 'A', 'T', 'S', 'L']]
+scrambled = [['B', 'I', 'I', 'I', 'L'], 
+                       ['A', ' ', 'R', ' ', 'V'],
+                       ['E', 'E', 'G', 'I', 'E'],
+                       ['Y', ' ', 'L', ' ', 'E'],
+                       ['R', 'L', 'E', 'A', 'C']]
 
 # #6... = GREEN, #E9... = YELLOW, #ED... = GREY
 color = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#6fb05c', '#FFFFFF')], 
-         [('#edeff1', '#FFFFFF'), ' ', ('#e9ba3a', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF')],
-         [('#edeff1', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#FFFFFF'), ('#e9ba3a', '#000000')],
-         [('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#000000'), ' ', ('#6fb05c', '#000000')],
-         [('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
+         [('#6fb05c', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF')],
+         [('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#edeff1', '#000000')],
+         [('#edeff1', '#FFFFFF'), ' ', ('#e9ba3a', '#000000'), ' ', ('#edeff1', '#000000')],
+         [('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
 
 solvePuzzle(scrambled, color)
 
