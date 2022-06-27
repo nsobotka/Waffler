@@ -3,7 +3,7 @@ import random, math
 # 5 letter word list
 with open('5LetterWords.txt') as wordList:
     allWords = wordList.readlines()
-    allWords = [line[:-1] for line in allWords]
+    allWords = [line[:-1].upper() for line in allWords]
 
 # forces words into crossword
 def constrainedWords(a, b, c):
@@ -372,33 +372,42 @@ def solvePuzzle(p, color):
 
         for r in range(5):
             for c in range(5):            
-                # removes grey letters from the possibilites in that row / column
+                # removes grey letters from the possibilites in that row / column if there was not previously that same color that was yellow
                 if color[r][c][0] == '#edeff1':
                     if r == 0 or r == 2 or r == 4:
-                        possible_letters[int (r / 2)] = list(filter(lambda a: a != p[r][c], possible_letters[int (r / 2)]))
+                        remove = True
+                        for j in range(c):
+                            if (color[r][j][0] == '#e9ba3a' and p[r][j] == p[r][c]):
+                                remove = False
+                        if remove:
+                            possible_letters[int (r / 2)] = list(filter(lambda a: a != p[r][c], possible_letters[int (r / 2)]))
                     if c == 0 or c == 2 or c == 4:
-                        possible_letters[int (c / 2 + 3)] = list(filter(lambda a: a != p[r][c], possible_letters[int (c / 2 + 3)]))
-
+                        remove = True
+                        for j in range(r):
+                            if (color[j][c][0] == '#e9ba3a' and p[j][c] == p[r][c]):
+                                remove = False
+                        if remove:
+                            possible_letters[int (c / 2 + 3)] = list(filter(lambda a: a != p[r][c], possible_letters[int (c / 2 + 3)]))
 
         return possible_letters
     
 
     greens_yellows()
+    print(possible_words)
     possible_letters = require_board_letters()
-
+    print(possible_letters)
     for i in range(6):
         newList = []
         for word in possible_words[i]:
             remove_word = False
             for letter in range(5):
                 if word[letter] not in possible_letters[i] and word[letter] != green_letters[i][letter]:
+                    print(word)
                     remove_word = True
                     break
             if remove_word == False:
                 newList.append(word)
         possible_words[i] = newList
-                    
-
 
     Change = True
     while Change:
@@ -415,7 +424,7 @@ def solvePuzzle(p, color):
                         newPuzzle[j][(i - 3) * 2] = possible_words[i][0][j]
             else: 
                 for j in range(5):
-                    # print(possible_words, i, j)
+                    print(possible_words)
                     letter = possible_words[i][0][j]
                     sameLetter = True
                     for word in possible_words[i]:
@@ -485,7 +494,7 @@ def solvePuzzle(p, color):
     
     # print("\n\n")
     # viz_solutions(possible_words)
-    # viz(newPuzzle)
+    viz(newPuzzle)
     
     return newPuzzle
 
@@ -501,25 +510,26 @@ def solvePuzzle(p, color):
 # print("-----")
 
 
-scrambled = [['v', 'l', 'e', 's', 'e'], 
-             ['t', ' ', 'r', ' ', 'a'],
-             ['r', 's', 'l', 'e', 'u'],
-             ['i', ' ', 'g', ' ', 'e'],
-             ['a', 'a', 's', 'r', 'y']]
+scrambled = [['G', 'N', 'A', 'G', 'M'], 
+                       ['M', ' ', 'O', ' ', 'R'],
+                       ['O', 'R', 'E', 'G', 'N'],
+                       ['E', ' ', 'R', ' ', 'A'],
+                       ['S', 'A', 'T', 'S', 'L']]
 
+# #6... = GREEN, #E9... = YELLOW, #ED... = GREY
 color = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#6fb05c', '#FFFFFF')], 
-         [('#e9ba3a', '#FFFFFF'), ' ', ('#e9ba3a', '#FFFFFF'), ' ', ('#e9ba3a', '#FFFFFF')],
-         [('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000')],
-         [('#e9ba3a', '#FFFFFF'), ' ', ('#edeff1', '#000000'), ' ', ('#edeff1', '#000000')],
-         [('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
+         [('#edeff1', '#FFFFFF'), ' ', ('#e9ba3a', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF')],
+         [('#edeff1', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#FFFFFF'), ('#e9ba3a', '#000000')],
+         [('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#000000'), ' ', ('#6fb05c', '#000000')],
+         [('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
 
 solvePuzzle(scrambled, color)
 
-solved =[['v', 'e', 'r', 'g', 'e'], 
-         ['i', ' ', 'u', ' ', 's'],
-         ['s', 'e', 'l', 'l', 's'],
-         ['t', ' ', 'e', ' ', 'a'],
-         ['a', 'r', 'r', 'a', 'y']]
+# solved =[['v', 'e', 'r', 'g', 'e'], 
+#          ['i', ' ', 'u', ' ', 's'],
+#          ['s', 'e', 'l', 'l', 's'],
+#          ['t', ' ', 'e', ' ', 'a'],
+#          ['a', 'r', 'r', 'a', 'y']]
 
 # solvedTest = [[" "] * 5 for i in range(5)]
 # solvedTest = [['a', 'b', 'y', 'c', 'a'], ['d', ' ', 'l', ' ', 'b'], ['e', 'e', 'k', 'x', 'h'], 
