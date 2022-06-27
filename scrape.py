@@ -35,4 +35,5 @@ def scrapeWeb():
                 colors.append(('#edeff1', '#000000'))
             l.append(split[i + 1].strip())
     driver.quit()
+    
     return convertToSquare(l), convertToSquare(colors)

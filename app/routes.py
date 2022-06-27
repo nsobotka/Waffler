@@ -107,10 +107,11 @@ def getActualWaffle():
     global draggable
     global numGreen
     global scrambledPuzzleUnmodified
+    global solvedPuzzle
     scrambledPuzzle, states = scrapeWeb()
     scrambledPuzzleUnmodified = [row[:] for row in scrambledPuzzle]
-    # solved puzzle = ????
-    # states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
+    solvedPuzzle = solvePuzzle(scrambledPuzzle, states)
+    states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
     return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen)
 
 @app.route('/testWaffle', methods = ['GET', 'POST'])

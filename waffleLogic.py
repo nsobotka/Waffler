@@ -317,7 +317,7 @@ def solvePuzzle(p, color):
     def require_board_letters():
         # get non-empty letters
         board_letters = [letter for row in p for letter in row if letter != ' ']
-        
+
         # remove greens
         for r in range(5):
             for c in range(5):
@@ -331,14 +331,13 @@ def solvePuzzle(p, color):
 
         for r in range(5):
             for c in range(5):
-    # This works under the assumption there is always green in the corners and centers.
+                # This works under the assumption there is always green in the corners and centers.
 
-    # This basically lets any yellow letter be in any word that is in a connecting row / column, but that isn't perfectly optimal. 
-    # It does well enough for our test example, but I think what we need to do is keep track of each letter and exactly where it could be in each word. 
-        # Something like [[(letter 1, [locations in word]), (letter 2, [locations in word]), ... ], [row 2], ...]
-    # We also need to keep track of all letters initially so that once we factor down, we can compare with what letters are still left over. 
-    # That alone would be enough to solve the example board. 
-
+                # This basically lets any yellow letter be in any word that is in a connecting row / column, but that isn't perfectly optimal. 
+                # It does well enough for our test example, but I think what we need to do is keep track of each letter and exactly where it could be in each word. 
+                    # Something like [[(letter 1, [locations in word]), (letter 2, [locations in word]), ... ], [row 2], ...]
+                # We also need to keep track of all letters initially so that once we factor down, we can compare with what letters are still left over. 
+                # That alone would be enough to solve the example board. 
 
                 # deals with yellow letters
                 if color[r][c][0] == '#e9ba3a':
@@ -400,8 +399,11 @@ def solvePuzzle(p, color):
         possible_words[i] = newList
                     
 
+
     Change = True
     while Change:
+        all_letters = [letter for row in p for letter in row if letter != ' ']
+
         Change = False
         newPuzzle = [[' '] * 5 for i in range(5)]
         for i in range(6):
@@ -413,6 +415,7 @@ def solvePuzzle(p, color):
                         newPuzzle[j][(i - 3) * 2] = possible_words[i][0][j]
             else: 
                 for j in range(5):
+                    # print(possible_words, i, j)
                     letter = possible_words[i][0][j]
                     sameLetter = True
                     for word in possible_words[i]:
@@ -453,12 +456,38 @@ def solvePuzzle(p, color):
                             Change = True
                     possible_words[i] = newWords
 
+        used_letters = [letter for row in newPuzzle for letter in row if letter != ' ']
+
+        for i in used_letters:
+            all_letters.remove(i)
+
+        for i in range(6):
+            if len(possible_words[i]) > 1:
+                new_possible_words = []
+                for word in possible_words[i]:
+                    possible = True
+                    for j in range(5):
+                        if i < 3:
+                            if word[j] not in all_letters and newPuzzle[i * 2][j] == ' ':
+                                # print(all_letters, word[j], word)
+                                possible = False
+                                break
+                        else:
+                            if word[j] not in all_letters and newPuzzle[j][(i - 3) * 2] == ' ':
+                                # print(all_letters, word[j], word)
+                                possible = False
+                                break
+                    if possible:
+                        new_possible_words.append(word)
+                    else:
+                        Change = True
+                possible_words[i] = new_possible_words
     
-    print("\n\n")
-    viz_solutions(possible_words)
-    viz(newPuzzle)
+    # print("\n\n")
+    # viz_solutions(possible_words)
+    # viz(newPuzzle)
     
-    return
+    return newPuzzle
 
 # print("-----")
 # solvedPuzzle = getPuzzle()
