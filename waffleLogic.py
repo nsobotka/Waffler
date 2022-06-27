@@ -326,12 +326,8 @@ def solvePuzzle(p, color):
 
         # for w in range(6):
         possible_letters = [[], [], [], [], [], []]
-        possible_letters[0] = board_letters.copy()
-        possible_letters[1] = board_letters.copy()
-        possible_letters[2] = board_letters.copy()
-        possible_letters[3] = board_letters.copy()
-        possible_letters[4] = board_letters.copy()
-        possible_letters[5] = board_letters.copy()
+        for i in range(6):
+            possible_letters[i] = board_letters.copy()
 
         for r in range(5):
             for c in range(5):
@@ -384,16 +380,12 @@ def solvePuzzle(p, color):
                     if c == 0 or c == 2 or c == 4:
                         possible_letters[int (c / 2 + 3)] = list(filter(lambda a: a != p[r][c], possible_letters[int (c / 2 + 3)]))
 
+
         return possible_letters
     
 
     greens_yellows()
     possible_letters = require_board_letters()
-    # viz_solutions(possible_letters)
-    # print("\n\n")
-    # viz_solutions(possible_words)
-    # print("\n\n")
-    # viz_solutions(green_letters)
 
     for i in range(6):
         newList = []
@@ -408,8 +400,63 @@ def solvePuzzle(p, color):
         possible_words[i] = newList
                     
 
-    # print("\n\n")
+    Change = True
+    while Change:
+        Change = False
+        newPuzzle = [[' '] * 5 for i in range(5)]
+        for i in range(6):
+            if len(possible_words[i]) == 1:
+                if i < 3: 
+                    newPuzzle[i * 2] = [x for x in possible_words[i][0]]
+                else:
+                    for j in range(5):
+                        newPuzzle[j][(i - 3) * 2] = possible_words[i][0][j]
+            else: 
+                for j in range(5):
+                    letter = possible_words[i][0][j]
+                    sameLetter = True
+                    for word in possible_words[i]:
+                        if word[j] != letter:
+                            sameLetter = False
+                    if sameLetter:
+                        if i < 3:
+                            newPuzzle[i * 2][j] = letter
+                        else:
+                            newPuzzle[j][(i - 3) * 2] = letter
+
+        for i in range(6):
+            if len(possible_words[i]) != 1:
+                if i < 3:
+                    newWords = []
+                    for word in possible_words[i]:
+                        remove_word = False
+                        for j in range(5):
+                            if word[j] != newPuzzle[i * 2][j] and newPuzzle[i * 2][j] != ' ':
+                                remove_word = True
+                                break
+                        if not remove_word:
+                            newWords.append(word)
+                        else: 
+                            Change = True
+                    possible_words[i] = newWords
+                else: 
+                    newWords = []
+                    for word in possible_words[i]:
+                        remove_word = False
+                        for j in range(5):
+                            if word[j] != newPuzzle[j][(i - 3) * 2] and newPuzzle[j][(i - 3) * 2] != ' ':
+                                remove_word = True
+                                break
+                        if not remove_word:
+                            newWords.append(word)
+                        else: 
+                            Change = True
+                    possible_words[i] = newWords
+
+    
+    print("\n\n")
     viz_solutions(possible_words)
+    viz(newPuzzle)
     
     return
 
