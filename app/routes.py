@@ -97,7 +97,7 @@ def showSolution():
     global numGreen
     scrambledPuzzle = [row[:] for row in solvedPuzzle]
     states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
-    return render_template('index.html', puzzle = solvedPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen)
+    return redirect(url_for('index'))
 
 @app.route('/getActualWaffle', methods = ['GET', 'POST'])
 def getActualWaffle():
@@ -110,43 +110,46 @@ def getActualWaffle():
     global solvedPuzzle
     scrambledPuzzle, states = scrapeWeb()
     scrambledPuzzleUnmodified = [row[:] for row in scrambledPuzzle]
+    # viz(scrambledPuzzle)
+    # viz(states)
     solvedPuzzle = solvePuzzle(scrambledPuzzle, states)
+    # viz(solvedPuzzle)
     states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
-    return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen)
+    return redirect(url_for('index'))
 
-@app.route('/testWaffle', methods = ['GET', 'POST'])
-def getTestWaffle():
-    global scrambledPuzzle
-    global swaps
-    global states
-    global draggable
-    global numGreen
-    global solvedPuzzle
-    global scrambledPuzzleUnmodified
+# @app.route('/testWaffle', methods = ['GET', 'POST'])
+# def getTestWaffle():
+#     global scrambledPuzzle
+#     global swaps
+#     global states
+#     global draggable
+#     global numGreen
+#     global solvedPuzzle
+#     global scrambledPuzzleUnmodified
     
-    scrambledPuzzle = [['v', 'l', 'e', 's', 'e'], 
-                       ['t', ' ', 'r', ' ', 'a'],
-                       ['r', 's', 'l', 'e', 'u'],
-                       ['i', ' ', 'g', ' ', 'e'],
-                       ['a', 'a', 's', 'r', 'y']]
+#     scrambledPuzzle = [['S', 'O', 'V', 'O', 'N'], 
+#                        ['C', ' ', 'O', ' ', 'C'],
+#                        ['R', 'R', 'T', 'E', 'I'],
+#                        ['E', ' ', 'C', ' ', 'T'],
+#                        ['M', 'R', 'R', 'U', 'E']]
 
-    scrambledPuzzleUnmodified =   [['v', 'l', 'e', 's', 'e'], 
-                                   ['t', ' ', 'r', ' ', 'a'],
-                                   ['r', 's', 'l', 'e', 'u'],
-                                   ['i', ' ', 'g', ' ', 'e'],
-                                   ['a', 'a', 's', 'r', 'y']]                 
+#     scrambledPuzzleUnmodified =   [['v', 'l', 'e', 's', 'e'], 
+#                                    ['t', ' ', 'r', ' ', 'a'],
+#                                    ['r', 's', 'l', 'e', 'u'],
+#                                    ['i', ' ', 'g', ' ', 'e'],
+#                                    ['a', 'a', 's', 'r', 'y']]                 
 
-    states = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#6fb05c', '#FFFFFF')], 
-             [('#e9ba3a', '#FFFFFF'), ' ', ('#e9ba3a', '#FFFFFF'), ' ', ('#e9ba3a', '#FFFFFF')],
-             [('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000')],
-             [('#e9ba3a', '#FFFFFF'), ' ', ('#edeff1', '#000000'), ' ', ('#edeff1', '#000000')],
-             [('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
+#     states = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#6fb05c', '#FFFFFF')], 
+#              [('#e9ba3a', '#FFFFFF'), ' ', ('#e9ba3a', '#FFFFFF'), ' ', ('#e9ba3a', '#FFFFFF')],
+#              [('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000')],
+#              [('#e9ba3a', '#FFFFFF'), ' ', ('#edeff1', '#000000'), ' ', ('#edeff1', '#000000')],
+#              [('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
 
-    solvedPuzzle =[['v', 'e', 'r', 'g', 'e'], 
-            ['i', ' ', 'u', ' ', 's'],
-            ['s', 'e', 'l', 'l', 's'],
-            ['t', ' ', 'e', ' ', 'a'],
-            ['a', 'r', 'r', 'a', 'y']]
+#     solvedPuzzle =[['v', 'e', 'r', 'g', 'e'], 
+#             ['i', ' ', 'u', ' ', 's'],
+#             ['s', 'e', 'l', 'l', 's'],
+#             ['t', ' ', 'e', ' ', 'a'],
+#             ['a', 'r', 'r', 'a', 'y']]
 
-    states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
-    return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen)
+#     states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
+#     return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen)
