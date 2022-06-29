@@ -428,7 +428,6 @@ def solvePuzzle(p, color):
     Change = True
     while Change:
         all_letters = [letter for row in p for letter in row if letter != ' ']
-
         Change = False
         newPuzzle = [[' '] * 5 for i in range(5)]
         # Checks what rows / columns have only one option, and then what letters only have one option
@@ -482,9 +481,8 @@ def solvePuzzle(p, color):
                         else: 
                             Change = True
                     possible_words[i] = newWords
-
+        
         used_letters = [letter for row in newPuzzle for letter in row if letter != ' ']
-
         # Updates all letters to only have unused letters
         for i in used_letters:
             all_letters.remove(i)
@@ -544,16 +542,98 @@ def solvePuzzle(p, color):
                         Change = True
                 possible_words[i] = new_possible_words
 
-        # Removes words if the count of unused letters does not match with remaining free letters
-        # Use counts of letters in all_letters
-        # I think here we might want to actually iterate through all possible options remaining and delete any that don't work.
-        # Could also go other direction -> if there is a letter that needs to be used and it can only be used in one word, that word must be correct
-        
+        # Updating the board
+        for i in range(6):
+            if len(possible_words[i]) == 1:
+                if i < 3: 
+                    newPuzzle[i * 2] = [x for x in possible_words[i][0]]
+                else:
+                    for j in range(5):
+                        newPuzzle[j][(i - 3) * 2] = possible_words[i][0][j]
+            else: 
+                for j in range(5):
+                    letter = possible_words[i][0][j]
+                    sameLetter = True
+                    for word in possible_words[i]:
+                        if word[j] != letter:
+                            sameLetter = False
+                    if sameLetter:
+                        if i < 3:
+                            newPuzzle[i * 2][j] = letter
+                        else:
+                            newPuzzle[j][(i - 3) * 2] = letter
 
+        all_letters = [letter for row in p for letter in row if letter != ' ']
+        used_letters = [letter for row in newPuzzle for letter in row if letter != ' ']
+        # Updates all letters to only have unused letters
+        for i in used_letters:
+            all_letters.remove(i)
+
+        # If only one word can use a letter, that word must be correct
+        for letter in all_letters:
+            count = 0
+            location = (-1, -1)
+            savedWord = ''
+            oldI = -1
+            for i in range(6):
+                if len(possible_words[i]) > 1:
+                    for word in possible_words[i]:
+                        for j in range(5):
+                            if i < 3:
+                                if newPuzzle[i * 2][j] == ' ':
+                                    if word[j] == letter:
+                                        if (i * 2, j) != location or i == oldI:
+                                            count = count + 1
+                                            location=  (i * 2, j)
+                                            savedWord = word
+                                            oldI = i
+                            else: 
+                                if newPuzzle[j][(i - 3) * 2] == ' ':
+                                    if word[j] == letter:
+                                        if (j, (i - 3) * 2) != location or i == oldI:
+                                            count = count + 1
+                                            location = (j, (i - 3) * 2)
+                                            savedWord = word
+                                            oldI = i
+            if count == 1:
+                new_possible_words = []
+                new_possible_words.append(savedWord)
+                possible_words[oldI] = new_possible_words
+                Change = True
+
+        # If a word needs multiple letters but there aren't enough of all of the letters
+        for i in range(6):
+            if len(possible_words[i]) > 1:
+                new_possible_words = []
+                for word in possible_words[i]:
+                    possible = True
+                    all_letters_copy = all_letters.copy()
+                    if i < 3:
+                        for letter in range(5):
+                            if newPuzzle[i * 2][letter] == ' ':
+                                if word[letter] in all_letters_copy:
+                                    all_letters_copy.remove(word[letter])
+                                else: 
+                                    possible = False
+                    else:
+                        for letter in range(5):
+                            if newPuzzle[letter][(i - 3) * 2] == ' ':
+                                if word[letter] in all_letters_copy:
+                                    all_letters_copy.remove(word[letter])
+                                else: 
+                                    possible = False
+                    if possible:
+                        new_possible_words.append(word)
+                    else:
+                        Change = True
+                possible_words[i] = new_possible_words
+        # 3: Can actually look at all word options and see if the right letters remain
+            # To test this we would probably want to comment out the two previous optimizations
+        # 4: Use selenium to make a move and get more yellow green information
 
     # print("\n\n")
-    print(all_letters)
-    viz_solutions(possible_words)
+    # print(all_letters)
+    # viz_solutions(possible_words)
     viz(newPuzzle)
     
     return newPuzzle
@@ -568,6 +648,22 @@ def solvePuzzle(p, color):
 # print("-----")
 # viz(states)
 # print("-----")
+
+
+# scrambled = [['C', 'E', 'Y', 'A', 'S'], 
+#                        ['P', ' ', 'E', ' ', 'M'],
+#                        ['L', 'D', 'P', 'H', 'O'],
+#                        ['R', ' ', 'U', ' ', 'R'],
+#                        ['S', 'E', 'U', 'A', 'P']]
+
+# #6... = GREEN, #E9... = YELLOW, #ED... = GREY
+# color = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#6fb05c', '#FFFFFF')], 
+#          [('#edeff1', '#FFFFFF'), ' ', ('#e9ba3a', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF')],
+#          [('#edeff1', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000')],
+#          [('#e9ba3a', '#FFFFFF'), ' ', ('#edeff1', '#000000'), ' ', ('#e9ba3a', '#000000')],
+#          [('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
+
+# solvePuzzle(scrambled, color)
 
 
 scrambled = [['B', 'I', 'I', 'I', 'L'], 
