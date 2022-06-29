@@ -11,7 +11,7 @@ from scrape import *
 # optimal solution to solve board
 # display optimal solution somehow
 # aesthetics - font sizes, placement, weird behavior on half screen, end messages, etc
-# remove test board button
+# in solve puzzle function can we combine a bunch of the logic so its simpler? The code is very repetitive.
 
 solvedPuzzle = getPuzzle()
 scrambledPuzzle = scramble(solvedPuzzle)
