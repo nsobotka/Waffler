@@ -596,6 +596,11 @@ def solvePuzzle(p, color):
                                             savedWord = word
                                             oldI = i
             if count == 1:
+                if oldI < 3: 
+                    newPuzzle[oldI * 2] = [x for x in savedWord]
+                else:
+                    for j in range(5):
+                        newPuzzle[j][(oldI - 3) * 2] = savedWord[j]
                 new_possible_words = []
                 new_possible_words.append(savedWord)
                 possible_words[oldI] = new_possible_words
@@ -627,6 +632,7 @@ def solvePuzzle(p, color):
                     else:
                         Change = True
                 possible_words[i] = new_possible_words
+
         # 3: Can actually look at all word options and see if the right letters remain
             # To test this we would probably want to comment out the two previous optimizations
         # 4: Use selenium to make a move and get more yellow green information
@@ -666,20 +672,50 @@ def solvePuzzle(p, color):
 # solvePuzzle(scrambled, color)
 
 
-scrambled = [['B', 'I', 'I', 'I', 'L'], 
-                       ['A', ' ', 'R', ' ', 'V'],
-                       ['E', 'E', 'G', 'I', 'E'],
-                       ['Y', ' ', 'L', ' ', 'E'],
-                       ['R', 'L', 'E', 'A', 'C']]
+# scrambled = [['A', 'T', 'I', 'T', 'N'], 
+#                        ['I', ' ', 'N', ' ', 'D'],
+#                        ['L', 'F', 'T', 'I', 'N'],
+#                        ['E', ' ', 'R', ' ', 'O'],
+#                        ['G', 'E', 'M', 'E', 'H']]
+
+# # #6... = GREEN, #E9... = YELLOW, #ED... = GREY
+# color = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#6fb05c', '#FFFFFF')], 
+#          [('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF')],
+#          [('#e9ba3a', '#000000'), ('#6fb05c', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#000000')],
+#          [('#edeff1', '#FFFFFF'), ' ', ('#e9ba3a', '#000000'), ' ', ('#edeff1', '#000000')],
+#          [('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
+
+# solvePuzzle(scrambled, color)
+
+scrambled = [['F', 'H', 'T', 'R', 'H'], 
+                       ['T', ' ', 'I', ' ', 'P'],
+                       ['E', 'S', 'G', 'L', 'L'],
+                       ['O', ' ', 'I', ' ', 'A'],
+                       ['H', 'R', 'O', 'O', 'Y']]
 
 # #6... = GREEN, #E9... = YELLOW, #ED... = GREY
 color = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#6fb05c', '#FFFFFF')], 
-         [('#6fb05c', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF')],
-         [('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#edeff1', '#000000')],
-         [('#edeff1', '#FFFFFF'), ' ', ('#e9ba3a', '#000000'), ' ', ('#edeff1', '#000000')],
-         [('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
+         [('#e9ba3a', '#FFFFFF'), ' ', ('#6fb05c', '#FFFFFF'), ' ', ('#e9ba3a', '#FFFFFF')],
+         [('#edeff1', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#edeff1', '#000000')],
+         [('#e9ba3a', '#FFFFFF'), ' ', ('#edeff1', '#000000'), ' ', ('#e9ba3a', '#000000')],
+         [('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
 
 solvePuzzle(scrambled, color)
+
+# scrambled = [['B', 'I', 'I', 'I', 'L'], 
+#                        ['A', ' ', 'R', ' ', 'V'],
+#                        ['E', 'E', 'G', 'I', 'E'],
+#                        ['Y', ' ', 'L', ' ', 'E'],
+#                        ['R', 'L', 'E', 'A', 'C']]
+
+# # #6... = GREEN, #E9... = YELLOW, #ED... = GREY
+# color = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#6fb05c', '#FFFFFF')], 
+#          [('#6fb05c', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF')],
+#          [('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#edeff1', '#000000')],
+#          [('#edeff1', '#FFFFFF'), ' ', ('#e9ba3a', '#000000'), ' ', ('#edeff1', '#000000')],
+#          [('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
+
+# solvePuzzle(scrambled, color)
 
 # solved =[['v', 'e', 'r', 'g', 'e'], 
 #          ['i', ' ', 'u', ' ', 's'],
