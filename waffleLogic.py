@@ -640,6 +640,7 @@ def solvePuzzle(p, color):
     # print("\n\n")
     # print(all_letters)
     # viz_solutions(possible_words)
+    # print(possible_words)
     viz(newPuzzle)
     
     return newPuzzle
@@ -656,20 +657,20 @@ def solvePuzzle(p, color):
 # print("-----")
 
 
-# scrambled = [['C', 'E', 'Y', 'A', 'S'], 
-#                        ['P', ' ', 'E', ' ', 'M'],
-#                        ['L', 'D', 'P', 'H', 'O'],
-#                        ['R', ' ', 'U', ' ', 'R'],
-#                        ['S', 'E', 'U', 'A', 'P']]
+scrambled = [['C', 'E', 'Y', 'A', 'S'], 
+                       ['P', ' ', 'E', ' ', 'M'],
+                       ['L', 'D', 'P', 'H', 'O'],
+                       ['R', ' ', 'U', ' ', 'R'],
+                       ['S', 'E', 'U', 'A', 'P']]
 
-# #6... = GREEN, #E9... = YELLOW, #ED... = GREY
-# color = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#6fb05c', '#FFFFFF')], 
-#          [('#edeff1', '#FFFFFF'), ' ', ('#e9ba3a', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF')],
-#          [('#edeff1', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000')],
-#          [('#e9ba3a', '#FFFFFF'), ' ', ('#edeff1', '#000000'), ' ', ('#e9ba3a', '#000000')],
-#          [('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
+#6... = GREEN, #E9... = YELLOW, #ED... = GREY
+color = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#6fb05c', '#FFFFFF')], 
+         [('#edeff1', '#FFFFFF'), ' ', ('#e9ba3a', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF')],
+         [('#edeff1', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000')],
+         [('#e9ba3a', '#FFFFFF'), ' ', ('#edeff1', '#000000'), ' ', ('#e9ba3a', '#000000')],
+         [('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
 
-# solvePuzzle(scrambled, color)
+solvePuzzle(scrambled, color)
 
 
 # scrambled = [['A', 'T', 'I', 'T', 'N'], 
@@ -687,20 +688,20 @@ def solvePuzzle(p, color):
 
 # solvePuzzle(scrambled, color)
 
-scrambled = [['F', 'H', 'T', 'R', 'H'], 
-                       ['T', ' ', 'I', ' ', 'P'],
-                       ['E', 'S', 'G', 'L', 'L'],
-                       ['O', ' ', 'I', ' ', 'A'],
-                       ['H', 'R', 'O', 'O', 'Y']]
+# scrambled = [['F', 'H', 'T', 'R', 'H'], 
+#                        ['T', ' ', 'I', ' ', 'P'],
+#                        ['E', 'S', 'G', 'L', 'L'],
+#                        ['O', ' ', 'I', ' ', 'A'],
+#                        ['H', 'R', 'O', 'O', 'Y']]
 
-# #6... = GREEN, #E9... = YELLOW, #ED... = GREY
-color = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#6fb05c', '#FFFFFF')], 
-         [('#e9ba3a', '#FFFFFF'), ' ', ('#6fb05c', '#FFFFFF'), ' ', ('#e9ba3a', '#FFFFFF')],
-         [('#edeff1', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#edeff1', '#000000')],
-         [('#e9ba3a', '#FFFFFF'), ' ', ('#edeff1', '#000000'), ' ', ('#e9ba3a', '#000000')],
-         [('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
+# # #6... = GREEN, #E9... = YELLOW, #ED... = GREY
+# color = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#6fb05c', '#FFFFFF')], 
+#          [('#e9ba3a', '#FFFFFF'), ' ', ('#6fb05c', '#FFFFFF'), ' ', ('#e9ba3a', '#FFFFFF')],
+#          [('#edeff1', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#edeff1', '#000000')],
+#          [('#e9ba3a', '#FFFFFF'), ' ', ('#edeff1', '#000000'), ' ', ('#e9ba3a', '#000000')],
+#          [('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
 
-solvePuzzle(scrambled, color)
+# solvePuzzle(scrambled, color)
 
 # scrambled = [['B', 'I', 'I', 'I', 'L'], 
 #                        ['A', ' ', 'R', ' ', 'V'],
