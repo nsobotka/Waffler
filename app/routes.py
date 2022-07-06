@@ -10,6 +10,7 @@ from scrape import *
 # optimal solution to solve board
 # display optimal solution somehow
 # aesthetics - font sizes, placement, weird behavior on half screen, end messages, etc
+# aesthetics for all different pages including error pages
 # in solve puzzle function can we combine a bunch of the logic so its simpler? The code is very repetitive.
 # separate some of the logic into different files
 # clean up code
