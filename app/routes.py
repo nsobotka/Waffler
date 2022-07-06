@@ -2,6 +2,8 @@ from flask import render_template, request, redirect, url_for
 from app import app
 from waffleLogic import *
 from scrape import *
+from viz import *
+from boardGeneration import * 
 
 # Things to do: 
 # change names of buttons
@@ -10,8 +12,6 @@ from scrape import *
 # display optimal solution somehow
 # aesthetics - font sizes, placement, weird behavior on half screen, end messages, etc
 # aesthetics for all different pages including error pages
-# in solve puzzle function can we combine a bunch of the logic so its simpler? The code is very repetitive.
-# separate some of the logic into different files
 # clean up code
 # Final bug checks
 # publish to website
