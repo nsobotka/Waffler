@@ -6,7 +6,6 @@ from viz import *
 from boardGeneration import * 
 
 # Things to do: 
-# change names of buttons
 # make it so it doesn't reload every time you make a move? if possible?
 # optimal solution to solve board
 # display optimal solution somehow
