@@ -12,6 +12,10 @@ from scrape import *
 # display optimal solution somehow
 # aesthetics - font sizes, placement, weird behavior on half screen, end messages, etc
 # in solve puzzle function can we combine a bunch of the logic so its simpler? The code is very repetitive.
+# separate some of the logic into different files
+# Display pages for errors when board is not solvable. 
+# clean up code
+# publish to website
 
 solvedPuzzle = getPuzzle()
 scrambledPuzzle = scramble(solvedPuzzle)
