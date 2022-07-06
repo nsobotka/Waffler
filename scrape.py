@@ -5,6 +5,7 @@ import math
 from bs4 import BeautifulSoup
 from selenium.webdriver.chrome.options import Options
 
+# Turns string into 5x5 board
 def convertToSquare(l):
     puzzle = [[' '] * 5 for i in range(5)]
     counter = 0
@@ -14,6 +15,7 @@ def convertToSquare(l):
             counter = counter + 1
     return puzzle
 
+# Scrapes the real waffle letters and colors
 def scrapeWeb():
     chromeOptions = Options()
     chromeOptions.headless = True
