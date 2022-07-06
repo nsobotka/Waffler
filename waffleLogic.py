@@ -125,50 +125,34 @@ def getPuzzle():
     # prints out visualization
     return letterArr
 
-# creates unsolved board using solved board
-
-# NEEDS WORK - limit greens and yellows, perhaps make it more like the real waffle?
+# Scrambles the board so that it looks like a real puzzle
 def scramble(solved):
     p = [row[:] for row in solved]
-    moves = []
-    pickedSquares = []
-    numPicked = 0
-    # makes 10 random distinct moves
-    for i in range(0, 10): 
-        # finds positions to swap
-        checker = True
-        while checker:
-            # picks two coordinates
-            coord1 = random.choice([i for i in range(0,25) if i not in [0,4,6,8,12,16,18,20,24]])
-            while numPicked < 14 and coord1 in pickedSquares: 
-                coord1 = random.choice([i for i in range(0,25) if i not in [0,4,6,8,12,16,18,20,24]])
-
+    numGreen = 21
+    numYellow = 0
+    numSwaps = 0
+    while numGreen > 7 or numYellow > 7 or numGreen + numYellow > 12 or numSwaps < 10: 
+        # Picks two different coordinates
+        coord1 = random.choice([i for i in range(0,25) if i not in [0,4,6,8,12,16,18,20,24]])
+        coord2 = random.choice([i for i in range(0,25) if i not in [0,4,6,8,12,16,18,20,24]])
+        while (coord1 == coord2) or (p[math.floor(coord1 / 5)][coord1 % 5] == p[math.floor(coord2 / 5)][coord2 % 5]):
             coord2 = random.choice([i for i in range(0,25) if i not in [0,4,6,8,12,16,18,20,24]])
-            while (coord1 == coord2) or (p[math.floor(coord1 / 5)][coord1 % 5] == p[math.floor(coord2 / 5)][coord2 % 5]) or (numPicked < 14 and coord2 in pickedSquares):
-                coord2 = random.choice([i for i in range(0,25) if i not in [0,4,6,8,12,16,18,20,24]])
-            
-            if coord1 < coord2: 
-                temp = coord1
-                coord1 = coord2
-                coord2 = temp
-            newTuple = ((coord1, p[math.floor(coord1 / 5)][coord1 % 5]), 
-            (coord2, p[math.floor(coord2 / 5)][coord2 % 5]))
-            if newTuple not in moves:
-                checker = False
-
-        if coord1 not in pickedSquares:
-            numPicked = numPicked + 1
-        if coord2 not in pickedSquares:
-            numPicked = numPicked + 1
-        pickedSquares.append(coord1)
-        pickedSquares.append(coord2)
-        moves.append(newTuple)
 
         # swaps the characters
         tempChar = p[math.floor(coord1 / 5)][coord1 % 5]
         p[math.floor(coord1 / 5)][coord1 % 5] = p[math.floor(coord2 / 5)][coord2 % 5]
         p[math.floor(coord2 / 5)][coord2 % 5] = tempChar
-        
+        numSwaps = numSwaps + 1
+        states, draggable, numgreen = getStates(solved, p)
+        numGreen = 0
+        numYellow = 0
+        # Finds how many greens and yellows there are in the new board
+        for i in range(5):
+            for j in range(5):
+                if states[i][j][0] == '#6fb05c':
+                    numGreen = numGreen + 1
+                if states[i][j][0] == '#e9ba3a':
+                    numYellow = numYellow + 1 
     return p
 
 # gets all values in a column
@@ -647,106 +631,3 @@ def solvePuzzle(p, color):
     # viz(newPuzzle)
     newPuzzle, val = boardSolved(newPuzzle)
     return newPuzzle, val
-
-
-
-# TRANSFER THESE TEST BOARDS TO testBoards.py
-
-
-
-
-
-
-# print("-----")
-# solvedPuzzle = getPuzzle()
-# viz(solvedPuzzle)
-# scrambledPuzzle = scramble(solvedPuzzle)
-# print("-----")
-# viz(scrambledPuzzle)
-# states = getStates(solvedPuzzle, scrambledPuzzle)
-# print("-----")
-# viz(states)
-# print("-----")
-
-
-
-# scrambled = [['C', 'E', 'Y', 'A', 'S'], 
-#                        ['P', ' ', 'E', ' ', 'M'],
-#                        ['L', 'D', 'P', 'H', 'O'],
-#                        ['R', ' ', 'U', ' ', 'R'],
-#                        ['S', 'E', 'U', 'A', 'P']]
-
-# #6... = GREEN, #E9... = YELLOW, #ED... = GREY
-# color = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#6fb05c', '#FFFFFF')], 
-#          [('#edeff1', '#FFFFFF'), ' ', ('#e9ba3a', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF')],
-#          [('#edeff1', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000')],
-#          [('#e9ba3a', '#FFFFFF'), ' ', ('#edeff1', '#000000'), ' ', ('#e9ba3a', '#000000')],
-#          [('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
-
-# solvePuzzle(scrambled, color)
-
-
-# scrambled = [['A', 'T', 'I', 'T', 'N'], 
-#                        ['I', ' ', 'N', ' ', 'D'],
-#                        ['L', 'F', 'T', 'I', 'N'],
-#                        ['E', ' ', 'R', ' ', 'O'],
-#                        ['G', 'E', 'M', 'E', 'H']]
-
-# # #6... = GREEN, #E9... = YELLOW, #ED... = GREY
-# color = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#6fb05c', '#FFFFFF')], 
-#          [('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF')],
-#          [('#e9ba3a', '#000000'), ('#6fb05c', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#000000')],
-#          [('#edeff1', '#FFFFFF'), ' ', ('#e9ba3a', '#000000'), ' ', ('#edeff1', '#000000')],
-#          [('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
-
-# solvePuzzle(scrambled, color)
-
-# scrambled = [['F', 'H', 'T', 'R', 'H'], 
-#                        ['T', ' ', 'I', ' ', 'P'],
-#                        ['E', 'S', 'G', 'L', 'L'],
-#                        ['O', ' ', 'I', ' ', 'A'],
-#                        ['H', 'R', 'O', 'O', 'Y']]
-
-# # #6... = GREEN, #E9... = YELLOW, #ED... = GREY
-# color = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#6fb05c', '#FFFFFF')], 
-#          [('#e9ba3a', '#FFFFFF'), ' ', ('#6fb05c', '#FFFFFF'), ' ', ('#e9ba3a', '#FFFFFF')],
-#          [('#edeff1', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#edeff1', '#000000')],
-#          [('#e9ba3a', '#FFFFFF'), ' ', ('#edeff1', '#000000'), ' ', ('#e9ba3a', '#000000')],
-#          [('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
-
-# solvePuzzle(scrambled, color)
-
-# scrambled = [['B', 'I', 'I', 'I', 'L'], 
-#                        ['A', ' ', 'R', ' ', 'V'],
-#                        ['E', 'E', 'G', 'I', 'E'],
-#                        ['Y', ' ', 'L', ' ', 'E'],
-#                        ['R', 'L', 'E', 'A', 'C']]
-
-# # #6... = GREEN, #E9... = YELLOW, #ED... = GREY
-# color = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#6fb05c', '#FFFFFF')], 
-#          [('#6fb05c', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF')],
-#          [('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#edeff1', '#000000')],
-#          [('#edeff1', '#FFFFFF'), ' ', ('#e9ba3a', '#000000'), ' ', ('#edeff1', '#000000')],
-#          [('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
-
-# solvePuzzle(scrambled, color)
-
-# solved =[['v', 'e', 'r', 'g', 'e'], 
-#          ['i', ' ', 'u', ' ', 's'],
-#          ['s', 'e', 'l', 'l', 's'],
-#          ['t', ' ', 'e', ' ', 'a'],
-#          ['a', 'r', 'r', 'a', 'y']]
-
-# solvedTest = [[" "] * 5 for i in range(5)]
-# solvedTest = [['a', 'b', 'y', 'c', 'a'], ['d', ' ', 'l', ' ', 'b'], ['e', 'e', 'k', 'x', 'h'], 
-# ['f', ' ', 'm', ' ', 'i'], ['g', 'o', 'n', 'o', 'j']]
-# scrambledTest = [['a', 'a', 'f', 'a', 'b'], ['g', ' ', 'l', ' ', 'f'], ['d', 'f', 'h', 'e', 'f'], 
-# ['d', ' ', 'e', ' ', 'f'], ['b', 'o', 'n', 'g', 'f']]
-# statesTest = getStates(solvedTest, scrambledTest)
-# print("-----")
-# viz(solvedTest)
-# print("-----")
-# viz(scrambledTest)
-# print("-----")
-# viz(statesTest)
-# print("-----")
