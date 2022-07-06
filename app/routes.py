@@ -5,7 +5,6 @@ from scrape import *
 
 # Things to do: 
 # change names of buttons
-# scramble puzzle correct number of colors
 # make it so it doesn't reload every time you make a move? if possible?
 # optimal solution to solve board
 # display optimal solution somehow
@@ -17,18 +16,23 @@ from scrape import *
 # Final bug checks
 # publish to website
 
+
+# Global variables
 solvedPuzzle = getPuzzle()
 scrambledPuzzle = scramble(solvedPuzzle)
 scrambledPuzzleUnmodified = [row[:] for row in scrambledPuzzle]
 states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
 swaps = 15
 
+# Splash page
 @app.route('/')
-@app.route('/index', methods = ['GET'])
 
+# Main page
+@app.route('/index', methods = ['GET'])
 def index():
     return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen)
 
+# New board
 @app.route('/newBoard', methods = ['POST'])
 def newBoard():
     global states
@@ -45,6 +49,7 @@ def newBoard():
     swaps = 15
     return redirect(url_for('index'))
 
+# Swap two pieces
 @app.route('/swap', methods = ['GET', 'POST'])
 def swap():
     global states
@@ -80,6 +85,7 @@ def swap():
         return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen)
     return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen)
 
+# Restart the board
 @app.route('/reload', methods = ['GET', 'POST'])
 def reload():
     global scrambledPuzzle
@@ -92,6 +98,7 @@ def reload():
     states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
     return redirect(url_for('index'))
 
+# Shows the solution
 @app.route('/showSolution', methods = ['GET', 'POST'])
 def showSolution():
     global scrambledPuzzle
@@ -103,6 +110,7 @@ def showSolution():
     states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
     return redirect(url_for('index'))
 
+# Shows the solution on the unsolvable boards with '?' filled into unknown slots
 @app.route('/showSolution2', methods = ['GET', 'POST'])
 def showSolution2():
     global scrambledPuzzle
@@ -118,6 +126,7 @@ def showSolution2():
                     states[i][j] = ('#FF0000', '#FFFFFF')
     return render_template('ErrorShowBoard.html', puzzle = solvedPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen)
 
+# Scrapes the actual waffle and solves the puzzle (or tries to)
 @app.route('/getActualWaffle', methods = ['GET', 'POST'])
 def getActualWaffle():
     global scrambledPuzzle
@@ -129,7 +138,7 @@ def getActualWaffle():
     global solvedPuzzle
     scrambledPuzzle, states = scrapeWeb()
     scrambledPuzzleUnmodified = [row[:] for row in scrambledPuzzle]
-    # Uncomment when you want to see the error messages
+    # Uncomment when you want to see the error pages
     # Delete the last two words from 5LetterWords.txt "admin", "admen"
     # scrambledPuzzle = [['A', 'T', 'I', 'T', 'N'], 
     #                    ['I', ' ', 'N', ' ', 'D'],
@@ -153,55 +162,3 @@ def getActualWaffle():
         return render_template('Error.html', puzzle = solvedPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen)
     states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
     return redirect(url_for('index'))
-
-
-
-# scrambledPuzzle = [['A', 'T', 'I', 'T', 'N'], 
-#                        ['I', ' ', 'N', ' ', 'D'],
-#                        ['L', 'F', 'T', 'I', 'N'],
-#                        ['E', ' ', 'R', ' ', 'O'],
-#                        ['G', 'E', 'M', 'E', 'H']]
-
-# # #6... = GREEN, #E9... = YELLOW, #ED... = GREY
-# states = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#6fb05c', '#FFFFFF')], 
-#          [('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF')],
-#          [('#e9ba3a', '#000000'), ('#6fb05c', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#000000')],
-#          [('#edeff1', '#FFFFFF'), ' ', ('#e9ba3a', '#000000'), ' ', ('#edeff1', '#000000')],
-#          [('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
-
-# @app.route('/testWaffle', methods = ['GET', 'POST'])
-# def getTestWaffle():
-#     global scrambledPuzzle
-#     global swaps
-#     global states
-#     global draggable
-#     global numGreen
-#     global solvedPuzzle
-#     global scrambledPuzzleUnmodified
-    
-#     scrambledPuzzle = [['S', 'O', 'V', 'O', 'N'], 
-#                        ['C', ' ', 'O', ' ', 'C'],
-#                        ['R', 'R', 'T', 'E', 'I'],
-#                        ['E', ' ', 'C', ' ', 'T'],
-#                        ['M', 'R', 'R', 'U', 'E']]
-
-#     scrambledPuzzleUnmodified =   [['v', 'l', 'e', 's', 'e'], 
-#                                    ['t', ' ', 'r', ' ', 'a'],
-#                                    ['r', 's', 'l', 'e', 'u'],
-#                                    ['i', ' ', 'g', ' ', 'e'],
-#                                    ['a', 'a', 's', 'r', 'y']]                 
-
-#     states = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#6fb05c', '#FFFFFF')], 
-#              [('#e9ba3a', '#FFFFFF'), ' ', ('#e9ba3a', '#FFFFFF'), ' ', ('#e9ba3a', '#FFFFFF')],
-#              [('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000')],
-#              [('#e9ba3a', '#FFFFFF'), ' ', ('#edeff1', '#000000'), ' ', ('#edeff1', '#000000')],
-#              [('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
-
-#     solvedPuzzle =[['v', 'e', 'r', 'g', 'e'], 
-#             ['i', ' ', 'u', ' ', 's'],
-#             ['s', 'e', 'l', 'l', 's'],
-#             ['t', ' ', 'e', ' ', 'a'],
-#             ['a', 'r', 'r', 'a', 'y']]
-
-#     states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
-#     return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen)
