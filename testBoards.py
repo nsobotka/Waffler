@@ -139,3 +139,63 @@ correct7 = [['M', 'E', 'D', 'A', 'L'],
            ['T', 'H', 'A', 'N', 'K'],
            ['C', ' ', 'M', ' ', 'E'],
            ['H', 'E', 'A', 'R', 'D']]
+
+#Board 8
+scrambled8 = [['B', 'I', 'I', 'I', 'L'], 
+                       ['A', ' ', 'R', ' ', 'V'],
+                       ['E', 'E', 'G', 'I', 'E'],
+                       ['Y', ' ', 'L', ' ', 'E'],
+                       ['R', 'L', 'E', 'A', 'C']]
+
+# #6... = GREEN, #E9... = YELLOW, #ED... = GREY
+color8 = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#6fb05c', '#FFFFFF')], 
+         [('#6fb05c', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF')],
+         [('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#edeff1', '#000000')],
+         [('#edeff1', '#FFFFFF'), ' ', ('#e9ba3a', '#000000'), ' ', ('#edeff1', '#000000')],
+         [('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
+
+correct8 = [['B', 'E', 'V', 'E', 'L'],
+            ['A', ' ', 'I', ' ', 'Y'],
+            ['R', 'E', 'G', 'A', 'R'],
+            ['E', ' ', 'I', ' ', 'I'],
+            ['R', 'E', 'L', 'I', 'C']]
+
+#Board 9
+scrambled9 = [['F', 'H', 'T', 'R', 'H'], 
+                       ['T', ' ', 'I', ' ', 'P'],
+                       ['E', 'S', 'G', 'L', 'L'],
+                       ['O', ' ', 'I', ' ', 'A'],
+                       ['H', 'R', 'O', 'O', 'Y']]
+
+# #6... = GREEN, #E9... = YELLOW, #ED... = GREY
+color9 = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#6fb05c', '#FFFFFF')], 
+         [('#e9ba3a', '#FFFFFF'), ' ', ('#6fb05c', '#FFFFFF'), ' ', ('#e9ba3a', '#FFFFFF')],
+         [('#edeff1', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#edeff1', '#000000')],
+         [('#e9ba3a', '#FFFFFF'), ' ', ('#edeff1', '#000000'), ' ', ('#e9ba3a', '#000000')],
+         [('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
+
+correct9 = [['F', 'L', 'E', 'S', 'H'],
+            ['O', ' ', 'I', ' ', 'A'],
+            ['R', 'I', 'G', 'O', 'R'],
+            ['T', ' ', 'H', ' ', 'P'],
+            ['H', 'O', 'T', 'L', 'Y']]
+
+#Board 10 - UNSOLVABLE ONE
+scrambled10 = [['A', 'T', 'I', 'T', 'N'], 
+                       ['I', ' ', 'N', ' ', 'D'],
+                       ['L', 'F', 'T', 'I', 'N'],
+                       ['E', ' ', 'R', ' ', 'O'],
+                       ['G', 'E', 'M', 'E', 'H']]
+
+# #6... = GREEN, #E9... = YELLOW, #ED... = GREY
+color10 = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#6fb05c', '#FFFFFF')], 
+         [('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF')],
+         [('#e9ba3a', '#000000'), ('#6fb05c', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#000000')],
+         [('#edeff1', '#FFFFFF'), ' ', ('#e9ba3a', '#000000'), ' ', ('#edeff1', '#000000')],
+         [('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
+
+correct10 = [['A', 'D', 'M', ' ', 'N'],
+             ['L', ' ', ' ', ' ', 'I'],
+             ['O', 'F', 'T', 'E', 'N'],
+             ['N', ' ', 'E', ' ', 'T'],
+             ['G', 'I', 'R', 'T', 'H']]
