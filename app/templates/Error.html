@@ -8,11 +8,7 @@
 
 <body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    {% if numGreen == 21 %}
-    <div id="title_text">Congrats! You Win!</div>
-    {% else %}
     <div id="title_text">Uh-Oh!</div>
-    {% endif %}
     <div id="button_container">
         <div id="button_flex">
             <form action="/newBoard" method="post">
