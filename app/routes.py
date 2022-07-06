@@ -7,14 +7,13 @@ from scrape import *
 # change names of buttons
 # scramble puzzle correct number of colors
 # make it so it doesn't reload every time you make a move? if possible?
-# solve board and link this to the getRealWaffle so that the real waffle can be played
 # optimal solution to solve board
 # display optimal solution somehow
 # aesthetics - font sizes, placement, weird behavior on half screen, end messages, etc
 # in solve puzzle function can we combine a bunch of the logic so its simpler? The code is very repetitive.
 # separate some of the logic into different files
-# Display pages for errors when board is not solvable. 
 # clean up code
+# Final bug checks
 # publish to website
 
 solvedPuzzle = getPuzzle()
@@ -103,6 +102,21 @@ def showSolution():
     states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
     return redirect(url_for('index'))
 
+@app.route('/showSolution2', methods = ['GET', 'POST'])
+def showSolution2():
+    global scrambledPuzzle
+    global swaps
+    global states
+    global draggable
+    global numGreen
+    scrambledPuzzle = [row[:] for row in solvedPuzzle]
+    states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
+    for i in range(0, 5):
+            for j in range(0, 5):
+                if scrambledPuzzle[i][j] == '?':
+                    states[i][j] = ('#FF0000', '#FFFFFF')
+    return render_template('ErrorShowBoard.html', puzzle = solvedPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen)
+
 @app.route('/getActualWaffle', methods = ['GET', 'POST'])
 def getActualWaffle():
     global scrambledPuzzle
@@ -114,12 +128,45 @@ def getActualWaffle():
     global solvedPuzzle
     scrambledPuzzle, states = scrapeWeb()
     scrambledPuzzleUnmodified = [row[:] for row in scrambledPuzzle]
-    # viz(scrambledPuzzle)
-    # viz(states)
-    solvedPuzzle = solvePuzzle(scrambledPuzzle, states)
-    # viz(solvedPuzzle)
+    # Uncomment when you want to see the error messages
+    # Delete the last two words from 5LetterWords.txt "admin", "admen"
+    # scrambledPuzzle = [['A', 'T', 'I', 'T', 'N'], 
+    #                    ['I', ' ', 'N', ' ', 'D'],
+    #                    ['L', 'F', 'T', 'I', 'N'],
+    #                    ['E', ' ', 'R', ' ', 'O'],
+    #                    ['G', 'E', 'M', 'E', 'H']]
+
+    # # #6... = GREEN, #E9... = YELLOW, #ED... = GREY
+    # states = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#6fb05c', '#FFFFFF')], 
+    #         [('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF')],
+    #         [('#e9ba3a', '#000000'), ('#6fb05c', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#000000')],
+    #         [('#edeff1', '#FFFFFF'), ' ', ('#e9ba3a', '#000000'), ' ', ('#edeff1', '#000000')],
+    #         [('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
+    solvedPuzzle, trulySolved = solvePuzzle(scrambledPuzzle, states)
+    if not trulySolved:
+        numGreen = 0
+        draggable = [["false"] * 5 for i in range(5)]
+        for i in range(0, 5):
+            for j in range(0, 5):
+                states[i][j] = ('#454747', '#FFFFFF')
+        return render_template('Error.html', puzzle = solvedPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen)
     states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
     return redirect(url_for('index'))
+
+
+
+# scrambledPuzzle = [['A', 'T', 'I', 'T', 'N'], 
+#                        ['I', ' ', 'N', ' ', 'D'],
+#                        ['L', 'F', 'T', 'I', 'N'],
+#                        ['E', ' ', 'R', ' ', 'O'],
+#                        ['G', 'E', 'M', 'E', 'H']]
+
+# # #6... = GREEN, #E9... = YELLOW, #ED... = GREY
+# states = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#6fb05c', '#FFFFFF')], 
+#          [('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF')],
+#          [('#e9ba3a', '#000000'), ('#6fb05c', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#000000')],
+#          [('#edeff1', '#FFFFFF'), ' ', ('#e9ba3a', '#000000'), ' ', ('#edeff1', '#000000')],
+#          [('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
 
 # @app.route('/testWaffle', methods = ['GET', 'POST'])
 # def getTestWaffle():

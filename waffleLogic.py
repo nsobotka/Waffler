@@ -229,6 +229,15 @@ def getStates(correct, curr):
 
     return states, draggable, numGreen
 
+def boardSolved(newPuzzle):
+    returnVal = True
+    for i in range(5):
+        for j in range(5):
+            if newPuzzle[i][j] == ' ' and ((i, j) != (1, 1) and (i, j) != (1, 3) and (i, j) != (3, 1) and (i, j) != (3, 3)):
+                newPuzzle[i][j] = '?'
+                returnVal = False
+    return newPuzzle, returnVal
+
 # fit greens to word
 def fitGreens(greens):
     l = []
@@ -427,223 +436,226 @@ def solvePuzzle(p, color):
     # Loops over various methods to remove words from the possibilities
     Change = True
     while Change:
-        all_letters = [letter for row in p for letter in row if letter != ' ']
-        Change = False
-        newPuzzle = [[' '] * 5 for i in range(5)]
-        # Checks what rows / columns have only one option, and then what letters only have one option
-        # Creates a new board with these filled in
-        for i in range(6):
-            if len(possible_words[i]) == 1:
-                if i < 3: 
-                    newPuzzle[i * 2] = [x for x in possible_words[i][0]]
-                else:
-                    for j in range(5):
-                        newPuzzle[j][(i - 3) * 2] = possible_words[i][0][j]
-            else: 
-                for j in range(5):
-                    letter = possible_words[i][0][j]
-                    sameLetter = True
-                    for word in possible_words[i]:
-                        if word[j] != letter:
-                            sameLetter = False
-                    if sameLetter:
-                        if i < 3:
-                            newPuzzle[i * 2][j] = letter
-                        else:
-                            newPuzzle[j][(i - 3) * 2] = letter
-
-        # Removes words if they can't fit with the words already guaranteed to be correct
-        for i in range(6):
-            if len(possible_words[i]) != 1:
-                if i < 3:
-                    newWords = []
-                    for word in possible_words[i]:
-                        remove_word = False
+        try: 
+            all_letters = [letter for row in p for letter in row if letter != ' ']
+            Change = False
+            newPuzzle = [[' '] * 5 for i in range(5)]
+            # Checks what rows / columns have only one option, and then what letters only have one option
+            # Creates a new board with these filled in
+            for i in range(6):
+                if len(possible_words[i]) == 1:
+                    if i < 3: 
+                        newPuzzle[i * 2] = [x for x in possible_words[i][0]]
+                    else:
                         for j in range(5):
-                            if word[j] != newPuzzle[i * 2][j] and newPuzzle[i * 2][j] != ' ':
-                                remove_word = True
-                                break
-                        if not remove_word:
-                            newWords.append(word)
-                        else: 
-                            Change = True
-                    possible_words[i] = newWords
+                            newPuzzle[j][(i - 3) * 2] = possible_words[i][0][j]
                 else: 
-                    newWords = []
-                    for word in possible_words[i]:
-                        remove_word = False
-                        for j in range(5):
-                            if word[j] != newPuzzle[j][(i - 3) * 2] and newPuzzle[j][(i - 3) * 2] != ' ':
-                                remove_word = True
-                                break
-                        if not remove_word:
-                            newWords.append(word)
-                        else: 
-                            Change = True
-                    possible_words[i] = newWords
-        
-        used_letters = [letter for row in newPuzzle for letter in row if letter != ' ']
-        # Updates all letters to only have unused letters
-        for i in used_letters:
-            all_letters.remove(i)
-
-        # Removes words if they have letters that don't exist in the board
-        for i in range(6):
-            if len(possible_words[i]) > 1:
-                new_possible_words = []
-                for word in possible_words[i]:
-                    possible = True
                     for j in range(5):
-                        if i < 3:
-                            if word[j] not in all_letters and newPuzzle[i * 2][j] == ' ':
-                                possible = False
-                                break
-                        else:
-                            if word[j] not in all_letters and newPuzzle[j][(i - 3) * 2] == ' ':
-                                possible = False
-                                break
-                    if possible:
-                        new_possible_words.append(word)
-                    else:
-                        Change = True
-                possible_words[i] = new_possible_words
+                        letter = possible_words[i][0][j]
+                        sameLetter = True
+                        for word in possible_words[i]:
+                            if word[j] != letter:
+                                sameLetter = False
+                        if sameLetter:
+                            if i < 3:
+                                newPuzzle[i * 2][j] = letter
+                            else:
+                                newPuzzle[j][(i - 3) * 2] = letter
 
-        # Removes words if the letters cannot fit in the intersections
-        for i in range(6):
-            if len(possible_words[i]) > 1:
-                new_possible_words = []
-                for word in possible_words[i]:
-                    possible1 = False
-                    possible2 = False
-                    possible3 = False
+            # Removes words if they can't fit with the words already guaranteed to be correct
+            for i in range(6):
+                if len(possible_words[i]) != 1:
                     if i < 3:
-                        for other_word in possible_words[3]:
-                            if other_word[i * 2] == word[0]:
-                                possible1 = True
-                        for other_word in possible_words[4]:
-                            if other_word[i * 2] == word[2]:
-                                possible2 = True
-                        for other_word in possible_words[5]:
-                            if other_word[i * 2] == word[4]:
-                                possible3 = True
-                    else:
-                        for other_word in possible_words[0]:
-                            if other_word[(i - 3) * 2] == word[0]:
-                                possible1 = True
-                        for other_word in possible_words[1]:
-                            if other_word[(i - 3) * 2] == word[2]:
-                                possible2 = True
-                        for other_word in possible_words[2]:
-                            if other_word[(i - 3) * 2] == word[4]:
-                                possible3 = True
-                    if possible1 and possible2 and possible3:
-                        new_possible_words.append(word)
-                    else:
-                        Change = True
-                possible_words[i] = new_possible_words
+                        newWords = []
+                        for word in possible_words[i]:
+                            remove_word = False
+                            for j in range(5):
+                                if word[j] != newPuzzle[i * 2][j] and newPuzzle[i * 2][j] != ' ':
+                                    remove_word = True
+                                    break
+                            if not remove_word:
+                                newWords.append(word)
+                            else: 
+                                Change = True
+                        possible_words[i] = newWords
+                    else: 
+                        newWords = []
+                        for word in possible_words[i]:
+                            remove_word = False
+                            for j in range(5):
+                                if word[j] != newPuzzle[j][(i - 3) * 2] and newPuzzle[j][(i - 3) * 2] != ' ':
+                                    remove_word = True
+                                    break
+                            if not remove_word:
+                                newWords.append(word)
+                            else: 
+                                Change = True
+                        possible_words[i] = newWords
+            
+            used_letters = [letter for row in newPuzzle for letter in row if letter != ' ']
+            # Updates all letters to only have unused letters
+            for i in used_letters:
+                all_letters.remove(i)
 
-        # Updating the board
-        for i in range(6):
-            if len(possible_words[i]) == 1:
-                if i < 3: 
-                    newPuzzle[i * 2] = [x for x in possible_words[i][0]]
-                else:
-                    for j in range(5):
-                        newPuzzle[j][(i - 3) * 2] = possible_words[i][0][j]
-            else: 
-                for j in range(5):
-                    letter = possible_words[i][0][j]
-                    sameLetter = True
-                    for word in possible_words[i]:
-                        if word[j] != letter:
-                            sameLetter = False
-                    if sameLetter:
-                        if i < 3:
-                            newPuzzle[i * 2][j] = letter
-                        else:
-                            newPuzzle[j][(i - 3) * 2] = letter
-
-        all_letters = [letter for row in p for letter in row if letter != ' ']
-        used_letters = [letter for row in newPuzzle for letter in row if letter != ' ']
-        # Updates all letters to only have unused letters
-        for i in used_letters:
-            all_letters.remove(i)
-
-        # If only one word can use a letter, that word must be correct
-        for letter in all_letters:
-            count = 0
-            location = (-1, -1)
-            savedWord = ''
-            oldI = -1
+            # Removes words if they have letters that don't exist in the board
             for i in range(6):
                 if len(possible_words[i]) > 1:
+                    new_possible_words = []
                     for word in possible_words[i]:
+                        possible = True
                         for j in range(5):
                             if i < 3:
-                                if newPuzzle[i * 2][j] == ' ':
-                                    if word[j] == letter:
-                                        if (i * 2, j) != location or i == oldI:
-                                            count = count + 1
-                                            location=  (i * 2, j)
-                                            savedWord = word
-                                            oldI = i
-                            else: 
-                                if newPuzzle[j][(i - 3) * 2] == ' ':
-                                    if word[j] == letter:
-                                        if (j, (i - 3) * 2) != location or i == oldI:
-                                            count = count + 1
-                                            location = (j, (i - 3) * 2)
-                                            savedWord = word
-                                            oldI = i
-            if count == 1:
-                if oldI < 3: 
-                    newPuzzle[oldI * 2] = [x for x in savedWord]
-                else:
+                                if word[j] not in all_letters and newPuzzle[i * 2][j] == ' ':
+                                    possible = False
+                                    break
+                            else:
+                                if word[j] not in all_letters and newPuzzle[j][(i - 3) * 2] == ' ':
+                                    possible = False
+                                    break
+                        if possible:
+                            new_possible_words.append(word)
+                        else:
+                            Change = True
+                    possible_words[i] = new_possible_words
+
+            # Removes words if the letters cannot fit in the intersections
+            for i in range(6):
+                if len(possible_words[i]) > 1:
+                    new_possible_words = []
+                    for word in possible_words[i]:
+                        possible1 = False
+                        possible2 = False
+                        possible3 = False
+                        if i < 3:
+                            for other_word in possible_words[3]:
+                                if other_word[i * 2] == word[0]:
+                                    possible1 = True
+                            for other_word in possible_words[4]:
+                                if other_word[i * 2] == word[2]:
+                                    possible2 = True
+                            for other_word in possible_words[5]:
+                                if other_word[i * 2] == word[4]:
+                                    possible3 = True
+                        else:
+                            for other_word in possible_words[0]:
+                                if other_word[(i - 3) * 2] == word[0]:
+                                    possible1 = True
+                            for other_word in possible_words[1]:
+                                if other_word[(i - 3) * 2] == word[2]:
+                                    possible2 = True
+                            for other_word in possible_words[2]:
+                                if other_word[(i - 3) * 2] == word[4]:
+                                    possible3 = True
+                        if possible1 and possible2 and possible3:
+                            new_possible_words.append(word)
+                        else:
+                            Change = True
+                    possible_words[i] = new_possible_words
+
+            # Updating the board
+            for i in range(6):
+                if len(possible_words[i]) == 1:
+                    if i < 3: 
+                        newPuzzle[i * 2] = [x for x in possible_words[i][0]]
+                    else:
+                        for j in range(5):
+                            newPuzzle[j][(i - 3) * 2] = possible_words[i][0][j]
+                else: 
                     for j in range(5):
-                        newPuzzle[j][(oldI - 3) * 2] = savedWord[j]
-                new_possible_words = []
-                new_possible_words.append(savedWord)
-                possible_words[oldI] = new_possible_words
-                Change = True
+                        letter = possible_words[i][0][j]
+                        sameLetter = True
+                        for word in possible_words[i]:
+                            if word[j] != letter:
+                                sameLetter = False
+                        if sameLetter:
+                            if i < 3:
+                                newPuzzle[i * 2][j] = letter
+                            else:
+                                newPuzzle[j][(i - 3) * 2] = letter
 
-        # If a word needs multiple letters but there aren't enough of all of the letters
-        for i in range(6):
-            if len(possible_words[i]) > 1:
-                new_possible_words = []
-                for word in possible_words[i]:
-                    possible = True
-                    all_letters_copy = all_letters.copy()
-                    if i < 3:
-                        for letter in range(5):
-                            if newPuzzle[i * 2][letter] == ' ':
-                                if word[letter] in all_letters_copy:
-                                    all_letters_copy.remove(word[letter])
+            all_letters = [letter for row in p for letter in row if letter != ' ']
+            used_letters = [letter for row in newPuzzle for letter in row if letter != ' ']
+            # Updates all letters to only have unused letters
+            for i in used_letters:
+                all_letters.remove(i)
+
+            # If only one word can use a letter, that word must be correct
+            for letter in all_letters:
+                count = 0
+                location = (-1, -1)
+                savedWord = ''
+                oldI = -1
+                for i in range(6):
+                    if len(possible_words[i]) > 1:
+                        for word in possible_words[i]:
+                            for j in range(5):
+                                if i < 3:
+                                    if newPuzzle[i * 2][j] == ' ':
+                                        if word[j] == letter:
+                                            if (i * 2, j) != location or i == oldI:
+                                                count = count + 1
+                                                location=  (i * 2, j)
+                                                savedWord = word
+                                                oldI = i
                                 else: 
-                                    possible = False
+                                    if newPuzzle[j][(i - 3) * 2] == ' ':
+                                        if word[j] == letter:
+                                            if (j, (i - 3) * 2) != location or i == oldI:
+                                                count = count + 1
+                                                location = (j, (i - 3) * 2)
+                                                savedWord = word
+                                                oldI = i
+                if count == 1:
+                    if oldI < 3: 
+                        newPuzzle[oldI * 2] = [x for x in savedWord]
                     else:
-                        for letter in range(5):
-                            if newPuzzle[letter][(i - 3) * 2] == ' ':
-                                if word[letter] in all_letters_copy:
-                                    all_letters_copy.remove(word[letter])
-                                else: 
-                                    possible = False
-                    if possible:
-                        new_possible_words.append(word)
-                    else:
-                        Change = True
-                possible_words[i] = new_possible_words
+                        for j in range(5):
+                            newPuzzle[j][(oldI - 3) * 2] = savedWord[j]
+                    new_possible_words = []
+                    new_possible_words.append(savedWord)
+                    possible_words[oldI] = new_possible_words
+                    Change = True
+            # If a word needs multiple letters but there aren't enough of all of the letters
+            for i in range(6):
+                if len(possible_words[i]) > 1:
+                    new_possible_words = []
+                    for word in possible_words[i]:
+                        possible = True
+                        all_letters_copy = all_letters.copy()
+                        if i < 3:
+                            for letter in range(5):
+                                if newPuzzle[i * 2][letter] == ' ':
+                                    if word[letter] in all_letters_copy:
+                                        all_letters_copy.remove(word[letter])
+                                    else: 
+                                        possible = False
+                        else:
+                            for letter in range(5):
+                                if newPuzzle[letter][(i - 3) * 2] == ' ':
+                                    if word[letter] in all_letters_copy:
+                                        all_letters_copy.remove(word[letter])
+                                    else: 
+                                        possible = False
+                        if possible:
+                            new_possible_words.append(word)
+                        else:
+                            Change = True
+                    possible_words[i] = new_possible_words
+        except:
+            break 
 
-        # 3: Can actually look at all word options and see if the right letters remain
-            # To test this we would probably want to comment out the two previous optimizations
-        # 4: Use selenium to make a move and get more yellow green information
+    # viz(newPuzzle)
+    newPuzzle, val = boardSolved(newPuzzle)
+    return newPuzzle, val
 
-    # print("\n\n")
-    # print(all_letters)
-    # viz_solutions(possible_words)
-    # print(possible_words)
-    viz(newPuzzle)
-    
-    return newPuzzle
+
+
+# TRANSFER THESE TEST BOARDS TO testBoards.py
+
+
+
+
+
 
 # print("-----")
 # solvedPuzzle = getPuzzle()
@@ -657,20 +669,21 @@ def solvePuzzle(p, color):
 # print("-----")
 
 
-scrambled = [['C', 'E', 'Y', 'A', 'S'], 
-                       ['P', ' ', 'E', ' ', 'M'],
-                       ['L', 'D', 'P', 'H', 'O'],
-                       ['R', ' ', 'U', ' ', 'R'],
-                       ['S', 'E', 'U', 'A', 'P']]
 
-#6... = GREEN, #E9... = YELLOW, #ED... = GREY
-color = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#6fb05c', '#FFFFFF')], 
-         [('#edeff1', '#FFFFFF'), ' ', ('#e9ba3a', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF')],
-         [('#edeff1', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000')],
-         [('#e9ba3a', '#FFFFFF'), ' ', ('#edeff1', '#000000'), ' ', ('#e9ba3a', '#000000')],
-         [('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
+# scrambled = [['C', 'E', 'Y', 'A', 'S'], 
+#                        ['P', ' ', 'E', ' ', 'M'],
+#                        ['L', 'D', 'P', 'H', 'O'],
+#                        ['R', ' ', 'U', ' ', 'R'],
+#                        ['S', 'E', 'U', 'A', 'P']]
 
-solvePuzzle(scrambled, color)
+# #6... = GREEN, #E9... = YELLOW, #ED... = GREY
+# color = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#6fb05c', '#FFFFFF')], 
+#          [('#edeff1', '#FFFFFF'), ' ', ('#e9ba3a', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF')],
+#          [('#edeff1', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000')],
+#          [('#e9ba3a', '#FFFFFF'), ' ', ('#edeff1', '#000000'), ' ', ('#e9ba3a', '#000000')],
+#          [('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
+
+# solvePuzzle(scrambled, color)
 
 
 # scrambled = [['A', 'T', 'I', 'T', 'N'], 

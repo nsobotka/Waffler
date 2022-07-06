@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Waffler</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    {% if numGreen == 21 %}
+    <div id="title_text">Congrats! You Win!</div>
+    {% else %}
+    <div id="title_text">Uh-Oh!</div>
+    {% endif %}
+    <div id="button_container">
+        <div id="button_flex">
+            <form action="/newBoard" method="post">
+                <button type="submit" class="toolBtn" id="newBoard" onClick={} action="/newBoard">New Board</button>
+            </form>
+            <form action = "/showSolution2" method="post">
+                <button type = "submit" class="toolBtn" id="showSolution2" onClick={}>Show Solution</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
