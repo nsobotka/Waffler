@@ -1,4 +1,3 @@
-import random, math
 from viz import *
 from boardGeneration import * 
 
