@@ -10,3 +10,7 @@ def viz_solutions(l):
             print(f'row {i + 1} {l[i]} \n \n')
         else:
             print(f'col {i - 2} {l[i]} \n \n')
+
+def viz_swaps(swaps):
+    for i, swap in enumerate(swaps):
+        print(f'Swap {i + 1}: {swap}')
