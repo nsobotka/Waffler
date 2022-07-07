@@ -45,25 +45,25 @@ def randSwap(current, solved, correctnessStr):
                             return(((i, current[i]), (j, current[j])))
     return None
 
-# def fourSwap(current, solved, correctnessStr):
-#     for i in range(25):
-#         if correctnessStr[i] == "0":
-#             for j in range(i + 1, 25):
-#                 if correctnessStr[j] == "0": # found two incorrect cells
-#                     for k in range(j + 1, 25):
-#                         if correctnessStr[k] == "0": # found three incorrect cells
-#                             for l in range(k + 1, 25):
-#                                 if correctnessStr[k] == "0": # found 4 incorrect cells
-#                                     if ((current[i] == solved[j] and current[j] == solved[k] and current[k] == solved[l] and current[l] == solved[i]) or
-#                                         (current[i] == solved[j] and current[j] == solved[l] and current[k] == solved[i] and current[l] == solved[k])):
-#                                         return(((i, current[i]), (j, current[j])))
-#                                     if ((current[i] == solved[k] and current[k] == solved[j] and current[j] == solved[l] and current[l] == solved[i]) or 
-#                                         (current[i] == solved[k] and current[k] == solved[l] and current[j] == solved[i] and current[l] == solved[j])):
-#                                         return(((i, current[i]), (k, current[k])))
-#                                     if ((current[i] == solved[l] and current[l] == solved[k] and current[k] == solved[j] and current[j] == solved[i]) or
-#                                         (current[i] == solved[l] and current[l] == solved[j] and current[k] == solved[i] and current[j] == solved[k])): 
-#                                         return(((i, current[i]), (l, current[l])))
-#     return None
+def fourSwap(current, solved, correctnessStr):
+    for i in range(25):
+        if correctnessStr[i] == "0":
+            for j in range(i + 1, 25):
+                if correctnessStr[j] == "0": # found two incorrect cells
+                    for k in range(j + 1, 25):
+                        if correctnessStr[k] == "0": # found three incorrect cells
+                            for l in range(k + 1, 25):
+                                if correctnessStr[k] == "0": # found 4 incorrect cells
+                                    if ((current[i] == solved[j] and current[j] == solved[k] and current[k] == solved[l] and current[l] == solved[i]) or
+                                        (current[i] == solved[j] and current[j] == solved[l] and current[k] == solved[i] and current[l] == solved[k])):
+                                        return(((i, current[i]), (j, current[j])))
+                                    if ((current[i] == solved[k] and current[k] == solved[j] and current[j] == solved[l] and current[l] == solved[i]) or 
+                                        (current[i] == solved[k] and current[k] == solved[l] and current[j] == solved[i] and current[l] == solved[j])):
+                                        return(((i, current[i]), (k, current[k])))
+                                    if ((current[i] == solved[l] and current[l] == solved[k] and current[k] == solved[j] and current[j] == solved[i]) or
+                                        (current[i] == solved[l] and current[l] == solved[j] and current[k] == solved[i] and current[j] == solved[k])): 
+                                        return(((i, current[i]), (l, current[l])))
+    return None
 
 def buildCorrectnessStr(b1, b2):
     correctnessStr = ""
@@ -98,39 +98,54 @@ def main(p1, p2):
     unsolved = True
     changeInner = True
     changeOuter = True
-    while unsolved and changeOuter:
-        changeOuter = False
+    changeOuterOuter = True
+    while unsolved and changeOuterOuter:
         changeInner = True
-        while changeInner:
-            changeInner = False
-            currentSwap = twoSwap(b1, b2, correctnessStr)
-            while(currentSwap is not None):
-                swapList.append(currentSwap)
-                b1 = swap(b1, currentSwap)
-                changeInner = True
-                correctnessStr = buildCorrectnessStr(b1, b2)
+        changeOuter = True
+        changeOuterOuter = False
+        while changeOuter:
+            changeOuter = False
+            changeInner = True
+            while changeInner:
+                changeInner = False
                 currentSwap = twoSwap(b1, b2, correctnessStr)
 
-            # Looks for 3 swap
-            currentSwap = threeSwap(b1, b2, correctnessStr)
+                # looks for 2 swap
+                while(currentSwap is not None):
+                    swapList.append(currentSwap)
+                    b1 = swap(b1, currentSwap)
+                    changeInner = True
+                    correctnessStr = buildCorrectnessStr(b1, b2)
+                    currentSwap = twoSwap(b1, b2, correctnessStr)
+
+                # Looks for 3 swap
+                currentSwap = threeSwap(b1, b2, correctnessStr)
+                if currentSwap is not None:
+                    swapList.append(currentSwap)
+                    b1 = swap(b1, currentSwap)
+                    correctnessStr = buildCorrectnessStr(b1, b2)
+                    changeInner = True
+
+            # Looks for 4 swap
+            currentSwap = fourSwap(b1, b2, correctnessStr)
             if currentSwap is not None:
                 swapList.append(currentSwap)
                 b1 = swap(b1, currentSwap)
                 correctnessStr = buildCorrectnessStr(b1, b2)
-                changeInner = True
+                changeOuter = True
 
-        # Looks for 4 swap
+        # Looks for random swap
         currentSwap = randSwap(b1, b2, correctnessStr)
         if currentSwap is not None:
             swapList.append(currentSwap)
             b1 = swap(b1, currentSwap)
             correctnessStr = buildCorrectnessStr(b1, b2)
-            changeOuter = True
+            changeOuterOuter = True
 
         if b1 != b2:
             unsolved = True
     return swapList
 
 
-swapList = main(scrambled3, correct3)
+swapList = main(scrambled4, correct4)
 viz_swaps(swapList)
