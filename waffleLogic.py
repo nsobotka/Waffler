@@ -1,5 +1,6 @@
 from viz import *
 from boardGeneration import * 
+from testBoards import *
 
 # 5 letter word list
 with open('5LetterWords.txt') as wordList:
@@ -352,6 +353,8 @@ def solvePuzzle(p, color):
 
             # If only one word can use a letter, that word must be correct
             for letter in all_letters:
+                if letter not in all_letters:
+                    continue
                 count = 0
                 location = (-1, -1)
                 savedWord = ''
@@ -386,6 +389,10 @@ def solvePuzzle(p, color):
                     new_possible_words.append(savedWord)
                     possible_words[oldI] = new_possible_words
                     Change = True
+                    all_letters = [letter for row in p for letter in row if letter != ' ']
+                    used_letters = [letter for row in newPuzzle for letter in row if letter != ' ']
+                    for i in used_letters:
+                        all_letters.remove(i)
             # If a word needs multiple letters but there aren't enough of all of the letters
             for i in range(6):
                 if len(possible_words[i]) > 1:
