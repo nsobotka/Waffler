@@ -67,6 +67,7 @@ scrambled4 = [['E', 'E', 'A', 'T', 'S'],
              ['L', ' ', 'O', ' ', 'A'],
              ['R', 'N', 'T', 'A', 'Y']]
 
+# THIS BOARD CANT BE SOLVED
 #6... = GREEN, #E9... = YELLOW, #ED... = GREY
 color4 = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#6fb05c', '#FFFFFF')], 
          [('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF')],
@@ -156,7 +157,7 @@ color8 = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'
 
 correct8 = [['B', 'E', 'V', 'E', 'L'],
             ['A', ' ', 'I', ' ', 'Y'],
-            ['R', 'E', 'G', 'A', 'R'],
+            ['L', 'A', 'G', 'E', 'R'],
             ['E', ' ', 'I', ' ', 'I'],
             ['R', 'E', 'L', 'I', 'C']]
 
