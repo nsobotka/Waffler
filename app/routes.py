@@ -4,6 +4,7 @@ from waffleLogic import *
 from scrape import *
 from viz import *
 from boardGeneration import * 
+from testBoards import *
 
 # Things to do: 
 # make it so it doesn't reload every time you make a move? if possible?
@@ -155,26 +156,6 @@ def getActualWaffle():
     #         [('#e9ba3a', '#000000'), ('#6fb05c', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#000000')],
     #         [('#edeff1', '#FFFFFF'), ' ', ('#e9ba3a', '#000000'), ' ', ('#edeff1', '#000000')],
     #         [('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
-
-    #Board 3
-    scrambledPuzzle = [['T', 'A', 'T', 'L', 'E'], 
-                ['B', ' ', 'O', ' ', 'R'],
-                ['C', 'E', 'T', 'S', 'H'],
-                ['T', ' ', 'C', ' ', 'H'],
-                ['O', 'E', 'O', 'E', 'R']]
-
-    #6... = GREEN, #E9... = YELLOW, #ED... = GREY
-    states = [[('#6fb05c', '#FFFFFF'), ('#6fb05c', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#000000'), ('#6fb05c', '#FFFFFF')], 
-            [('#edeff1', '#FFFFFF'), ' ', ('#6fb05c', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF')],
-            [('#e9ba3a', '#000000'), ('#6fb05c', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#000000')],
-            [('#edeff1', '#FFFFFF'), ' ', ('#6fb05c', '#000000'), ' ', ('#edeff1', '#000000')],
-            [('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#edeff1', '#000000'), ('#6fb05c', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
-
-    correct3 = [['T', 'A', 'B', 'L', 'E'],
-            ['O', ' ', 'O', ' ', 'T'],
-            ['R', 'E', 'T', 'C', 'H'],
-            ['S', ' ', 'C', ' ', 'E'],
-            ['O', 'T', 'H', 'E', 'R']]
 
     solvedPuzzle, trulySolved = solvePuzzle(scrambledPuzzle, states)
     if not trulySolved:
