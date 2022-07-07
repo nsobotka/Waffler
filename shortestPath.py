@@ -1,25 +1,69 @@
+from testBoards import *
+from viz import *
+
 # scrambled
-current = [['F', 'H', 'T', 'R', 'H'], 
-    ['T', ' ', 'I', ' ', 'P'],
-    ['E', 'S', 'G', 'L', 'L'],
-    ['O', ' ', 'I', ' ', 'A'],
-    ['H', 'R', 'O', 'O', 'Y']]
+current = [['C', 'E', 'Y', 'A', 'S'], 
+             ['P', ' ', 'E', ' ', 'M'],
+             ['L', 'D', 'P', 'H', 'O'],
+             ['R', ' ', 'U', ' ', 'R'],
+             ['S', 'E', 'U', 'A', 'P']]
 
 # solved
-solved = [['F', 'L', 'E', 'S', 'H'],
-    ['O', ' ', 'I', ' ', 'A'],
-    ['R', 'I', 'G', 'O', 'R'],
-    ['T', ' ', 'H', ' ', 'P'],
-    ['H', 'O', 'T', 'L', 'Y']]
+solved = [['C', 'A', 'M', 'P', 'S'],
+           ['U', ' ', 'A', ' ', 'Y'],
+           ['R', 'O', 'P', 'E', 'R'],
+           ['D', ' ', 'L', ' ', 'U'],
+           ['S', 'H', 'E', 'E', 'P']]
 
 def twoSwap(current, solved, correctnessStr):
     for i in range(25):
         if correctnessStr[i] == "0":
-            for j in range(i, 25):
+            for j in range(i + 1, 25):
                 if correctnessStr[j] == "0": # found two incorrect cells
                     if current[i] == solved[j] and current[j] == solved[i]: # two swap found
                         return(((i, current[i]), (j, current[j])))
     return None
+
+def threeSwap(current, solved, correctnessStr):
+    for i in range(25):
+        if correctnessStr[i] == "0":
+            for j in range(i + 1, 25):
+                if correctnessStr[j] == "0": # found two incorrect cells
+                    for k in range(j + 1, 25):
+                        if correctnessStr[k] == "0": # found three incorrect cells
+                            if ((current[i] == solved[j] and current[j] == solved[k] and current[k] == solved[i]) or
+                               (current[i] == solved[k] and current[j] == solved[i] and current[k] == solved[j])): 
+                                return(((i, current[i]), (j, current[j])))
+    return None
+
+def randSwap(current, solved, correctnessStr):
+    for i in range(25):
+            if correctnessStr[i] == "0":
+                for j in range(i + 1, 25):
+                    if correctnessStr[j] == "0": # found two incorrect cells
+                        if current[i] == solved[j]: # two swap found
+                            return(((i, current[i]), (j, current[j])))
+    return None
+
+# def fourSwap(current, solved, correctnessStr):
+#     for i in range(25):
+#         if correctnessStr[i] == "0":
+#             for j in range(i + 1, 25):
+#                 if correctnessStr[j] == "0": # found two incorrect cells
+#                     for k in range(j + 1, 25):
+#                         if correctnessStr[k] == "0": # found three incorrect cells
+#                             for l in range(k + 1, 25):
+#                                 if correctnessStr[k] == "0": # found 4 incorrect cells
+#                                     if ((current[i] == solved[j] and current[j] == solved[k] and current[k] == solved[l] and current[l] == solved[i]) or
+#                                         (current[i] == solved[j] and current[j] == solved[l] and current[k] == solved[i] and current[l] == solved[k])):
+#                                         return(((i, current[i]), (j, current[j])))
+#                                     if ((current[i] == solved[k] and current[k] == solved[j] and current[j] == solved[l] and current[l] == solved[i]) or 
+#                                         (current[i] == solved[k] and current[k] == solved[l] and current[j] == solved[i] and current[l] == solved[j])):
+#                                         return(((i, current[i]), (k, current[k])))
+#                                     if ((current[i] == solved[l] and current[l] == solved[k] and current[k] == solved[j] and current[j] == solved[i]) or
+#                                         (current[i] == solved[l] and current[l] == solved[j] and current[k] == solved[i] and current[j] == solved[k])): 
+#                                         return(((i, current[i]), (l, current[l])))
+#     return None
 
 def buildCorrectnessStr(b1, b2):
     correctnessStr = ""
@@ -30,31 +74,63 @@ def buildCorrectnessStr(b1, b2):
             correctnessStr += ("0")
     return correctnessStr
 
+def swap(b1, currentSwap):
+    idxA = currentSwap[0][0]
+    idxB = currentSwap[1][0]
+    temp = b1[idxA]
+
+    b1List = list(b1)
+
+    b1List[idxA] = b1List[idxB]
+    b1List[idxB] = temp
+
+    # updated vars
+    b1 = "".join(b1List)
+    return b1
+
 # Args: (current, solved)
 def main(p1, p2):
     b1 = "".join([letter for row in p1 for letter in row])
     b2 = "".join([letter for row in p2 for letter in row])
-    
     correctnessStr = buildCorrectnessStr(b1, b2)
+    swapList = []
 
-    # print(correctnessStr)
-    currentSwap = twoSwap(b1, b2, correctnessStr)
-    while(currentSwap is not None):
-        print(currentSwap)
+    unsolved = True
+    changeInner = True
+    changeOuter = True
+    while unsolved and changeOuter:
+        changeOuter = False
+        changeInner = True
+        while changeInner:
+            changeInner = False
+            currentSwap = twoSwap(b1, b2, correctnessStr)
+            while(currentSwap is not None):
+                swapList.append(currentSwap)
+                b1 = swap(b1, currentSwap)
+                changeInner = True
+                correctnessStr = buildCorrectnessStr(b1, b2)
+                currentSwap = twoSwap(b1, b2, correctnessStr)
 
-        idxA = currentSwap[0][0]
-        idxB = currentSwap[1][0]
-        temp = b1[idxA]
+            # Looks for 3 swap
+            currentSwap = threeSwap(b1, b2, correctnessStr)
+            if currentSwap is not None:
+                swapList.append(currentSwap)
+                b1 = swap(b1, currentSwap)
+                correctnessStr = buildCorrectnessStr(b1, b2)
+                changeInner = True
 
-        b1List = list(b1)
+        # Looks for 4 swap
+        currentSwap = randSwap(b1, b2, correctnessStr)
+        if currentSwap is not None:
+            swapList.append(currentSwap)
+            b1 = swap(b1, currentSwap)
+            correctnessStr = buildCorrectnessStr(b1, b2)
+            changeOuter = True
 
-        b1List[idxA] = b1List[idxB]
-        b1List[idxB] = temp
+        if b1 != b2:
+            unsolved = True
+    return swapList
 
-        # updated vars
-        b1 = "".join(b1List)
-        correctnessStr = buildCorrectnessStr(b1, b2)
 
-        currentSwap = twoSwap(b1, b2, correctnessStr)
-
-main(current, solved)
+swapList = main(scrambled3, correct3)
+viz_swaps(swapList)
