@@ -8,11 +8,15 @@ from boardGeneration import *
 # Things to do: 
 # make it so it doesn't reload every time you make a move? if possible?
 # optimal solution to solve board
+# use optimal solution number of swaps to correctly generate boards that can only be solved in minimum 10?
 # display optimal solution somehow
 # aesthetics - font sizes, placement, weird behavior on half screen, end messages, etc
 # aesthetics for all different pages including error pages
+# Credits blurb
 # clean up code
 # Final bug checks
+# Nice readme
+# clean up repository
 # publish to website
 
 
@@ -151,6 +155,27 @@ def getActualWaffle():
     #         [('#e9ba3a', '#000000'), ('#6fb05c', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#000000')],
     #         [('#edeff1', '#FFFFFF'), ' ', ('#e9ba3a', '#000000'), ' ', ('#edeff1', '#000000')],
     #         [('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
+
+    #Board 3
+    scrambledPuzzle = [['T', 'A', 'T', 'L', 'E'], 
+                ['B', ' ', 'O', ' ', 'R'],
+                ['C', 'E', 'T', 'S', 'H'],
+                ['T', ' ', 'C', ' ', 'H'],
+                ['O', 'E', 'O', 'E', 'R']]
+
+    #6... = GREEN, #E9... = YELLOW, #ED... = GREY
+    states = [[('#6fb05c', '#FFFFFF'), ('#6fb05c', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#000000'), ('#6fb05c', '#FFFFFF')], 
+            [('#edeff1', '#FFFFFF'), ' ', ('#6fb05c', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF')],
+            [('#e9ba3a', '#000000'), ('#6fb05c', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#000000')],
+            [('#edeff1', '#FFFFFF'), ' ', ('#6fb05c', '#000000'), ' ', ('#edeff1', '#000000')],
+            [('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#edeff1', '#000000'), ('#6fb05c', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
+
+    correct3 = [['T', 'A', 'B', 'L', 'E'],
+            ['O', ' ', 'O', ' ', 'T'],
+            ['R', 'E', 'T', 'C', 'H'],
+            ['S', ' ', 'C', ' ', 'E'],
+            ['O', 'T', 'H', 'E', 'R']]
+
     solvedPuzzle, trulySolved = solvePuzzle(scrambledPuzzle, states)
     if not trulySolved:
         numGreen = 0
