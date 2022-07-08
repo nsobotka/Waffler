@@ -144,8 +144,11 @@ def main(p1, p2):
 
         if b1 != b2:
             unsolved = True
+    
+    # viz_swaps(swapList)
+    
     return swapList
 
 
-swapList = main(scrambled4, correct4)
-viz_swaps(swapList)
+# swapList = main(scrambled4, correct4)
+# viz_swaps(swapList)

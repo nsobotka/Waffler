@@ -5,11 +5,10 @@ from scrape import *
 from viz import *
 from boardGeneration import * 
 from testBoards import *
+from shortestPath import *
 
 # Things to do: 
 # make it so it doesn't reload every time you make a move? if possible?
-# optimal solution to solve board
-# use optimal solution number of swaps to correctly generate boards that can only be solved in minimum 10?
 # display optimal solution somehow
 # aesthetics - font sizes, placement, weird behavior on half screen, end messages, etc
 # aesthetics for all different pages including error pages
@@ -18,12 +17,15 @@ from testBoards import *
 # Final bug checks
 # Nice readme
 # clean up repository
+# reach out to waffle man
 # publish to website
 
 
 # Global variables
 solvedPuzzle = getPuzzle()
 scrambledPuzzle = scramble(solvedPuzzle)
+while(len(main(scrambledPuzzle, solvedPuzzle)) != 10):
+        scrambledPuzzle = scramble(solvedPuzzle)
 scrambledPuzzleUnmodified = [row[:] for row in scrambledPuzzle]
 states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
 swaps = 15
@@ -48,6 +50,10 @@ def newBoard():
     global numGreen
     solvedPuzzle = getPuzzle()
     scrambledPuzzle = scramble(solvedPuzzle)
+
+    while(len(main(scrambledPuzzle, solvedPuzzle)) != 10):
+        scrambledPuzzle = scramble(solvedPuzzle)
+
     scrambledPuzzleUnmodified = [row[:] for row in scrambledPuzzle]
     states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
     swaps = 15

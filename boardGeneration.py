@@ -1,4 +1,5 @@
 import random, math
+from shortestPath import *
 from viz import *
 
 # 5 letter word list
