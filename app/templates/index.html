@@ -49,6 +49,21 @@
             e.preventDefault();
         }
     </script>
+    <script>
+        // When the user clicks on <div>, open the popup
+        function myFunction() {
+          var popup = document.getElementById("myPopup");
+          popup.classList.toggle("show");
+        }
+        const popups = [...document.getElementsByClassName('popup')];
+
+        window.addEventListener("click", closeFunction);
+
+        function closeFunction() {
+            popups.forEach(p => p.classList.remove('show'));
+        }
+    </script>
+    
     <!-- {% if numGreen == 20 %}
     <div id="title_text">Congrats! You Win!</div>
     {% else %}
@@ -57,13 +72,18 @@
 
     <div class="card" id="board_container">
         <div id="header">
-            
-            <!-- <div id="title_text">{{swaps}} SWAPS REMAINING</div> -->
             <div id="button_flex">
                 <div id="left_buttons">
-                    <form action="/about" method="post">
-                        <button type="submit" class="toolBtn" id="about" onClick={} action="/newBoard"><i class="fa fa-question"></i></button>
-                    </form>
+                    <div class="toolBtn popup" onclick="myFunction()"><i class="fa fa-question"></i></i>
+                            <div class="popuptext" id="myPopup">
+                                
+                                Information
+
+                            </div>
+                    </div>
+                    <!-- <form action="/about" method="post">
+                        <button type="submit" class="toolBtn" id="about" onClick={} action="/about"><i class="fa fa-question"></i></button>
+                    </form> -->
                     <form action="/newBoard" method="post">
                         <button type="submit" class="toolBtn" id="newBoard" onClick={} action="/newBoard"><i class="fa fa-plus-square"></i></button>
                     </form>
@@ -141,6 +161,10 @@
                 <div id="box25" class="cell_text" style="background-color: {{ colors[4][4][0] }}; color: {{ colors[4][4][1] }};" draggable={{draggable[4][4]}} ondragstart="drag(event)" ondrop="drop(event)"
                     ondragover="return !{{draggable[4][4]}}">{{puzzle[4][4]}}</div>
             </div>
+        </div>
+        <div class="swaps" id="swaps_container">
+            <span id="title_text2">{{swaps}}</span>
+            <span id="message_text"> &nbsp SWAPS REMAINING</span>
         </div>
     </div>
 

@@ -9,7 +9,9 @@ from shortestPath import *
 
 # Things to do: 
 # make it so it doesn't reload every time you make a move? if possible?
-# display optimal solution somehow
+# Add table for tracking moves
+    # display optimal solution somehow
+# have a display text thing (in place of daily waffle #...)
 # aesthetics - font sizes, placement, weird behavior on half screen, end messages, etc
 # aesthetics for all different pages including error pages
 # Credits blurb
@@ -146,6 +148,7 @@ def getActualWaffle():
     global numGreen
     global scrambledPuzzleUnmodified
     global solvedPuzzle
+    swaps = 15
     scrambledPuzzle, states = scrapeWeb()
     scrambledPuzzleUnmodified = [row[:] for row in scrambledPuzzle]
     # Uncomment when you want to see the error pages
