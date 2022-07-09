@@ -49,41 +49,14 @@
             e.preventDefault();
         }
     </script>
-    <script>
-        // When the user clicks on <div>, open the popup
-        function myFunction() {
-          var popup = document.getElementById("myPopup");
-          popup.classList.toggle("show");
-        }
-        const popups = [...document.getElementsByClassName('popup')];
-
-        window.addEventListener("click", closeFunction);
-
-        function closeFunction() {
-            popups.forEach(p => p.classList.remove('show'));
-        }
-    </script>
-    
-    <!-- {% if numGreen == 20 %}
-    <div id="title_text">Congrats! You Win!</div>
-    {% else %}
-    <div id="title_text">WAFFLER</div>
-    {% endif %} -->
 
     <div class="card" id="board_container">
         <div id="header">
             <div id="button_flex">
                 <div id="left_buttons">
-                    <div class="toolBtn popup" onclick="myFunction()"><i class="fa fa-question"></i></i>
-                            <div class="popuptext" id="myPopup">
-                                
-                                Information
-
-                            </div>
-                    </div>
-                    <!-- <form action="/about" method="post">
+                    <form action="/about" method="post">
                         <button type="submit" class="toolBtn" id="about" onClick={} action="/about"><i class="fa fa-question"></i></button>
-                    </form> -->
+                    </form>
                     <form action="/newBoard" method="post">
                         <button type="submit" class="toolBtn" id="newBoard" onClick={} action="/newBoard"><i class="fa fa-plus-square"></i></button>
                     </form>
@@ -107,6 +80,20 @@
                     
                 </div>
             </div>
+        </div>
+        <div class="top_words" id="win_message">
+            {% if numGreen == 21 %}
+            <span id="title_text">Congrats! You Win!</span>
+            {% else %}
+            <span id="title_text"></span>
+            {% endif %}
+        </div>
+        <div class="top_words" id="top_message">
+            {% if official_puzzle == 1 %}
+            <span id="message_text2">OFFICIAL DAILY WAFFLE</span>
+            {% else %}
+            <span id="message_text2">RANDOMLY GENERATED WAFFLE</span>
+            {% endif %}
         </div>
         <div id="cell_flex">
             <div id="parent">
@@ -166,28 +153,11 @@
             <span id="title_text2">{{swaps}}</span>
             <span id="message_text"> &nbsp SWAPS REMAINING</span>
         </div>
-    </div>
 
-    <!-- <div id="button_container">
-        <div id="title_text">{{swaps}} SWAPS REMAINING</div>
-        <div id="button_flex">
-            <form action="/getActualWaffle" method="post">
-                <button type="submit" class="toolBtn" id="getActualWaffle" onClick={}>Today's Waffle</button>
-            </form>
-            <form action="/newBoard" method="post">
-                <button type="submit" class="toolBtn" id="newBoard" onClick={} action="/newBoard">New Board</button>
-            </form>
-            <form action = "/showSolution" method="post">
-                <button type = "submit" class="toolBtn" id="showSolution" onClick={}>Display Solution</button>
-            </form>
-            <form action="/solve" method="post">
-                <button type="submit" class="toolBtn" id="solve" onClick={}>Optimal Solution</button>
-            </form>
-            <form action="/reload" method="post">
-                <button type="submit" class="toolBtn" id="reload" onClick={} action="/reload">Restart Board</button>
-            </form>
+        <div class="credits" id="credits_text">
+            <span id="credit_text">OFFICIAL <a href="https://wafflegame.net" target="_blank">WAFFLE</a> CREATED BY <a href="https://twitter.com/thatwafflegame" target="_blank">@THATWAFFLEGAME</a></span>
         </div>
-    </div> -->
+    </div>
 </body>
 
 </html>

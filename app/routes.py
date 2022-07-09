@@ -8,13 +8,13 @@ from testBoards import *
 from shortestPath import *
 
 # Things to do: 
-# make it so it doesn't reload every time you make a move? if possible?
 # Add table for tracking moves
     # display optimal solution somehow
-# have a display text thing (in place of daily waffle #...)
-# aesthetics - font sizes, placement, weird behavior on half screen, end messages, etc
+# aesthetics - weird behavior on different sized screens -> buttons
 # aesthetics for all different pages including error pages
+# Fix error pages
 # Credits blurb
+# Chromedriver
 # clean up code
 # Final bug checks
 # Nice readme
@@ -31,6 +31,7 @@ while(len(main(scrambledPuzzle, solvedPuzzle)) != 10):
 scrambledPuzzleUnmodified = [row[:] for row in scrambledPuzzle]
 states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
 swaps = 15
+official_puzzle = 0
 
 # Splash page
 @app.route('/')
@@ -38,7 +39,7 @@ swaps = 15
 # Main page
 @app.route('/index', methods = ['GET'])
 def index():
-    return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen)
+    return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle)
 
 # New board
 @app.route('/newBoard', methods = ['POST'])
@@ -50,6 +51,8 @@ def newBoard():
     global swaps
     global draggable
     global numGreen
+    global official_puzzle 
+    official_puzzle = 0
     solvedPuzzle = getPuzzle()
     scrambledPuzzle = scramble(solvedPuzzle)
 
@@ -91,11 +94,11 @@ def swap():
         for i in range(0, 5):
             for j in range(0, 5):
                 states[i][j] = ('#454747', '#FFFFFF')
-        return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen)
+        return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle)
     # win condition
     elif numGreen == 21:
-        return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen)
-    return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen)
+        return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle)
+    return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle)
 
 # Restart the board
 @app.route('/reload', methods = ['GET', 'POST'])
@@ -120,6 +123,17 @@ def showSolution():
     global numGreen
     scrambledPuzzle = [row[:] for row in solvedPuzzle]
     states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
+    numGreen = 5
+    return redirect(url_for('index'))
+
+# About page
+@app.route('/about', methods = ['GET', 'POST'])
+def about():
+    return render_template('about.html')
+
+# Back arrow
+@app.route('/back', methods = ['GET', 'POST'])
+def back():
     return redirect(url_for('index'))
 
 # Shows the solution on the unsolvable boards with '?' filled into unknown slots
@@ -136,7 +150,7 @@ def showSolution2():
             for j in range(0, 5):
                 if scrambledPuzzle[i][j] == '?':
                     states[i][j] = ('#FF0000', '#FFFFFF')
-    return render_template('ErrorShowBoard.html', puzzle = solvedPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen)
+    return render_template('ErrorShowBoard.html', puzzle = solvedPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle)
 
 # Scrapes the actual waffle and solves the puzzle (or tries to)
 @app.route('/getActualWaffle', methods = ['GET', 'POST'])
@@ -148,6 +162,8 @@ def getActualWaffle():
     global numGreen
     global scrambledPuzzleUnmodified
     global solvedPuzzle
+    global official_puzzle 
+    official_puzzle = 1
     swaps = 15
     scrambledPuzzle, states = scrapeWeb()
     scrambledPuzzleUnmodified = [row[:] for row in scrambledPuzzle]
@@ -165,14 +181,14 @@ def getActualWaffle():
     #         [('#e9ba3a', '#000000'), ('#6fb05c', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#000000')],
     #         [('#edeff1', '#FFFFFF'), ' ', ('#e9ba3a', '#000000'), ' ', ('#edeff1', '#000000')],
     #         [('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
-
     solvedPuzzle, trulySolved = solvePuzzle(scrambledPuzzle, states)
+    # viz_swaps(main(scrambledPuzzle, solvedPuzzle))
     if not trulySolved:
         numGreen = 0
         draggable = [["false"] * 5 for i in range(5)]
         for i in range(0, 5):
             for j in range(0, 5):
                 states[i][j] = ('#454747', '#FFFFFF')
-        return render_template('Error.html', puzzle = solvedPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen)
+        return render_template('Error.html', puzzle = solvedPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle)
     states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
     return redirect(url_for('index'))

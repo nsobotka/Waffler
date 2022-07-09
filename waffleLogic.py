@@ -422,6 +422,6 @@ def solvePuzzle(p, color):
         except:
             break 
 
-    viz(newPuzzle)
+    # viz(newPuzzle)
     newPuzzle, val = boardSolved(newPuzzle)
     return newPuzzle, val
