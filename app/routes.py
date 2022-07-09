@@ -10,19 +10,18 @@ from shortestPath import *
 # Things to do: 
 # Add table for tracking moves
     # display optimal solution somehow
-# aesthetics - weird behavior on different sized screens -> buttons??
+# aesthetics - weird behavior on different sized screens -> buttons?? 
+    # This can probably be called good enough
 # aesthetics for all different pages including error pages
-    # Message about why it cannot be solved in error.html, and fix errorshowboard
-# Fix error pages
-# Add admin, admen back to word list
+    # Message about why it cannot be solved in error.html and message about what this board is in errorshowboard
+# Nice readme
 # Credits blurb
-# Chromedriver
+# Add admin, admen back to word list
 # clean up code
 # Final bug checks
-# Nice readme
 # clean up repository
-# reach out to waffle man
 # publish to website
+# reach out to waffle man
 
 
 # Global variables
@@ -141,8 +140,10 @@ def about():
 def back():
     if solvable == 1:
         return redirect(url_for('index'))
-    else:
+    elif solvable == 0:
         return render_template('Error.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle)
+    else:
+        return render_template('ErrorShowBoard.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle)
 
 # Shows the solution on the unsolvable boards with '?' filled into unknown slots
 @app.route('/showSolution2', methods = ['GET', 'POST'])
@@ -152,6 +153,8 @@ def showSolution2():
     global states
     global draggable
     global numGreen
+    global solvable
+    solvable = 2
     scrambledPuzzle = [row[:] for row in solvedPuzzle]
     states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
     for i in range(0, 5):

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Waffler</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+
+    <div class="card" id="board_container">
+        <div id="header">
+            <div id="button_flex">
+                <div id="left_buttons">
+                    <form action="/back" method="post">
+                        <button type="submit" class="toolBtn" id="about" onClick={} action="/back"><i class="fa fa-arrow-left"></i></button>
+                </div>
+
+                <div id="title_text">WAFFLE(R)</div>
+                <div id="right_buttons">
+                </div>
+            </div>
+        </div>
+        <H1>Thank you for looking at the WAFFLE(R)!</H1>
+        <H2>First and foremost, all credit for this idea and ownership of this game and design belongs to <a href="https://twitter.com/thatwafflegame" target="_blank">@thatwafflegame</a>. </H2> 
+        <H2>Please go check out the official game at <a href="https://wafflegame.net" target="_blank">The Waffle Game</a>.</H2>
+        <H2>Something about the purpose of this development.</H2>
+        <H2>Additionally feel free to checkout the github repo containing all of the code. <a href="https://github.com/nsobotka/Waffler" target="_blank">Waffler Repository</a>.</H2>
+        <H2>Finally, here are the links to our personal websites, if you are interested. <a href="https://nsobotka.github.io" target="_blank">Nathan Sobotka</a> and <a href="http://avielresnick.com" target="_blank">Aviel Resnick</a>.</H2>
+    </div>
+</body>
+
+</html>
