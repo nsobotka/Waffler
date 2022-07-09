@@ -59,7 +59,8 @@ body {
     margin: 0.5vw;
     -webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
-    width: 2vw;
+    width: 70%;
+    /* width: 2vw; */
     height: 80%;
 }
 
@@ -146,7 +147,7 @@ body {
 
 #button_container {
     display: block;
-    position: absolute;
+    /* position: absolute; */
     /* background-color: blueviolet; */
 
     width: 60%;

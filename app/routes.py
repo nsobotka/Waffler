@@ -10,7 +10,7 @@ from shortestPath import *
 # Things to do: 
 # Add table for tracking moves
     # display optimal solution somehow
-# aesthetics - weird behavior on different sized screens -> buttons
+# aesthetics - weird behavior on different sized screens -> buttons??
 # aesthetics for all different pages including error pages
 # Fix error pages
 # Credits blurb
