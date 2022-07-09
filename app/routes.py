@@ -12,7 +12,9 @@ from shortestPath import *
     # display optimal solution somehow
 # aesthetics - weird behavior on different sized screens -> buttons??
 # aesthetics for all different pages including error pages
+    # Message about why it cannot be solved in error.html, and fix errorshowboard
 # Fix error pages
+# Add admin, admen back to word list
 # Credits blurb
 # Chromedriver
 # clean up code
@@ -32,6 +34,7 @@ scrambledPuzzleUnmodified = [row[:] for row in scrambledPuzzle]
 states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
 swaps = 15
 official_puzzle = 0
+solvable = 1
 
 # Splash page
 @app.route('/')
@@ -52,6 +55,8 @@ def newBoard():
     global draggable
     global numGreen
     global official_puzzle 
+    global solvable
+    solvable = 1
     official_puzzle = 0
     solvedPuzzle = getPuzzle()
     scrambledPuzzle = scramble(solvedPuzzle)
@@ -134,7 +139,10 @@ def about():
 # Back arrow
 @app.route('/back', methods = ['GET', 'POST'])
 def back():
-    return redirect(url_for('index'))
+    if solvable == 1:
+        return redirect(url_for('index'))
+    else:
+        return render_template('Error.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle)
 
 # Shows the solution on the unsolvable boards with '?' filled into unknown slots
 @app.route('/showSolution2', methods = ['GET', 'POST'])
@@ -163,25 +171,31 @@ def getActualWaffle():
     global scrambledPuzzleUnmodified
     global solvedPuzzle
     global official_puzzle 
+    global solvable
+    solvable = 1
     official_puzzle = 1
     swaps = 15
     scrambledPuzzle, states = scrapeWeb()
     scrambledPuzzleUnmodified = [row[:] for row in scrambledPuzzle]
     # Uncomment when you want to see the error pages
     # Delete the last two words from 5LetterWords.txt "admin", "admen"
-    # scrambledPuzzle = [['A', 'T', 'I', 'T', 'N'], 
-    #                    ['I', ' ', 'N', ' ', 'D'],
-    #                    ['L', 'F', 'T', 'I', 'N'],
-    #                    ['E', ' ', 'R', ' ', 'O'],
-    #                    ['G', 'E', 'M', 'E', 'H']]
+    scrambledPuzzle = [['A', 'T', 'I', 'T', 'N'], 
+                       ['I', ' ', 'N', ' ', 'D'],
+                       ['L', 'F', 'T', 'I', 'N'],
+                       ['E', ' ', 'R', ' ', 'O'],
+                       ['G', 'E', 'M', 'E', 'H']]
 
-    # # #6... = GREEN, #E9... = YELLOW, #ED... = GREY
-    # states = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#6fb05c', '#FFFFFF')], 
-    #         [('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF')],
-    #         [('#e9ba3a', '#000000'), ('#6fb05c', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#000000')],
-    #         [('#edeff1', '#FFFFFF'), ' ', ('#e9ba3a', '#000000'), ' ', ('#edeff1', '#000000')],
-    #         [('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
+    # #6... = GREEN, #E9... = YELLOW, #ED... = GREY
+    states = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#6fb05c', '#FFFFFF')], 
+            [('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF')],
+            [('#e9ba3a', '#000000'), ('#6fb05c', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#000000')],
+            [('#edeff1', '#FFFFFF'), ' ', ('#e9ba3a', '#000000'), ' ', ('#edeff1', '#000000')],
+            [('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
     solvedPuzzle, trulySolved = solvePuzzle(scrambledPuzzle, states)
+    if trulySolved:
+        solvable = 1
+    else:
+        solvable = 0
     # viz_swaps(main(scrambledPuzzle, solvedPuzzle))
     if not trulySolved:
         numGreen = 0
@@ -189,6 +203,6 @@ def getActualWaffle():
         for i in range(0, 5):
             for j in range(0, 5):
                 states[i][j] = ('#454747', '#FFFFFF')
-        return render_template('Error.html', puzzle = solvedPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle)
+        return render_template('Error.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle)
     states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
     return redirect(url_for('index'))

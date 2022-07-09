@@ -4,19 +4,94 @@
 <head>
     <title>Waffler</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <div id="title_text">Uh-Oh!</div>
-    <div id="button_container">
-        <div id="button_flex">
-            <form action="/newBoard" method="post">
-                <button type="submit" class="toolBtn" id="newBoard" onClick={} action="/newBoard">New Board</button>
-            </form>
-            <form action = "/showSolution2" method="post">
-                <button type = "submit" class="toolBtn" id="showSolution2" onClick={}>Display Solution</button>
-            </form>
+    <div class="card" id="board_container">
+        <div id="header">
+            <div id="button_flex">
+                <div id="left_buttons">
+                    <form action="/about" method="post">
+                        <button type="submit" class="toolBtn" id="about" onClick={} action="/about"><i class="fa fa-question"></i></button>
+                    </form>
+                    <form action="/newBoard" method="post">
+                        <button type="submit" class="toolBtn" id="newBoard" onClick={} action="/newBoard"><i class="fa fa-plus-square"></i></button>
+                    </form>
+                </div>
+                <div id="title_text">WAFFLE(R)</div>
+                <div id="right_buttons">
+                    <form action = "/showSolution2" method="post">
+                        <button type = "submit" class="toolBtn" id="showSolution2" onClick={}><i class="fa fa-lightbulb-o"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="top_words" id="top_message">
+            {% if official_puzzle == 1 %}
+            <span id="message_text2">OFFICIAL DAILY WAFFLE</span>
+            {% else %}
+            <span id="message_text2">RANDOMLY GENERATED WAFFLE</span>
+            {% endif %}
+        </div>
+        <div id="cell_flex">
+            <div id="parent">
+                <div id="box1" class="cell_text" style="background-color: {{ colors[0][0][0] }}; color: {{ colors[0][0][1] }};" draggable={{draggable[0][0]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[0][0]}}">{{puzzle[0][0]}}</div>
+                <div id="box2" class="cell_text" style="background-color: {{ colors[0][1][0] }}; color: {{ colors[0][1][1] }};" draggable={{draggable[0][1]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[0][1]}}">{{puzzle[0][1]}}</div>
+                <div id="box3" class="cell_text" style="background-color: {{ colors[0][2][0] }}; color: {{ colors[0][2][1] }};" draggable={{draggable[0][2]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[0][2]}}">{{puzzle[0][2]}}</div>
+                <div id="box4" class="cell_text" style="background-color: {{ colors[0][3][0] }}; color: {{ colors[0][3][1] }};" draggable={{draggable[0][3]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[0][3]}}">{{puzzle[0][3]}}</div>
+                <div id="box5" class="cell_text" style="background-color: {{ colors[0][4][0] }}; color: {{ colors[0][4][1] }};" draggable={{draggable[0][4]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[0][4]}}">{{puzzle[0][4]}}</div>
+                <div id="box6" class="cell_text" style="background-color: {{ colors[1][0][0] }}; color: {{ colors[1][0][1] }};" draggable={{draggable[1][0]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[1][0]}}">{{puzzle[1][0]}}</div>
+                <div id="box7" class="cell_text" style="visibility: hidden;" draggable={{draggable[1][1]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[1][1]}}">{{puzzle[1][1]}}</div>
+                <div id="box8" class="cell_text" style="background-color: {{ colors[1][2][0] }}; color: {{ colors[1][2][1] }};" draggable={{draggable[1][2]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[1][2]}}">{{puzzle[1][2]}}</div>
+                <div id="box9" class="cell_text" style="visibility: hidden;" draggable={{draggable[1][3]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[1][3]}}">{{puzzle[1][3]}}</div>
+                <div id="box10" class="cell_text" style="background-color: {{ colors[1][4][0] }}; color: {{ colors[1][4][1] }};" draggable={{draggable[1][4]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[1][4]}}">{{puzzle[1][4]}}</div>
+                <div id="box11" class="cell_text" style="background-color: {{ colors[2][0][0] }}; color: {{ colors[2][0][1] }};" draggable={{draggable[2][0]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[2][0]}}">{{puzzle[2][0]}}</div>
+                <div id="box12" class="cell_text" style="background-color: {{ colors[2][1][0] }}; color: {{ colors[2][1][1] }};" draggable={{draggable[2][1]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[2][1]}}">{{puzzle[2][1]}}</div>
+                <div id="box13" class="cell_text" style="background-color: {{ colors[2][2][0] }}; color: {{ colors[2][2][1] }};" draggable={{draggable[2][2]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[2][2]}}">{{puzzle[2][2]}}</div>
+                <div id="box14" class="cell_text" style="background-color: {{ colors[2][3][0] }}; color: {{ colors[2][3][1] }};" draggable={{draggable[2][3]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[2][3]}}">{{puzzle[2][3]}}</div>
+                <div id="box15" class="cell_text" style="background-color: {{ colors[2][4][0] }}; color: {{ colors[2][4][1] }};" draggable={{draggable[2][4]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[2][4]}}">{{puzzle[2][4]}}</div>
+                <div id="box16" class="cell_text" style="background-color: {{ colors[3][0][0] }}; color: {{ colors[3][0][1] }};" draggable={{draggable[3][0]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[3][0]}}">{{puzzle[3][0]}}</div>
+                <div id="box17" class="cell_text" style="visibility: hidden;" draggable={{draggable[3][1]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[3][1]}}">{{puzzle[3][1]}}</div>
+                <div id="box18" class="cell_text" style="background-color: {{ colors[3][2][0] }}; color: {{ colors[3][2][1] }};" draggable={{draggable[3][2]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[3][2]}}">{{puzzle[3][2]}}</div>
+                <div id="box19" class="cell_text" style="visibility: hidden;" draggable={{draggable[3][3]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[3][3]}}">{{puzzle[3][3]}}</div>
+                <div id="box20" class="cell_text" style="background-color: {{ colors[3][4][0] }}; color: {{ colors[3][4][1] }};" draggable={{draggable[3][4]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[3][4]}}">{{puzzle[3][4]}}</div>
+                <div id="box21" class="cell_text" style="background-color: {{ colors[4][0][0] }}; color: {{ colors[4][0][1] }};" draggable={{draggable[4][0]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[4][0]}}">{{puzzle[4][0]}}</div>
+                <div id="box22" class="cell_text" style="background-color: {{ colors[4][1][0] }}; color: {{ colors[4][1][1] }};" draggable={{draggable[4][1]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[4][1]}}">{{puzzle[4][1]}}</div>
+                <div id="box23" class="cell_text" style="background-color: {{ colors[4][2][0] }}; color: {{ colors[4][2][1] }};" draggable={{draggable[4][2]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[4][2]}}">{{puzzle[4][2]}}</div>
+                <div id="box24" class="cell_text" style="background-color: {{ colors[4][3][0] }}; color: {{ colors[4][3][1] }};" draggable={{draggable[4][3]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[4][3]}}">{{puzzle[4][3]}}</div>
+                <div id="box25" class="cell_text" style="background-color: {{ colors[4][4][0] }}; color: {{ colors[4][4][1] }};" draggable={{draggable[4][4]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[4][4]}}">{{puzzle[4][4]}}</div>
+            </div>
+        </div>
+
+        <div class="credits" id="credits_text_error">
+            <span id="credit_text">OFFICIAL <a href="https://wafflegame.net" target="_blank">WAFFLE</a> CREATED BY <a href="https://twitter.com/thatwafflegame" target="_blank">@THATWAFFLEGAME</a></span>
         </div>
     </div>
 </body>

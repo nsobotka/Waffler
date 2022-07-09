@@ -145,6 +145,13 @@ body {
     top:32%;
 }
 
+#credits_text_error {
+    display: block;
+    text-align: center;
+    position: relative;
+    top:49.5%;
+}
+
 #button_container {
     display: block;
     /* position: absolute; */
@@ -202,4 +209,28 @@ body {
     height: 18%;
     width: 18%;
     font-weight: bold;
+}
+
+#customers {
+    font-family: Lato, sans-serif;
+    border-collapse: collapse;
+    width: 64.5%;
+    margin-left: 17.5%;
+}
+
+#customers td, #customers th {
+    border: 1px solid #ddd;
+    padding: 4px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    text-align: left;
+    background-color: #6fb05c;
+    color: white;
 }
