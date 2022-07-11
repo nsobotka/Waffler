@@ -12,11 +12,9 @@ from shortestPath import *
     # display optimal solution somehow
 # aesthetics - weird behavior on different sized screens -> buttons?? 
     # This can probably be called good enough
-# aesthetics for all different pages including error pages
-    # Message about why it cannot be solved in error.html and message about what this board is in errorshowboard
+# aesthetics - tracking moves
 # Nice readme
 # Credits blurb
-# Add admin, admen back to word list
 # clean up code
 # Final bug checks
 # clean up repository
@@ -182,18 +180,18 @@ def getActualWaffle():
     scrambledPuzzleUnmodified = [row[:] for row in scrambledPuzzle]
     # Uncomment when you want to see the error pages
     # Delete the last two words from 5LetterWords.txt "admin", "admen"
-    scrambledPuzzle = [['A', 'T', 'I', 'T', 'N'], 
-                       ['I', ' ', 'N', ' ', 'D'],
-                       ['L', 'F', 'T', 'I', 'N'],
-                       ['E', ' ', 'R', ' ', 'O'],
-                       ['G', 'E', 'M', 'E', 'H']]
+    # scrambledPuzzle = [['A', 'T', 'I', 'T', 'N'], 
+    #                    ['I', ' ', 'N', ' ', 'D'],
+    #                    ['L', 'F', 'T', 'I', 'N'],
+    #                    ['E', ' ', 'R', ' ', 'O'],
+    #                    ['G', 'E', 'M', 'E', 'H']]
 
-    # #6... = GREEN, #E9... = YELLOW, #ED... = GREY
-    states = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#6fb05c', '#FFFFFF')], 
-            [('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF')],
-            [('#e9ba3a', '#000000'), ('#6fb05c', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#000000')],
-            [('#edeff1', '#FFFFFF'), ' ', ('#e9ba3a', '#000000'), ' ', ('#edeff1', '#000000')],
-            [('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
+    # # #6... = GREEN, #E9... = YELLOW, #ED... = GREY
+    # states = [[('#6fb05c', '#FFFFFF'), ('#edeff1', '#000000'), ('#e9ba3a', '#FFFFFF'), ('#edeff1', '#000000'), ('#6fb05c', '#FFFFFF')], 
+    #         [('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF')],
+    #         [('#e9ba3a', '#000000'), ('#6fb05c', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#000000')],
+    #         [('#edeff1', '#FFFFFF'), ' ', ('#e9ba3a', '#000000'), ' ', ('#edeff1', '#000000')],
+    #         [('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
     solvedPuzzle, trulySolved = solvePuzzle(scrambledPuzzle, states)
     if trulySolved:
         solvable = 1

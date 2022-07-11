@@ -127,8 +127,18 @@ body {
     /* display: block; */
     text-align: center;
     position: absolute;
-    margin-top: 7%;
+    margin-top: 7.5%;
     margin-left: 31.25%;
+}
+
+#error_message {
+    /* display: block; */
+    text-align: center;
+    position: absolute;
+    margin-top: 36%;
+    margin-left: 20%;
+    margin-right: 20%;
+    /* margin-left: 31.25%; */
 }
 
 #top_message {
