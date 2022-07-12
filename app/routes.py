@@ -8,11 +8,9 @@ from testBoards import *
 from shortestPath import *
 
 # Things to do: 
-# Add table for tracking moves
-    # display optimal solution somehow
-# aesthetics - weird behavior on different sized screens -> buttons?? 
-    # This can probably be called good enough
 # aesthetics - tracking moves
+# gereral aesthetics
+# Delete unused code / make sure everything in routes is correct
 # Nice readme
 # Credits blurb
 # clean up code
@@ -32,7 +30,7 @@ states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
 swaps = 15
 official_puzzle = 0
 solvable = 1
-movesList = []
+movesList = [(('A', 'B'), ('', ''))] * 15
 
 # Splash page
 @app.route('/')
@@ -55,7 +53,7 @@ def newBoard():
     global official_puzzle 
     global solvable
     global movesList
-    movesList = []
+    movesList = [((' ', ' '), (' ', ' '))] * 15
     solvable = 1
     official_puzzle = 0
     solvedPuzzle = getPuzzle()
@@ -93,8 +91,8 @@ def swap():
     scrambledPuzzle[math.floor(coord1 / 5)][coord1 % 5] = scrambledPuzzle[math.floor(coord2 / 5)][coord2 % 5]
     scrambledPuzzle[math.floor(coord2 / 5)][coord2 % 5] = tempChar
     states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
+    movesList[15 - swaps] = (((coord1 + 1, scrambledPuzzle[math.floor(coord2 / 5)][coord2 % 5]), (coord2 + 1, scrambledPuzzle[math.floor(coord1 / 5)][coord1 % 5])))
     swaps = swaps - 1
-    movesList.append(((coord1 + 1, scrambledPuzzle[math.floor(coord2 / 5)][coord2 % 5]), (coord2 + 1, scrambledPuzzle[math.floor(coord1 / 5)][coord1 % 5])))
     # lose condition
     if swaps == 0 and numGreen != 21:
         draggable = [["false"] * 5 for i in range(5)]
@@ -116,7 +114,7 @@ def reload():
     global draggable
     global numGreen
     global movesList
-    movesList = []
+    movesList = [((' ', ' '), (' ', ' '))] * 15
     swaps = 15
     scrambledPuzzle = [row[:] for row in scrambledPuzzleUnmodified]
     states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
@@ -132,8 +130,6 @@ def showSolution():
     global numGreen
     global movesList
     # Fill in letters
-    newList = main(scrambledPuzzle, solvedPuzzle)
-    movesList.extend(newList)
     scrambledPuzzle = [row[:] for row in solvedPuzzle]
     states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
     numGreen = 5
@@ -144,6 +140,25 @@ def showSolution():
 def about():
     return render_template('about.html')
 
+# Solve page
+@app.route('/solve', methods = ['GET', 'POST'])
+def solve():
+    global solvable
+    solvable = 3
+    return render_template('table.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle, moves = movesList)
+
+# Solve page and show next steps
+@app.route('/solveShow', methods = ['GET', 'POST'])
+def solveShow():
+    global solvable
+    solvable = 3
+    newList = main(scrambledPuzzle, solvedPuzzle)
+    swapsTemp = swaps
+    for i in range(len(newList)):
+        movesList[15 - swapsTemp] = newList[i]
+        swapsTemp = swapsTemp - 1
+    return render_template('table.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle, moves = movesList)
+
 # Back arrow
 @app.route('/back', methods = ['GET', 'POST'])
 def back():
@@ -151,6 +166,8 @@ def back():
         return redirect(url_for('index'))
     elif solvable == 0:
         return render_template('Error.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle, moves = movesList)
+    elif solvable == 3:
+        return render_template('table.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle, moves = movesList)
     else:
         return render_template('ErrorShowBoard.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle, moves = movesList)
 
@@ -164,7 +181,7 @@ def showSolution2():
     global numGreen
     global solvable
     global movesList
-    movesList = []
+    movesList = [((' ', ' '), (' ', ' '))] * 15
     solvable = 2
     scrambledPuzzle = [row[:] for row in solvedPuzzle]
     states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
@@ -187,7 +204,7 @@ def getActualWaffle():
     global official_puzzle 
     global solvable
     global movesList
-    movesList = []
+    movesList = [((' ', ' '), (' ', ' '))] * 15
     solvable = 1
     official_puzzle = 1
     swaps = 15
