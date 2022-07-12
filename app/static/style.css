@@ -135,6 +135,44 @@ body {
     margin-left: 31.25%;
 }
 
+/* #optimal_message {
+    text-align: center;
+    position: absolute; 
+    margin-top: 0%;
+    margin-left: 31.25%;
+    margin-right: -10%;
+    padding-left: 10%;
+} */
+
+#optimal_text {
+    text-align: center;
+    font-size: 150%;
+    font-weight: bold;
+    font-family: Lato, sans-serif;
+    top: -14.5%;
+    text-align: center;
+    position: absolute;
+    margin-top: 36%;
+    margin-left: 20%;
+    margin-right: 20%;
+    /* /* z-index: 100; */
+}
+
+#optimal_fail {
+    text-align: center;
+    font-size: 150%;
+    font-weight: bold;
+    font-family: Lato, sans-serif;
+    top: -14.5%;
+    text-align: center;
+    position: absolute;
+    margin-top: 39%;
+    margin-left: 23%;
+    margin-right: 20%;
+    /* /* z-index: 100; */
+}
+
+
 #error_message {
     /* display: block; */
     text-align: center;
@@ -157,6 +195,13 @@ body {
     text-align: center;
     position: relative;
     bottom:-32%;
+}
+
+#credits_text2 {
+    display: block;
+    text-align: center;
+    position: relative;
+    bottom: -3%;
 }
 
 #credits_text_error {
