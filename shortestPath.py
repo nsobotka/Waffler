@@ -146,9 +146,15 @@ def main(p1, p2):
             unsolved = True
     
     # viz_swaps(swapList)
-    
+
+
+    for i in range(len(swapList)):
+        loc1 = swapList[i][0][0] + 1
+        loc2 = swapList[i][1][0] + 1
+        swapList[i] = ((loc1, swapList[i][0][1]), (loc2, swapList[i][1][1]))
     return swapList
 
 
-# swapList = main(scrambled4, correct4)
+swapList = main(scrambled1, correct1)
+# print(swapList)
 # viz_swaps(swapList)
