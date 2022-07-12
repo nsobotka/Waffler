@@ -32,6 +32,7 @@ states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
 swaps = 15
 official_puzzle = 0
 solvable = 1
+movesList = []
 
 # Splash page
 @app.route('/')
@@ -39,7 +40,7 @@ solvable = 1
 # Main page
 @app.route('/index', methods = ['GET'])
 def index():
-    return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle)
+    return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle, moves = movesList)
 
 # New board
 @app.route('/newBoard', methods = ['POST'])
@@ -53,6 +54,8 @@ def newBoard():
     global numGreen
     global official_puzzle 
     global solvable
+    global movesList
+    movesList = []
     solvable = 1
     official_puzzle = 0
     solvedPuzzle = getPuzzle()
@@ -75,6 +78,7 @@ def swap():
     global swaps
     global draggable
     global numGreen
+    global movesList
     box1 = request.form['box1']
     box2 = request.form['box2']
     if len(box1) == 4:
@@ -90,17 +94,18 @@ def swap():
     scrambledPuzzle[math.floor(coord2 / 5)][coord2 % 5] = tempChar
     states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
     swaps = swaps - 1
+    movesList.append(((coord1 + 1, scrambledPuzzle[math.floor(coord2 / 5)][coord2 % 5]), (coord2 + 1, scrambledPuzzle[math.floor(coord1 / 5)][coord1 % 5])))
     # lose condition
     if swaps == 0 and numGreen != 21:
         draggable = [["false"] * 5 for i in range(5)]
         for i in range(0, 5):
             for j in range(0, 5):
                 states[i][j] = ('#454747', '#FFFFFF')
-        return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle)
+        return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle, moves = movesList)
     # win condition
     elif numGreen == 21:
-        return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle)
-    return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle)
+        return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle, moves = movesList)
+    return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle, moves = movesList)
 
 # Restart the board
 @app.route('/reload', methods = ['GET', 'POST'])
@@ -110,6 +115,8 @@ def reload():
     global states
     global draggable
     global numGreen
+    global movesList
+    movesList = []
     swaps = 15
     scrambledPuzzle = [row[:] for row in scrambledPuzzleUnmodified]
     states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
@@ -123,6 +130,10 @@ def showSolution():
     global states
     global draggable
     global numGreen
+    global movesList
+    # Fill in letters
+    newList = main(scrambledPuzzle, solvedPuzzle)
+    movesList.extend(newList)
     scrambledPuzzle = [row[:] for row in solvedPuzzle]
     states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
     numGreen = 5
@@ -139,9 +150,9 @@ def back():
     if solvable == 1:
         return redirect(url_for('index'))
     elif solvable == 0:
-        return render_template('Error.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle)
+        return render_template('Error.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle, moves = movesList)
     else:
-        return render_template('ErrorShowBoard.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle)
+        return render_template('ErrorShowBoard.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle, moves = movesList)
 
 # Shows the solution on the unsolvable boards with '?' filled into unknown slots
 @app.route('/showSolution2', methods = ['GET', 'POST'])
@@ -152,6 +163,8 @@ def showSolution2():
     global draggable
     global numGreen
     global solvable
+    global movesList
+    movesList = []
     solvable = 2
     scrambledPuzzle = [row[:] for row in solvedPuzzle]
     states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
@@ -159,7 +172,7 @@ def showSolution2():
             for j in range(0, 5):
                 if scrambledPuzzle[i][j] == '?':
                     states[i][j] = ('#FF0000', '#FFFFFF')
-    return render_template('ErrorShowBoard.html', puzzle = solvedPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle)
+    return render_template('ErrorShowBoard.html', puzzle = solvedPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle, moves = movesList)
 
 # Scrapes the actual waffle and solves the puzzle (or tries to)
 @app.route('/getActualWaffle', methods = ['GET', 'POST'])
@@ -173,6 +186,8 @@ def getActualWaffle():
     global solvedPuzzle
     global official_puzzle 
     global solvable
+    global movesList
+    movesList = []
     solvable = 1
     official_puzzle = 1
     swaps = 15
@@ -204,6 +219,6 @@ def getActualWaffle():
         for i in range(0, 5):
             for j in range(0, 5):
                 states[i][j] = ('#454747', '#FFFFFF')
-        return render_template('Error.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle)
+        return render_template('Error.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle, moves = movesList)
     states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
     return redirect(url_for('index'))
