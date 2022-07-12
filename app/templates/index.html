@@ -48,6 +48,15 @@
         function allowDrop(e) {
             e.preventDefault();
         }
+
+        function toggleTable() {
+            var x = document.getElementById('moves');
+            if (x.style.display === 'block') {
+                x.style.display = 'none';
+            } else {
+                x.style.display = 'block';
+            }
+        }
     </script>
 
     <div class="card" id="board_container">
@@ -74,8 +83,8 @@
                     <form action = "/showSolution" method="post">
                         <button type = "submit" class="toolBtn" id="showSolution" onClick={}><i class="fa fa-lightbulb-o"></i></button>
                     </form>
-                    <form action="/solve" method="post">
-                        <button type="submit" class="toolBtn" id="solve" onClick={}><i class="fa fa-exchange"></i></button>
+                    <form onsubmit="toggleTable(); return false;">
+                        <button type="submit" class="toolBtn" id="solve" onClick={}><i class="fa fa-list-ul"></i></button>
                     </form>
                     
                 </div>
@@ -154,7 +163,7 @@
             <span id="message_text"> &nbsp SWAPS REMAINING</span>
         </div>
 
-        <!-- <table id="customers">
+        <table id="moves">
             <tr>
                 <th>Move #</th>
                 <th>Letter 1</th>
@@ -267,7 +276,7 @@
                 <td></td>
                 <td></td>
             </tr>
-          </table> -->
+          </table>
 
         <div class="credits" id="credits_text">
             <span id="credit_text">OFFICIAL <a href="https://wafflegame.net" target="_blank">WAFFLE</a> CREATED BY <a href="https://twitter.com/thatwafflegame" target="_blank">@THATWAFFLEGAME</a></span>

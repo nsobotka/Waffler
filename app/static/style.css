@@ -2,6 +2,7 @@ body {
     background: #edeff1;
 }
 
+
 #title_text {
     text-align: center;
     font-size: 170%;
@@ -101,6 +102,9 @@ body {
 
     margin-left:-30.5vh;
 	margin-top:0%;
+
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 /* #board_container {
@@ -152,7 +156,7 @@ body {
     display: block;
     text-align: center;
     position: relative;
-    top:32%;
+    bottom:-32%;
 }
 
 #credits_text_error {
@@ -210,7 +214,7 @@ body {
     font-family: Lato, sans-serif;
     text-align: center;
     color: white;
-    line-height: 310%;
+    line-height: 7.25vh;
     font-size: 150%;
     background-color: purple;
     border-radius: 10%;
@@ -221,23 +225,25 @@ body {
     font-weight: bold;
 }
 
-#customers {
+#moves {
     font-family: Lato, sans-serif;
     border-collapse: collapse;
     width: 64.5%;
     margin-left: 17.5%;
+    margin-top: 5%;
+    display: none;
 }
 
-#customers td, #customers th {
+#moves td, #moves th {
     border: 1px solid #ddd;
     padding: 4px;
 }
 
-#customers tr:nth-child(even){background-color: #f2f2f2;}
+#moves tr:nth-child(even){background-color: #f2f2f2;}
 
-#customers tr:hover {background-color: #ddd;}
+#moves tr:hover {background-color: #ddd;}
 
-#customers th {
+#moves th {
     padding-top: 4px;
     padding-bottom: 4px;
     text-align: left;
