@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Waffler</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        let dragindex = 0;
+        let dropindex = 0;
+        let clone = "";
+
+        function drag(e) {
+            e.dataTransfer.setData("text", e.target.id);
+        }
+
+        function drop(e) {
+            
+            e.preventDefault();
+            clone = e.target.cloneNode(true);
+            let data = e.dataTransfer.getData("text");
+            if (clone.id !== data) {
+                let nodelist = document.getElementById("parent").childNodes;
+                for (let i = 0; i < nodelist.length; i++) {
+                    if (nodelist[i].id == data) {
+                        dragindex = i;
+                    }
+                }
+
+                document.getElementById("parent").replaceChild(document.getElementById(data), e.target);
+                document.getElementById("parent").insertBefore(clone, document.getElementById("parent").childNodes[dragindex]);
+                console.log(data);
+                console.log(e.target.id);
+                $.ajax({
+                    type: 'POST', 
+                    url: '/swap', 
+                    data: {"box1": data, "box2" : e.target.id},
+                });
+                document.location.reload()
+            }
+        }
+
+        function allowDrop(e) {
+            e.preventDefault();
+        }
+    </script>
+
+    <div class="card" id="board_container">
+        <div class="top_words" id="optimal_message">
+            {% if numGreen != 21 and shown == 0%}
+            <div id="optimal_text">Click the lightbulb to see the optimal swaps.</div>
+            {% endif %}
+        </div>
+        <div class="top_words" id="optimal_message">
+            {% if numGreen == -1 and shown == 1%}
+            <div id="optimal_fail">This board is no longer solvable.</div>
+            {% endif %}
+        </div>
+        <div id="header">
+            <div id="button_flex">
+                <div id="left_buttons">
+                    <form action="/about" method="post">
+                        <button type="submit" class="toolBtn" id="about" onClick={} action="/about"><i class="fa fa-question"></i></button>
+                    </form>
+                    <form action="/newBoard" method="post">
+                        <button type="submit" class="toolBtn" id="newBoard" onClick={} action="/newBoard"><i class="fa fa-plus-square"></i></button>
+                    </form>
+                    <form action="/reload" method="post">
+                        <button type="submit" class="toolBtn" id="reload" onClick={} action="/reload"><i class="fa fa-refresh"></i></button>
+                    </form>
+                </div>
+
+                <div id="title_text">WAFFLE(R)</div>
+                
+                <div id="right_buttons">
+                    <form action="/getActualWaffle" method="post">
+                        <button type="submit" class="toolBtn" id="getActualWaffle" onClick={}><i class="fa fa-calendar-o"></i></button>
+                    </form>
+                    <form action = "/solveShow" method="post">
+                        <button type = "submit" class="toolBtn" id="solveShow" onClick={}><i class="fa fa-lightbulb-o"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="top_words" id="win_message">
+            {% if numGreen == 21 %}
+            <span id="title_text">Congrats! You Win!</span>
+            {% endif %}
+        </div>
+        <div class="top_words" id="top_message">
+            {% if official_puzzle == 1 %}
+            <span id="message_text2">OFFICIAL DAILY WAFFLE</span>
+            {% else %}
+            <span id="message_text2">RANDOMLY GENERATED WAFFLE</span>
+            {% endif %}
+        </div>
+        <div id="cell_flex">
+            <div id="parent">
+                <div id="box1" class="cell_text" style="background-color: {{ colors[0][0][0] }}; color: {{ colors[0][0][1] }};" draggable={{draggable[0][0]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[0][0]}}">{{puzzle[0][0]}}</div>
+                <div id="box2" class="cell_text" style="background-color: {{ colors[0][1][0] }}; color: {{ colors[0][1][1] }};" draggable={{draggable[0][1]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[0][1]}}">{{puzzle[0][1]}}</div>
+                <div id="box3" class="cell_text" style="background-color: {{ colors[0][2][0] }}; color: {{ colors[0][2][1] }};" draggable={{draggable[0][2]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[0][2]}}">{{puzzle[0][2]}}</div>
+                <div id="box4" class="cell_text" style="background-color: {{ colors[0][3][0] }}; color: {{ colors[0][3][1] }};" draggable={{draggable[0][3]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[0][3]}}">{{puzzle[0][3]}}</div>
+                <div id="box5" class="cell_text" style="background-color: {{ colors[0][4][0] }}; color: {{ colors[0][4][1] }};" draggable={{draggable[0][4]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[0][4]}}">{{puzzle[0][4]}}</div>
+                <div id="box6" class="cell_text" style="background-color: {{ colors[1][0][0] }}; color: {{ colors[1][0][1] }};" draggable={{draggable[1][0]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[1][0]}}">{{puzzle[1][0]}}</div>
+                <div id="box7" class="cell_text" style="visibility: hidden;" draggable={{draggable[1][1]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[1][1]}}">{{puzzle[1][1]}}</div>
+                <div id="box8" class="cell_text" style="background-color: {{ colors[1][2][0] }}; color: {{ colors[1][2][1] }};" draggable={{draggable[1][2]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[1][2]}}">{{puzzle[1][2]}}</div>
+                <div id="box9" class="cell_text" style="visibility: hidden;" draggable={{draggable[1][3]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[1][3]}}">{{puzzle[1][3]}}</div>
+                <div id="box10" class="cell_text" style="background-color: {{ colors[1][4][0] }}; color: {{ colors[1][4][1] }};" draggable={{draggable[1][4]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[1][4]}}">{{puzzle[1][4]}}</div>
+                <div id="box11" class="cell_text" style="background-color: {{ colors[2][0][0] }}; color: {{ colors[2][0][1] }};" draggable={{draggable[2][0]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[2][0]}}">{{puzzle[2][0]}}</div>
+                <div id="box12" class="cell_text" style="background-color: {{ colors[2][1][0] }}; color: {{ colors[2][1][1] }};" draggable={{draggable[2][1]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[2][1]}}">{{puzzle[2][1]}}</div>
+                <div id="box13" class="cell_text" style="background-color: {{ colors[2][2][0] }}; color: {{ colors[2][2][1] }};" draggable={{draggable[2][2]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[2][2]}}">{{puzzle[2][2]}}</div>
+                <div id="box14" class="cell_text" style="background-color: {{ colors[2][3][0] }}; color: {{ colors[2][3][1] }};" draggable={{draggable[2][3]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[2][3]}}">{{puzzle[2][3]}}</div>
+                <div id="box15" class="cell_text" style="background-color: {{ colors[2][4][0] }}; color: {{ colors[2][4][1] }};" draggable={{draggable[2][4]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[2][4]}}">{{puzzle[2][4]}}</div>
+                <div id="box16" class="cell_text" style="background-color: {{ colors[3][0][0] }}; color: {{ colors[3][0][1] }};" draggable={{draggable[3][0]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[3][0]}}">{{puzzle[3][0]}}</div>
+                <div id="box17" class="cell_text" style="visibility: hidden;" draggable={{draggable[3][1]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[3][1]}}">{{puzzle[3][1]}}</div>
+                <div id="box18" class="cell_text" style="background-color: {{ colors[3][2][0] }}; color: {{ colors[3][2][1] }};" draggable={{draggable[3][2]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[3][2]}}">{{puzzle[3][2]}}</div>
+                <div id="box19" class="cell_text" style="visibility: hidden;" draggable={{draggable[3][3]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[3][3]}}">{{puzzle[3][3]}}</div>
+                <div id="box20" class="cell_text" style="background-color: {{ colors[3][4][0] }}; color: {{ colors[3][4][1] }};" draggable={{draggable[3][4]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[3][4]}}">{{puzzle[3][4]}}</div>
+                <div id="box21" class="cell_text" style="background-color: {{ colors[4][0][0] }}; color: {{ colors[4][0][1] }};" draggable={{draggable[4][0]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[4][0]}}">{{puzzle[4][0]}}</div>
+                <div id="box22" class="cell_text" style="background-color: {{ colors[4][1][0] }}; color: {{ colors[4][1][1] }};" draggable={{draggable[4][1]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[4][1]}}">{{puzzle[4][1]}}</div>
+                <div id="box23" class="cell_text" style="background-color: {{ colors[4][2][0] }}; color: {{ colors[4][2][1] }};" draggable={{draggable[4][2]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[4][2]}}">{{puzzle[4][2]}}</div>
+                <div id="box24" class="cell_text" style="background-color: {{ colors[4][3][0] }}; color: {{ colors[4][3][1] }};" draggable={{draggable[4][3]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[4][3]}}">{{puzzle[4][3]}}</div>
+                <div id="box25" class="cell_text" style="background-color: {{ colors[4][4][0] }}; color: {{ colors[4][4][1] }};" draggable={{draggable[4][4]}} ondragstart="drag(event)" ondrop="drop(event)"
+                    ondragover="return !{{draggable[4][4]}}">{{puzzle[4][4]}}</div>
+            </div>
+        </div>
+        <div class="swaps" id="swaps_container">
+            <span id="title_text2">{{swaps}}</span>
+            <span id="message_text"> &nbsp SWAPS REMAINING</span>
+        </div>
+
+        <table id="moves">
+            <tr>
+                <th>Swap #</th>
+                <th>Letter 1</th>
+                <th>Location 1</th>
+                <th>Letter 2</th>
+                <th>Location 2</th>
+            </tr>
+            <tr>
+                <td>15</td>
+                <td style="color: {{tableColor[0]}};">{{moves[0][0][1]}}</td>
+                <td style="color: {{tableColor[0]}};">{{moves[0][0][0]}}</td>
+                <td style="color: {{tableColor[0]}};">{{moves[0][1][1]}}</td>
+                <td style="color: {{tableColor[0]}};">{{moves[0][1][0]}}</td>
+            </tr>
+            <tr>
+                <td>14</td>
+                <td style="color: {{tableColor[1]}};">{{moves[1][0][1]}}</td>
+                <td style="color: {{tableColor[1]}};">{{moves[1][0][0]}}</td>
+                <td style="color: {{tableColor[1]}};">{{moves[1][1][1]}}</td>
+                <td style="color: {{tableColor[1]}};">{{moves[1][1][0]}}</td>
+            </tr>
+            <tr>
+                <td>13</td>
+                <td style="color: {{tableColor[2]}};">{{moves[2][0][1]}}</td>
+                <td style="color: {{tableColor[2]}};">{{moves[2][0][0]}}</td>
+                <td style="color: {{tableColor[2]}};">{{moves[2][1][1]}}</td>
+                <td style="color: {{tableColor[2]}};">{{moves[2][1][0]}}</td>
+            </tr>
+            <tr>
+                <td>12</td>
+                <td style="color: {{tableColor[3]}};">{{moves[3][0][1]}}</td>
+                <td style="color: {{tableColor[3]}};">{{moves[3][0][0]}}</td>
+                <td style="color: {{tableColor[3]}};">{{moves[3][1][1]}}</td>
+                <td style="color: {{tableColor[3]}};">{{moves[3][1][0]}}</td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td style="color: {{tableColor[4]}};">{{moves[4][0][1]}}</td>
+                <td style="color: {{tableColor[4]}};">{{moves[4][0][0]}}</td>
+                <td style="color: {{tableColor[4]}};">{{moves[4][1][1]}}</td>
+                <td style="color: {{tableColor[4]}};">{{moves[4][1][0]}}</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td style="color: {{tableColor[5]}};">{{moves[5][0][1]}}</td>
+                <td style="color: {{tableColor[5]}};">{{moves[5][0][0]}}</td>
+                <td style="color: {{tableColor[5]}};">{{moves[5][1][1]}}</td>
+                <td style="color: {{tableColor[5]}};">{{moves[5][1][0]}}</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td style="color: {{tableColor[6]}};">{{moves[6][0][1]}}</td>
+                <td style="color: {{tableColor[6]}};">{{moves[6][0][0]}}</td>
+                <td style="color: {{tableColor[6]}};">{{moves[6][1][1]}}</td>
+                <td style="color: {{tableColor[6]}};">{{moves[6][1][0]}}</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td style="color: {{tableColor[7]}};">{{moves[7][0][1]}}</td>
+                <td style="color: {{tableColor[7]}};">{{moves[7][0][0]}}</td>
+                <td style="color: {{tableColor[7]}};">{{moves[7][1][1]}}</td>
+                <td style="color: {{tableColor[7]}};">{{moves[7][1][0]}}</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td style="color: {{tableColor[8]}};">{{moves[8][0][1]}}</td>
+                <td style="color: {{tableColor[8]}};">{{moves[8][0][0]}}</td>
+                <td style="color: {{tableColor[8]}};">{{moves[8][1][1]}}</td>
+                <td style="color: {{tableColor[8]}};">{{moves[8][1][0]}}</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td style="color: {{tableColor[9]}};">{{moves[9][0][1]}}</td>
+                <td style="color: {{tableColor[9]}};">{{moves[9][0][0]}}</td>
+                <td style="color: {{tableColor[9]}};">{{moves[9][1][1]}}</td>
+                <td style="color: {{tableColor[9]}};">{{moves[9][1][0]}}</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td style="color: {{tableColor[10]}};">{{moves[10][0][1]}}</td>
+                <td style="color: {{tableColor[10]}};">{{moves[10][0][0]}}</td>
+                <td style="color: {{tableColor[10]}};">{{moves[10][1][1]}}</td>
+                <td style="color: {{tableColor[10]}};">{{moves[10][1][0]}}</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td style="color: {{tableColor[11]}};">{{moves[11][0][1]}}</td>
+                <td style="color: {{tableColor[11]}};">{{moves[11][0][0]}}</td>
+                <td style="color: {{tableColor[11]}};">{{moves[11][1][1]}}</td>
+                <td style="color: {{tableColor[11]}};">{{moves[11][1][0]}}</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td style="color: {{tableColor[12]}};">{{moves[12][0][1]}}</td>
+                <td style="color: {{tableColor[12]}};">{{moves[12][0][0]}}</td>
+                <td style="color: {{tableColor[12]}};">{{moves[12][1][1]}}</td>
+                <td style="color: {{tableColor[12]}};">{{moves[12][1][0]}}</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td style="color: {{tableColor[13]}};">{{moves[13][0][1]}}</td>
+                <td style="color: {{tableColor[13]}};">{{moves[13][0][0]}}</td>
+                <td style="color: {{tableColor[13]}};">{{moves[13][1][1]}}</td>
+                <td style="color: {{tableColor[13]}};">{{moves[13][1][0]}}</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td style="color: {{tableColor[14]}};">{{moves[14][0][1]}}</td>
+                <td style="color: {{tableColor[14]}};">{{moves[14][0][0]}}</td>
+                <td style="color: {{tableColor[14]}};">{{moves[14][1][1]}}</td>
+                <td style="color: {{tableColor[14]}};">{{moves[14][1][0]}}</td>
+            </tr>
+          </table>
+
+        <div class="credits" id="credits_text2">
+            <span id="credit_text">OFFICIAL <a href="https://wafflegame.net" target="_blank">WAFFLE</a> CREATED BY <a href="https://twitter.com/thatwafflegame" target="_blank">@THATWAFFLEGAME</a></span>
+        </div>
+    </div>
+</body>
+
+</html>
