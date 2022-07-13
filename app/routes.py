@@ -133,7 +133,7 @@ def showSolution():
     # Fill in letters
     scrambledPuzzle = [row[:] for row in solvedPuzzle]
     states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
-    numGreen = 5
+    numGreen = -5
     return redirect(url_for('index'))
 
 # About page
@@ -146,9 +146,11 @@ def about():
 def solve():
     global solvable
     global tableColor
+    global movesList
+    solvable = 3
+    tableColor = ['#6fb05c'] * 15
     for i in range(15 - swaps):
             tableColor[i] = '#000000'
-    solvable = 3
     return render_template('table.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle, moves = movesList, shown = shown, tableColor = tableColor)
 
 # Solve page and show next steps
@@ -165,6 +167,11 @@ def solveShow():
     newList = main(scrambledPuzzle, solvedPuzzle)
     swapsTemp = swaps
     # colorings for the table
+    if numGreen == -5:
+        newList = main(scrambledPuzzleUnmodified, solvedPuzzle)
+        for i in range(10):
+            movesList[i] = newList[i]
+        return render_template('table.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle, moves = movesList, shown = shown, tableColor = tableColor)
     tableColor = ['#6fb05c'] * 15
     for i in range(len(newList)):
         if (swaps - len(newList) < 0): 
