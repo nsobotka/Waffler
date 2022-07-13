@@ -206,7 +206,6 @@ def solvePuzzle(p, color):
         possible_words[i] = newList
 
     # Removes words that have letters in a yellow spot
-    print(possible_words)
     for r in range(5):
         for c in range(5):
             if color[r][c][0] == '#e9ba3a':
@@ -468,6 +467,3 @@ def solvePuzzle(p, color):
     # viz(newPuzzle)
     newPuzzle, val = boardSolved(newPuzzle)
     return newPuzzle, val
-
-
-solvePuzzle(scrambled11, color11)

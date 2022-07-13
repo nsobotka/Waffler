@@ -8,12 +8,8 @@ from testBoards import *
 from shortestPath import *
 
 # Things to do: 
-# general aesthetics check
-# Final bug checks
 # Nice readme
 # Credits blurb
-# clean up code
-# clean up repository
 # publish to website
 # reach out to waffle man
 
@@ -168,12 +164,13 @@ def solveShow():
     solvable = 3
     newList = main(scrambledPuzzle, solvedPuzzle)
     swapsTemp = swaps
+    # colorings for the table
     tableColor = ['#6fb05c'] * 15
     for i in range(len(newList)):
         if (swaps - len(newList) < 0): 
             draggable = [["false"] * 5 for i in range(5)]
             numGreen = -1
-            tableColor = ['#6fb05c'] * 15
+            tableColor = ['#000000'] * 15
             for i in range(0, 5):
                 for j in range(0, 5):
                     states[i][j] = ('#454747', '#FFFFFF')
@@ -182,6 +179,8 @@ def solveShow():
         for i in range(15 - swaps):
             tableColor[i] = '#000000'
         swapsTemp = swapsTemp - 1
+    if numGreen == 21:
+        tableColor = ['#000000'] * 15
     return render_template('table.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle, moves = movesList, shown = shown, tableColor = tableColor)
 
 # Back arrow
@@ -258,7 +257,6 @@ def getActualWaffle():
         solvable = 1
     else:
         solvable = 0
-    # viz_swaps(main(scrambledPuzzle, solvedPuzzle))
     if not trulySolved:
         numGreen = 0
         draggable = [["false"] * 5 for i in range(5)]
