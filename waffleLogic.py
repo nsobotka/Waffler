@@ -205,6 +205,49 @@ def solvePuzzle(p, color):
                 newList.append(word)
         possible_words[i] = newList
 
+    # Removes words that have letters in a yellow spot
+    print(possible_words)
+    for r in range(5):
+        for c in range(5):
+            if color[r][c][0] == '#e9ba3a':
+                if r == 0:
+                    newList = []
+                    for word in possible_words[0]:
+                        if word[c] != p[r][c]:
+                            newList.append(word)
+                    possible_words[0] = newList
+                elif r == 2:
+                    newList = []
+                    for word in possible_words[1]:
+                        if word[c] != p[r][c]:
+                            newList.append(word)
+                    possible_words[1] = newList
+                elif r == 4:
+                    newList = []
+                    for word in possible_words[2]:
+                        if word[c] != p[r][c]:
+                            newList.append(word)
+                    possible_words[2] = newList
+                if c == 0:
+                    newList = []
+                    for word in possible_words[3]:
+                        if word[r] != p[r][c]:
+                            newList.append(word)
+                    possible_words[3] = newList
+                elif c == 2:
+                    newList = []
+                    for word in possible_words[4]:
+                        if word[r] != p[r][c]:
+                            newList.append(word)
+                    possible_words[4] = newList
+                elif c == 4:
+                    newList = []
+                    for word in possible_words[5]:
+                        if word[r] != p[r][c]:
+                            newList.append(word)
+                    possible_words[5] = newList
+                                
+
     # Loops over various methods to remove words from the possibilities
     Change = True
     while Change:
@@ -425,3 +468,6 @@ def solvePuzzle(p, color):
     # viz(newPuzzle)
     newPuzzle, val = boardSolved(newPuzzle)
     return newPuzzle, val
+
+
+solvePuzzle(scrambled11, color11)

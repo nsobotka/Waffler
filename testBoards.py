@@ -200,3 +200,23 @@ correct10 = [['A', 'D', 'M', 'I', 'N'],
              ['O', 'F', 'T', 'E', 'N'],
              ['N', ' ', 'E', ' ', 'T'],
              ['G', 'I', 'R', 'T', 'H']]
+
+#Board 11
+scrambled11 = [['S', 'L', 'K', 'P', 'T'], 
+                       ['E', ' ', 'L', ' ', 'D'],
+                       ['N', 'I', 'I', 'G', 'U'],
+                       ['H', ' ', 'E', ' ', 'T'],
+                       ['L', 'L', 'E', 'R', 'E']]
+
+# #6... = GREEN, #E9... = YELLOW, #ED... = GREY
+color11 = [[('#6fb05c', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#6fb05c', '#FFFFFF')], 
+         [('#edeff1', '#FFFFFF'), ' ', ('#6fb05c', '#FFFFFF'), ' ', ('#edeff1', '#FFFFFF')],
+         [('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000')],
+         [('#edeff1', '#FFFFFF'), ' ', ('#e9ba3a', '#000000'), ' ', ('#edeff1', '#000000')],
+         [('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
+
+correct11 = [['S', 'P', 'E', 'L', 'T'],
+             ['K', ' ', 'L', ' ', 'H'],
+             ['U', 'N', 'I', 'T', 'E'],
+             ['L', ' ', 'D', ' ', 'R'],
+             ['L', 'I', 'E', 'G', 'E']]
