@@ -9,7 +9,6 @@ from shortestPath import *
 
 # Things to do: 
 # publish to website
-    # new requirements
     # erase this checklist 
     # add link to readme
 # reach out to waffle man
@@ -35,6 +34,18 @@ tableColor = ['#6fb05c'] * 15
 # Main page
 @app.route('/index', methods = ['GET'])
 def index():
+    global states
+    global scrambledPuzzle
+    global scrambledPuzzleUnmodified
+    global solvedPuzzle
+    global swaps
+    global draggable
+    global numGreen
+    global official_puzzle 
+    global solvable
+    global movesList
+    global shown
+    global tableColor
     return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle, moves = movesList, shown = shown, tableColor = tableColor)
 
 # New board
