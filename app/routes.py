@@ -8,9 +8,10 @@ from testBoards import *
 from shortestPath import *
 
 # Things to do: 
-# Nice readme
-# Credits blurb
 # publish to website
+    # new requirements
+    # erase this checklist 
+    # add link to readme
 # reach out to waffle man
 
 
