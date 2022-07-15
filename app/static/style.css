@@ -254,3 +254,12 @@ body {
     background-color: #6fb05c;
     color: white;
 }
+
+.about {
+    font-family: Lato, sans-serif;
+}
+
+#about_text {
+    padding-left: 6%;
+    padding-right: 6%;
+}
