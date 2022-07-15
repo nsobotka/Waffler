@@ -64,7 +64,6 @@ def newBoard():
     scrambledPuzzleUnmodified = [row[:] for row in scrambledPuzzle]
     states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
     swaps = 15
-    return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle, moves = movesList, shown = shown, tableColor = tableColor)
     return redirect(url_for('index'))
 
 # Swap two pieces
