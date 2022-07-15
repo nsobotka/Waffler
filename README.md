@@ -1,4 +1,4 @@
-Thank you for looking at the WAFFLE(R) <br>
+#Thank you for looking at the WAFFLE(R) <br><br>
 First and foremost, all ownership of the original game and design belongs to <a href="https://twitter.com/jamesjessian" style="color: #6fb05c;"  target="_blank">@JamesJessian</a>. 
             Please check out the official <a href="https://wafflegame.net" style="color: #6fb05c;" target="_blank">Waffle</a> and twitter at <a href="https://twitter.com/thatwafflegame" style="color: #6fb05c;" target="_blank">@thatwafflegame</a>.
             <hr>
