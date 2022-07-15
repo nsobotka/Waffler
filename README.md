@@ -15,6 +15,10 @@ By combining our solver and web scraping, we are able to import a fully playable
 Finally, we designed an algorithm to solve each board in the minimum number of moves. This algorithm works by prioritizing moves that "correct" two squares in one swap, followed by three squares in two swaps, and so forth. This algorithm is used to ensure that our randomly generated boards are minimally solvable in exactly 10 moves, and to output solutions when the user requests them.
 We can show optimal paths not only from the start, but from any point in the game (or output that the game is no longer solvable).
 
+## Unsolvable Boards
+There are two cases in which we are unable to solve the daily Waffle. The first is if the Waffle contains a word that is not in our word list. The second is if there are multiple correct
+solutions to the board. In both cases we display as much of the correct board as we can solve. Unfortunately, the other functionality of our website is not available.
+
 ## About Us
 Feel free to check out our websites: <a href="https://nsobotka.github.io" style="color: #6fb05c;" target="_blank">Nathan Sobotka</a> and <a href="http://avielresnick.com" style="color: #6fb05c;" target="_blank">Aviel Resnick</a>.
 
