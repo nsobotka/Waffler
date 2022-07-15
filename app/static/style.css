@@ -257,9 +257,27 @@ body {
 
 .about {
     font-family: Lato, sans-serif;
+    font-size: 110%;
 }
 
 #about_text {
     padding-left: 6%;
     padding-right: 6%;
+}
+
+.about_heading {
+    text-align: center;
+    font-size: 130%;
+    padding-left: 6%;
+    padding-right: 6%;
+}
+
+hr {
+    position: relative;
+    color: #b1b3b4;
+    background-color: #b1b3b4;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    border: none;
+    height: .5px;
 }
