@@ -1,6 +1,13 @@
-# WAFFLE(R) (ADD LINK)
+# WAFFLE(R)
 First and foremost, all ownership of the original game and design belongs to <a href="https://twitter.com/jamesjessian" style="color: #6fb05c;"  target="_blank">@JamesJessian</a>. <br><br>
 Please check out the official <a href="https://wafflegame.net" style="color: #6fb05c;" target="_blank">Waffle</a> and twitter at <a href="https://twitter.com/thatwafflegame" style="color: #6fb05c;" target="_blank">@thatwafflegame</a>.
+
+## Running
+- Clone the repository
+- Create a virtual environment
+- Install requirements from requirements.txt
+- Run the command ```flask run```
+- Enjoy!
 
 ## About This Project
 We are a team of two developers who, after enjoying the Waffle, questioned whether every board was truly solvable in 10 moves (as the game claims). <br><br>
