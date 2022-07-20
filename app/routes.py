@@ -10,6 +10,7 @@ from shortestPath import *
 # Things to do: 
 # publish to website
     # erase this checklist 
+    # multiple players at once
     # add link to readme
 # reach out to waffle man
 
