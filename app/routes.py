@@ -17,11 +17,11 @@ from shortestPath import *
 class puzzle:
     def __init__(self):
         self.solvedPuzzle = getPuzzle()
-        self.scrambledPuzzle = scramble(solvedPuzzle)
-        while(len(main(scrambledPuzzle, solvedPuzzle)) != 10):
-                self.scrambledPuzzle = scramble(solvedPuzzle)
-        self.scrambledPuzzleUnmodified = [row[:] for row in scrambledPuzzle]
-        self.states, self.draggable, self.numGreen = getStates(solvedPuzzle, scrambledPuzzle)
+        self.scrambledPuzzle = scramble(self.solvedPuzzle)
+        while(len(main(self.scrambledPuzzle, self.solvedPuzzle)) != 10):
+                self.scrambledPuzzle = scramble(self.solvedPuzzle)
+        self.scrambledPuzzleUnmodified = [row[:] for row in self.scrambledPuzzle]
+        self.states, self.draggable, self.numGreen = getStates(self.solvedPuzzle, self.scrambledPuzzle)
         self.swaps = 15
         self.official_puzzle = 0
         self.solvable = 1
@@ -30,30 +30,34 @@ class puzzle:
         self.tableColor = ['#6fb05c'] * 15
 
     def getAll(self):
-        return (solvedPuzzle, scrambledPuzzle, scrambledPuzzleUnmodified, states, draggable, numGreen, swaps, official_puzzle, solvable, movesList, shown, tableColor)
+        return (self.solvedPuzzle, self.scrambledPuzzle, self.scrambledPuzzleUnmodified, self.states, self.draggable, self.numGreen, self.swaps, self.official_puzzle, self.solvable, self.movesList, self.shown, self.tableColor)
+
+p = puzzle()
 
 # Splash page
 @app.route('/')
 def splash():
+    global p
     p = puzzle()
-    return index(p)
+    return redirect(url_for('index'))
 
 # Main page
-@app.route('/index', methods = ['GET'])
-def index(p):
-    # p = puzzle()
-    solvedPuzzle, scrambledPuzzle, scrambledPuzzleUnmodified, states, draggable, numGreen, swaps, official_puzzle, solvable, movesList, shown, tableColor = p.getAll()
-    return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle, moves = movesList, shown = shown, tableColor = tableColor)
+@app.route('/index', methods = ['GET', 'POST'])
+def index():
+    global p
+    return render_template('index.html', puzzle = p.scrambledPuzzle, colors = p.states, swaps = p.swaps, draggable = p.draggable, numGreen = p.numGreen, official_puzzle = p.official_puzzle, moves = p.movesList, shown = p.shown, tableColor = p.tableColor)
 
 # New board
-@app.route('/newBoard', methods = ['POST'])
+@app.route('/newBoard', methods = ['GET', 'POST'])
 def newBoard():
+    global p
     p = puzzle()
-    return index(p)
+    return redirect(url_for('index'))
 
 # Swap two pieces
 @app.route('/swap', methods = ['GET', 'POST'])
-def swap(p):
+def swap():
+    global p
     box1 = request.form['box1']
     box2 = request.form['box2']
     if len(box1) == 4:
@@ -77,42 +81,31 @@ def swap(p):
         for i in range(0, 5):
             for j in range(0, 5):
                 p.states[i][j] = ('#454747', '#FFFFFF')
-        return index(p)
+        return redirect(url_for('index'))
     # win condition
     elif p.numGreen == 21:
-        return index(p)
-    return index(p)
+        return redirect(url_for('index'))
+    return redirect(url_for('index'))
 
 # Restart the board
 @app.route('/reload', methods = ['GET', 'POST'])
 def reload():
-    global scrambledPuzzle
-    global swaps
-    global states
-    global draggable
-    global numGreen
-    global movesList
-    global shown
-    shown = 0
-    movesList = [((' ', ' '), (' ', ' '))] * 15
-    swaps = 15
-    scrambledPuzzle = [row[:] for row in scrambledPuzzleUnmodified]
-    states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
+    global p
+    p.shown = 0
+    p.movesList = [((' ', ' '), (' ', ' '))] * 15
+    p.swaps = 15
+    p.scrambledPuzzle = [row[:] for row in p.scrambledPuzzleUnmodified]
+    p.states, p.draggable, p.numGreen = getStates(p.solvedPuzzle, p.scrambledPuzzle)
     return redirect(url_for('index'))
 
 # Shows the solution
 @app.route('/showSolution', methods = ['GET', 'POST'])
 def showSolution():
-    global scrambledPuzzle
-    global swaps
-    global states
-    global draggable
-    global numGreen
-    global movesList
+    global p
     # Fill in letters
-    scrambledPuzzle = [row[:] for row in solvedPuzzle]
-    states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
-    numGreen = -5
+    p.scrambledPuzzle = [row[:] for row in p.solvedPuzzle]
+    p.states, p.draggable, p.numGreen = getStates(p.solvedPuzzle, p.scrambledPuzzle)
+    p.numGreen = -5
     return redirect(url_for('index'))
 
 # About page
@@ -123,107 +116,84 @@ def about():
 # Solve page
 @app.route('/solve', methods = ['GET', 'POST'])
 def solve():
-    global solvable
-    global tableColor
-    global movesList
-    solvable = 3
-    tableColor = ['#6fb05c'] * 15
-    for i in range(15 - swaps):
-            tableColor[i] = '#000000'
-    return render_template('table.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle, moves = movesList, shown = shown, tableColor = tableColor)
+    global p
+    p.solvable = 3
+    p.tableColor = ['#6fb05c'] * 15
+    for i in range(15 - p.swaps):
+            p.tableColor[i] = '#000000'
+    return render_template('table.html', puzzle = p.scrambledPuzzle, colors = p.states, swaps = p.swaps, draggable = p.draggable, numGreen = p.numGreen, official_puzzle = p.official_puzzle, moves = p.movesList, shown = p.shown, tableColor = p.tableColor)
 
 # Solve page and show next steps
 @app.route('/solveShow', methods = ['GET', 'POST'])
 def solveShow():
-    global solvable
-    global shown
-    global states
-    global draggable
-    global numGreen
-    global tableColor
-    shown = 1
-    solvable = 3
-    newList = main(scrambledPuzzle, solvedPuzzle)
-    swapsTemp = swaps
+    global p
+    p.shown = 1
+    p.solvable = 3
+    newList = main(p.scrambledPuzzle, p.solvedPuzzle)
+    swapsTemp = p.swaps
     # colorings for the table
-    if numGreen == -5:
-        newList = main(scrambledPuzzleUnmodified, solvedPuzzle)
+    if p.numGreen == -5:
+        newList = main(p.scrambledPuzzleUnmodified, p.solvedPuzzle)
         for i in range(10):
-            movesList[i] = newList[i]
-        return render_template('table.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle, moves = movesList, shown = shown, tableColor = tableColor)
-    tableColor = ['#6fb05c'] * 15
+            p.movesList[i] = newList[i]
+        return render_template('table.html', puzzle = p.scrambledPuzzle, colors = p.states, swaps = p.swaps, draggable = p.draggable, numGreen = p.numGreen, official_puzzle = p.official_puzzle, moves = p.movesList, shown = p.shown, tableColor = p.tableColor)
+    p.tableColor = ['#6fb05c'] * 15
     for i in range(len(newList)):
-        if (swaps - len(newList) < 0): 
-            draggable = [["false"] * 5 for i in range(5)]
-            numGreen = -1
-            tableColor = ['#000000'] * 15
+        if (p.swaps - len(newList) < 0): 
+            p.draggable = [["false"] * 5 for i in range(5)]
+            p.numGreen = -1
+            p.tableColor = ['#000000'] * 15
             for i in range(0, 5):
                 for j in range(0, 5):
-                    states[i][j] = ('#454747', '#FFFFFF')
-            return render_template('table.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle, moves = movesList, shown = shown, tableColor = tableColor)
-        movesList[15 - swapsTemp] = newList[i]
-        for i in range(15 - swaps):
-            tableColor[i] = '#000000'
+                    p.states[i][j] = ('#454747', '#FFFFFF')
+            return render_template('table.html', puzzle = p.scrambledPuzzle, colors = p.states, swaps = p.swaps, draggable = p.draggable, numGreen = p.numGreen, official_puzzle = p.official_puzzle, moves = p.movesList, shown = p.shown, tableColor = p.tableColor)
+        p.movesList[15 - swapsTemp] = newList[i]
+        for i in range(15 - p.swaps):
+            p.tableColor[i] = '#000000'
         swapsTemp = swapsTemp - 1
-    if numGreen == 21:
-        tableColor = ['#000000'] * 15
-    return render_template('table.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle, moves = movesList, shown = shown, tableColor = tableColor)
+    if p.numGreen == 21:
+        p.tableColor = ['#000000'] * 15
+    return render_template('table.html', puzzle = p.scrambledPuzzle, colors = p.states, swaps = p.swaps, draggable = p.draggable, numGreen = p.numGreen, official_puzzle = p.official_puzzle, moves = p.movesList, shown = p.shown, tableColor = p.tableColor)
 
 # Back arrow
 @app.route('/back', methods = ['GET', 'POST'])
 def back():
-    if solvable == 1:
+    global p
+    if p.solvable == 1:
         return redirect(url_for('index'))
-    elif solvable == 0:
-        return render_template('Error.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle, moves = movesList, shown = shown, tableColor = tableColor)
-    elif solvable == 3:
-        return render_template('table.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle, moves = movesList, shown = shown, tableColor = tableColor)
+    elif p.solvable == 0:
+        return render_template('Error.html', puzzle = p.scrambledPuzzle, colors = p.states, swaps = p.swaps, draggable = p.draggable, numGreen = p.numGreen, official_puzzle = p.official_puzzle, moves = p.movesList, shown = p.shown, tableColor = p.tableColor)
+    elif p.solvable == 3:
+        return render_template('table.html', puzzle = p.scrambledPuzzle, colors = p.states, swaps = p.swaps, draggable = p.draggable, numGreen = p.numGreen, official_puzzle = p.official_puzzle, moves = p.movesList, shown = p.shown, tableColor = p.tableColor)
     else:
-        return render_template('ErrorShowBoard.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle, moves = movesList, shown = shown, tableColor = tableColor)
+        return render_template('ErrorShowBoard.html', puzzle = p.scrambledPuzzle, colors = p.states, swaps = p.swaps, draggable = p.draggable, numGreen = p.numGreen, official_puzzle = p.official_puzzle, moves = p.movesList, shown = p.shown, tableColor = p.tableColor)
 
 # Shows the solution on the unsolvable boards with '?' filled into unknown slots
 @app.route('/showSolution2', methods = ['GET', 'POST'])
 def showSolution2():
-    global scrambledPuzzle
-    global swaps
-    global states
-    global draggable
-    global numGreen
-    global solvable
-    global movesList
-    global shown
-    shown = 0
-    movesList = [((' ', ' '), (' ', ' '))] * 15
-    solvable = 2
-    scrambledPuzzle = [row[:] for row in solvedPuzzle]
-    states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
+    global p
+    p.shown = 0
+    p.movesList = [((' ', ' '), (' ', ' '))] * 15
+    p.solvable = 2
+    p.scrambledPuzzle = [row[:] for row in p.solvedPuzzle]
+    p.states, p.draggable, p.numGreen = getStates(p.solvedPuzzle, p.scrambledPuzzle)
     for i in range(0, 5):
             for j in range(0, 5):
-                if scrambledPuzzle[i][j] == '?':
-                    states[i][j] = ('#FF0000', '#FFFFFF')
-    return render_template('ErrorShowBoard.html', puzzle = solvedPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle, moves = movesList, shown = shown, tableColor = tableColor)
+                if p.scrambledPuzzle[i][j] == '?':
+                    p.states[i][j] = ('#FF0000', '#FFFFFF')
+    return render_template('ErrorShowBoard.html', puzzle = p.solvedPuzzle, colors = p.states, swaps = p.swaps, draggable = p.draggable, numGreen = p.numGreen, official_puzzle = p.official_puzzle, moves = p.movesList, shown = p.shown, tableColor = p.tableColor)
 
 # Scrapes the actual waffle and solves the puzzle (or tries to)
 @app.route('/getActualWaffle', methods = ['GET', 'POST'])
 def getActualWaffle():
-    global scrambledPuzzle
-    global swaps
-    global states
-    global draggable
-    global numGreen
-    global scrambledPuzzleUnmodified
-    global solvedPuzzle
-    global official_puzzle 
-    global solvable
-    global movesList
-    global shown
-    shown = 0
-    movesList = [((' ', ' '), (' ', ' '))] * 15
-    solvable = 1
-    official_puzzle = 1
-    swaps = 15
-    scrambledPuzzle, states = scrapeWeb()
-    scrambledPuzzleUnmodified = [row[:] for row in scrambledPuzzle]
+    global p
+    p.shown = 0
+    p.movesList = [((' ', ' '), (' ', ' '))] * 15
+    p.solvable = 1
+    p.official_puzzle = 1
+    p.swaps = 15
+    p.scrambledPuzzle, states = scrapeWeb()
+    p.scrambledPuzzleUnmodified = [row[:] for row in p.scrambledPuzzle]
     # Uncomment when you want to see the error pages
     # Delete the last two words from 5LetterWords.txt "admin", "admen"
     # scrambledPuzzle = [['A', 'T', 'I', 'T', 'N'], 
@@ -238,17 +208,17 @@ def getActualWaffle():
     #         [('#e9ba3a', '#000000'), ('#6fb05c', '#FFFFFF'), ('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#000000')],
     #         [('#edeff1', '#FFFFFF'), ' ', ('#e9ba3a', '#000000'), ' ', ('#edeff1', '#000000')],
     #         [('#6fb05c', '#FFFFFF'), ('#edeff1', '#FFFFFF'), ('#e9ba3a', '#000000'), ('#edeff1', '#FFFFFF'), ('#6fb05c', '#FFFFFF')]]
-    solvedPuzzle, trulySolved = solvePuzzle(scrambledPuzzle, states)
+    p.solvedPuzzle, trulySolved = solvePuzzle(p.scrambledPuzzle, p.states)
     if trulySolved:
-        solvable = 1
+        p.solvable = 1
     else:
-        solvable = 0
+        p.solvable = 0
     if not trulySolved:
-        numGreen = 0
-        draggable = [["false"] * 5 for i in range(5)]
+        p.numGreen = 0
+        p.draggable = [["false"] * 5 for i in range(5)]
         for i in range(0, 5):
             for j in range(0, 5):
-                states[i][j] = ('#454747', '#FFFFFF')
-        return render_template('Error.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle, moves = movesList, shown = shown, tableColor = tableColor)
-    states, draggable, numGreen = getStates(solvedPuzzle, scrambledPuzzle)
+                p.states[i][j] = ('#454747', '#FFFFFF')
+        return render_template('Error.html', puzzle = p.scrambledPuzzle, colors = p.states, swaps = p.swaps, draggable = p.draggable, numGreen = p.numGreen, official_puzzle = p.official_puzzle, moves = p.movesList, shown = p.shown, tableColor = p.tableColor)
+    p.states, p.draggable, p.numGreen = getStates(p.solvedPuzzle, p.scrambledPuzzle)
     return redirect(url_for('index'))

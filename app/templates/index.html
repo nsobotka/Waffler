@@ -20,7 +20,6 @@
         }
 
         function drop(e) {
-            
             e.preventDefault();
             clone = e.target.cloneNode(true);
             let data = e.dataTransfer.getData("text");
@@ -34,8 +33,6 @@
 
                 document.getElementById("parent").replaceChild(document.getElementById(data), e.target);
                 document.getElementById("parent").insertBefore(clone, document.getElementById("parent").childNodes[dragindex]);
-                console.log(data);
-                console.log(e.target.id);
                 $.ajax({
                     type: 'POST', 
                     url: '/swap', 
