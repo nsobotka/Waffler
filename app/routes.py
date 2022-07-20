@@ -115,6 +115,7 @@ def swap():
     # win condition
     elif numGreen == 21:
         return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle, moves = movesList, shown = shown, tableColor = tableColor)
+    viz(scrambledPuzzle)
     return render_template('index.html', puzzle = scrambledPuzzle, colors = states, swaps = swaps, draggable = draggable, numGreen = numGreen, official_puzzle = official_puzzle, moves = movesList, shown = shown, tableColor = tableColor)
 
 # Restart the board
