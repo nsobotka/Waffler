@@ -24,7 +24,7 @@ We can show optimal paths not only from the start, but from any point in the gam
 
 ## Unsolvable Boards
 There are two cases in which we are unable to solve the daily Waffle. The first is if the Waffle contains a word that is not in our word list. The second is if there are multiple correct
-solutions to the board. In both cases we display as much of the correct board as we can solve. Unfortunately, the other functionality of our website is not available.
+solutions to the board. In both cases we display as much of the correct board as we can solve. Unfortunately, the other functionality of our website is not available when this happens.
 
 ## About Us
 Feel free to check out our websites: <a href="https://nsobotka.github.io" style="color: #6fb05c;" target="_blank">Nathan Sobotka</a> and <a href="http://avielresnick.com" style="color: #6fb05c;" target="_blank">Aviel Resnick</a>.
