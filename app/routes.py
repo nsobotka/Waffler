@@ -185,7 +185,7 @@ def getActualWaffle():
     p.solvable = 1
     p.official_puzzle = 1
     p.swaps = 15
-    p.scrambledPuzzle, states = scrapeWeb()
+    p.scrambledPuzzle, p.states = scrapeWeb()
     p.scrambledPuzzleUnmodified = [row[:] for row in p.scrambledPuzzle]
     # Uncomment when you want to see the error pages
     # Delete the last two words from 5LetterWords.txt "admin", "admen"
