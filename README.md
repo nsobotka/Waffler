@@ -1,6 +1,8 @@
 # WAFFLE(R)
 First and foremost, all ownership of the original game and design belongs to <a href="https://twitter.com/jamesjessian" style="color: #6fb05c;"  target="_blank">@JamesJessian</a>. <br><br>
-Please check out the official <a href="https://wafflegame.net" style="color: #6fb05c;" target="_blank">Waffle</a> and twitter at <a href="https://twitter.com/thatwafflegame" style="color: #6fb05c;" target="_blank">@thatwafflegame</a>.
+Please check out the official <a href="https://wafflegame.net" style="color: #6fb05c;" target="_blank">Waffle</a> and twitter at <a href="https://twitter.com/thatwafflegame" style="color: #6fb05c;" target="_blank">@thatwafflegame</a>. <br>
+
+Created by <a href="https://nsobotka.github.io" style="color: #6fb05c;" target="_blank">Nathan Sobotka</a> and <a href="http://avielresnick.com" style="color: #6fb05c;" target="_blank">Aviel Resnick</a>.
 
 ## Running
 - Clone the repository
